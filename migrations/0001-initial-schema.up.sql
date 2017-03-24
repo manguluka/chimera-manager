@@ -24,6 +24,7 @@ create table events (
   -- Dates
   starts_at timestamp,
   ends_at timestamp,
+  cancelled_at timestamp,
 
   -- Timestamps
   created_at timestamp not null default current_timestamp,

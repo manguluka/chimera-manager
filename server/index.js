@@ -1,13 +1,14 @@
 const bodyParser = require('body-parser')
 const chalk = require('chalk')
 const config = require('config')
-const templateLocalsMiddleware = require('./middleware/template-locals')
+const flash = require('express-flash')
 const currentUserMiddleware = require('./middleware/current-user')
 const errorHandler = require('./middleware/error-handler')
 const express = require('express')
 const logger = require('./lib/logger')
 const notFound = require('./middleware/not-found')
 const session = require('express-session')
+const templateLocalsMiddleware = require('./middleware/template-locals')
 
 const APP_NAME = config.get('appName')
 const ENV = config.get('env')
@@ -33,6 +34,7 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
 }))
+app.use(flash())
 app.use(currentUserMiddleware())
 app.use(templateLocalsMiddleware())
 //app.use(session({

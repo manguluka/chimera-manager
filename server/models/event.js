@@ -4,6 +4,7 @@ const camelizeObject = require('../../lib/camelize-object')
 const decamelizeObject = require('../../lib/decamelize-object')
 const db = require('../lib/db')
 const dollarsToCents = require('../../lib/dollars-to-cents')
+const marked = require('marked')
 const moment = require('moment')
 const sql = require('sql')
 
@@ -37,6 +38,7 @@ const event = sql.define({
     // Dates
     'starts_at',
     'ends_at',
+    'cancelled_at',
 
     // Dates
     'created_at',
@@ -59,6 +61,8 @@ class Event {
   }
 
   toString() { return this.title }
+
+  get descriptionHtml() { return marked(this.description) }
 
   get startDay() { return moment(this.startsAt).format('YYYY-MM-DD') }
   get startTime() { return moment(this.startsAt).format('HH:mm') }
@@ -95,6 +99,8 @@ class Event {
     range +=  moment(this.endsAt).format('h:mma')
     return range
   }
+
+  get cancelled() { return Boolean(this.cancelledAt) }
 
   get priceDollars() {
     return this.price ? this.price / 100 : 0.00
@@ -138,8 +144,12 @@ class Event {
     if (_.isEmpty(search)) {
       query = event.select(event.star()).toQuery()
     } else {
-      //query = event.select
+      let filters = []
+      if (search.draft !== undefined) filters.push(event.draft.equals(search.draft))
+      if (search.internal !== undefined) filters.push(event.internal.equals(search.internal))
+      query = event.select(event.star()).where(filters).toQuery()
     }
+
 
     const result = await db.query(query)
     const events = result.map((e) => new Event(e))

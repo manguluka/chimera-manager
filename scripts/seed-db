@@ -45,8 +45,27 @@ async function seed() {
   })
 
   await Event.create({
+    title: 'Laser Cutter Training',
+    description: 'LASERS!',
+    //photo_url: '',
+    //meetup_url: '',
+    draft: false,
+    internal: true,
+    category: 'training',
+    attendee_min: 3,
+    attendee_max: 5,
+    price: 3500,
+    member_price: null,
+    material_fee: null,
+    starts_at: new Date(`May 28 2017 16:00:00 ${TIMEZONE}`),
+    ends_at: new Date(`May 28 2017 18:00:00 ${TIMEZONE}`),
+  })
+
+  await Event.create({
     title: '3D Printing Meetup',
-    description: 'Print shit',
+    description: `Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+
+Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
     //photo_url: '',
     //meetup_url: '',
     draft: false,

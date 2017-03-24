@@ -10,7 +10,7 @@
 //--------------------------------------------------
 .form-group
   label(for='event-description') Description
-  textarea#event-description.form-control(name='description' rows=8 placeholder='Description...')
+  textarea#event-description.form-control.markdown-editor(name='description' rows=8 placeholder='Description...')
     = event.description
   p.form-text.text-muted We automatically add the cancellation policy and a link to purchase tickets, if necessary, when publishing.
 

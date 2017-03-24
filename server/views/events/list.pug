@@ -14,10 +14,9 @@ block content
           thead
             tr
               th Title
-              th Visibility
-              th Attendance Limit
               th Time
               th Price
+              th Attendance Limit
           tbody
             each event in events
               tr
@@ -25,8 +24,6 @@ block content
                   if event.draft
                     .badge.badge-warning.mr-2 DRAFT
                   a(href=`/events/${event.id}`)= event.title
-                td.text-capitalize= event.visibility
-                td= event.attendeeLimit
                 td= event.dateRange
                 td
                   if event.price
@@ -43,6 +40,7 @@ block content
                     if event.materialFee
                       | materials: $#{event.materialFeeDollars}
                     = ' )'
+                td= event.attendeeLimit
       else
         p
           em No events matching search
