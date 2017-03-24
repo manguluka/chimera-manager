@@ -1,0 +1,106 @@
+//--------------------------------------------------
+// Title
+//--------------------------------------------------
+.form-group
+  label(for='event-title') Title
+  input#event-title.form-control(name='title' type='text' placeholder='Title...' required value=event.title)
+
+//--------------------------------------------------
+// Description
+//--------------------------------------------------
+.form-group
+  label(for='event-description') Description
+  textarea#event-description.form-control(name='description' rows=8 placeholder='Description...')
+    = event.description
+  p.form-text.text-muted We automatically add the cancellation policy and a link to purchase tickets, if necessary, when publishing.
+
+
+.row
+
+  //--------------------------------------------------
+  // Start/End times
+  //--------------------------------------------------
+  .col
+    .form-group
+      label(for='event-start-date') Start Time
+      .row
+        .col
+          input#event-start-date.form-control(name='startDay' type='date' required value=event.startDay)
+        .col
+          input#event-start-time.form-control(name='startTime' type='time' required value=event.startTime)
+    .form-group
+      label(for='event-end-date') End Time
+      .row
+        .col
+          input#event-end-date.form-control(name='endDay' type='date' required value=event.endDay)
+        .col
+          input#event-end-time.form-control(name='endTime' type='time' required value=event.endTime)
+
+  .col
+
+    //--------------------------------------------------
+    // Attendees
+    //--------------------------------------------------
+    .form-group
+      label(for='event-min-attendees')
+        | Attendees
+        small.pl-3.text-muted
+          em optional
+      .row
+        .col
+          input#event-attendee-min.form-control(name='attendeeMin' type='number' placeholder='Min' value=event.attendeeMin)
+        .col
+          input#event-attendee-max.form-control(name='attendeeMax' type='number' placeholder='Max' value=event.attendeeMax)
+
+
+    //--------------------------------------------------
+    // Price
+    //--------------------------------------------------
+    .form-group
+      label(for='event-price')
+        | Price
+        small.pl-3.text-muted
+          em optional
+      .row
+        .col
+          input#event-price.form-control(name='price' type='number' step='0.01' placeholder='Price' value=event.price / 100)
+        .col
+          input#event-price.form-control(name='memberPrice' type='number' placeholder='Member Price' value=event.memberPrice / 100)
+        .col
+          input#event-material-fee.form-control(name='materialFee' type='number' placeholder='Materials' value=event.materialFee / 100)
+
+
+//--------------------------------------------------
+// Book Resources
+//--------------------------------------------------
+//.form-group
+  //label Book Resources:
+  //p
+    //em Coming soon...
+
+
+//--------------------------------------------------
+// Photos
+//--------------------------------------------------
+//.form-group
+  //label Photo:
+  //p
+    //em Coming soon...
+
+//--------------------------------------------------
+// Internal
+//--------------------------------------------------
+.form-group
+  label(for='internal')
+    input#internal.mr-2(name='internal' type='checkbox' checked=event.internal)
+    | Internal event?
+    small.text-muted.ml-3 Internal events are only visible to logged in members. Uncheck to make public.
+
+//--------------------------------------------------
+// Draft
+//--------------------------------------------------
+.form-group
+  label(for='draft')
+    input#draft.mr-2(name='draft' type='checkbox' checked=event.draft)
+    | Draft event?
+    small.text-muted.ml-3 Draft events are only visible to staff

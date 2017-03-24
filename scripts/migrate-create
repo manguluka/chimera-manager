@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Get the name param
+name=$1
+
+# Get last migration
+last=`ls -1 migrations/ | tail -n 1`
+
+# Grab the last migration index
+id="$( cut -d '-' -f 1 <<< "$last" )"
+
+# Create next migration ID
+next_id=$((id+1))
+printf -v next_id '%04d' $next_id
+
+# Create the migration files
+up="migrations/$next_id-$1.up.sql"
+down="migrations/$next_id-$1.down.sql"
+touch $up
+touch $down
+
+echo "Created $up"
+echo "Created $down"

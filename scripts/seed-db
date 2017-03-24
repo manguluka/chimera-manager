@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk')
+const Event = require('../server/models/event')
+
+console.log(chalk.green('Seeding database...'))
+
+async function seed() {
+
+  await Event.create({
+    title: 'Intro to Welding',
+    description: 'This will be fun!',
+    //photo_url: '',
+    //meetup_url: '',
+    draft: false,
+    internal: false,
+    category: 'class',
+    attendee_min: 8,
+    attendee_max: 10,
+    price: 15000,
+    member_price: 13500,
+    material_fee: 2000,
+    starts_at: new Date('April 23 2017 10:00:00 PST'),
+    ends_at: new Date('April 23 2017 16:00:00 PST'),
+  })
+
+  await Event.create({
+    title: 'Jewelry Training',
+    description: 'Making rings and shit',
+    //photo_url: '',
+    //meetup_url: '',
+    draft: true,
+    internal: true,
+    category: 'training',
+    attendee_min: 3,
+    attendee_max: 5,
+    price: 3599,
+    member_price: null,
+    material_fee: null,
+    starts_at: new Date('April 28 2017 10:00:00 PST'),
+    ends_at: new Date('April 28 2017 12:00:00 PST'),
+  })
+
+  await Event.create({
+    title: '3D Printing Meetup',
+    description: 'Print shit',
+    //photo_url: '',
+    //meetup_url: '',
+    draft: false,
+    internal: false,
+    category: 'meetup',
+    attendee_min: null,
+    attendee_max: null,
+    price: null,
+    member_price: null,
+    material_fee: null,
+    starts_at: new Date('March 3 2017 16:30:00 PST'),
+    ends_at: new Date('March 3 2017 19:30:00 PST'),
+  })
+
+  console.log(chalk.green('Successfully seeded database!'))
+
+  process.exit()
+}
+
+seed()
+

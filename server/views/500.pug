@@ -1,0 +1,16 @@
+extends ./layout.pug
+
+block title
+  | Server Error
+
+block content
+  h1 Server Error
+  p Something went wrong! We've been notified and will investigate shortly!
+
+  if config.ENV === 'development'
+    hr
+    h4
+      .badge.badge-success.mr-3 DEV
+      | Stack Trace
+    pre.mt-4
+      = error.stack

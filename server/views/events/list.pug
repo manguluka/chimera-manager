@@ -1,0 +1,42 @@
+extends ../layout.pug
+
+block title
+  | Events
+
+block content
+
+  h1.page-heading
+    a.float-right.btn.btn-success.btn-lg(href='/events/new')
+      .fa.fa-plus.mr-3
+      | Create Event
+    | Events
+
+  if events && events.length
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th Title
+          th Visibility
+          th Attendance Limit
+          th Time
+          th Price
+      tbody
+        each event in events
+          tr
+            td
+              if event.draft
+                .badge.badge-warning.mr-2 DRAFT
+              a(href=`/events/${event.id}`)= event.title
+            td.text-capitalize= event.visibility
+            td= event.attendeeLimit
+            td= event.dateRange
+            td
+              if event.price
+                | $
+                = event.priceDollars
+              else
+                | Free
+  else
+    p
+      em No events matching search
+

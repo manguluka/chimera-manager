@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+name=${DB_NAME-"chimera"}
+host=${DB_HOST-"localhost"}
+username=${DB_USERNAME-"dana"}
+
+for i in `ls -vr migrations/*.down.sql`; do
+  echo "Reversing migration: $i"
+  psql -d $name -h $host -U $username -f $i
+done

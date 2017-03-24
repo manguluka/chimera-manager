@@ -1,0 +1,13 @@
+@import './variables.scss';
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
+
+.form-group label {
+  font-weight: bold;
+}
+
+.page-heading {
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 2.5rem;
+  padding-bottom: 0.75rem;
+}

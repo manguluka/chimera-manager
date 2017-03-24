@@ -1,0 +1,16 @@
+# System files
+node_modules
+.DS_Store
+*.logs
+*.log*
+.sass-cache/
+
+# Keys
+config/*
+!config/default.js
+!config/custom-environment-variables.js
+*.pem
+
+# App specific
+public/*
+!/public/robots.txt

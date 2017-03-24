@@ -1,0 +1,42 @@
+extends ../layout.pug
+
+block title
+  = event.title
+
+block content
+  p
+    a(href='/events') ← Back to events
+  h1.page-heading
+    if event.draft
+      .badge.badge-warning.mr-4 DRAFT
+    a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
+      .fa.fa-pencil.mr-3
+      | Edit
+    = event.title
+  div.mb-5
+    = event.description
+
+  dl
+    dt Date & Time:
+    dd= event.dateRange
+
+    dt Visibility
+    dd.text-capitalize= event.visibility
+
+    dt Attendee Limit:
+    dd= event.attendeeLimit
+
+    dt Price:
+    dd
+      if event.price
+        = 'Price: $'
+        = event.priceDollars
+        br
+      if event.memberPrice
+        = 'Member price: $'
+        = event.memberPriceDollars
+        br
+      if event.materialFee
+        = 'Material Fee: $'
+        = event.materialFeeDollars
+
