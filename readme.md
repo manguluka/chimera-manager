@@ -21,7 +21,7 @@
 - `/frontend` contains a basic React + Redux setup built using WebPack.
 - `/server` is a basic express app using the pug template library.
 - `/lib` is for common code across frontend/backend.
-- `/migrations` is SQL migrations
+- `/migrations` is where our SQL migrations live.
 - `/scripts` is where useful scripts exist, including migration helpers.
 - `/test` has test configuration for Mocha/Chai test suite.
 

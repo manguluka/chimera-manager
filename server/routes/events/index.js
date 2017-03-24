@@ -2,6 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
+router.use((req, res, next) => {
+  res.locals.section = 'events'
+  next()
+})
 router.get('/new', require('./new'))
 router.post('/new', require('./create'))
 router.get('/:id/edit', require('./edit'))

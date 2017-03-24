@@ -1,6 +1,9 @@
-@import './variables.scss';
+@import 'variables';
+@import 'animate.min';
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/scss/font-awesome';
+@import 'paper-dashboard';
+@import 'themify-icons';
 
 .form-group label {
   font-weight: bold;
@@ -10,4 +13,8 @@
   border-bottom: 1px solid #ececec;
   margin-bottom: 2.5rem;
   padding-bottom: 0.75rem;
+}
+
+em {
+  font-style: italic;
 }

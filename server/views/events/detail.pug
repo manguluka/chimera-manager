@@ -6,40 +6,43 @@ block title
 block content
   p
     a(href='/events') ← Back to events
-  h1.page-heading
-    if event.draft
-      .badge.badge-warning.mr-4 DRAFT
-    a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
-      .fa.fa-pencil.mr-3
-      | Edit
-    = event.title
-  div.mb-5
-    = event.description
+  .card
+    .header
+      h1.title
+        if event.draft
+          .badge.badge-warning.mr-4 DRAFT
+        a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
+          .fa.fa-pencil.mr-3
+          | Edit
+        = event.title
+    .content
+      div.mb-5
+        = event.description
 
-  table.table.table-hover.table-responsive
-    tbody
-      tr
-        th Date & Time:
-        td= event.dateRange
-      tr
-        th Visibility
-        td.text-capitalize= event.visibility
-      tr
-        th Attendee Limit:
-        td= event.attendeeLimit
-      tr
-        th Price
-        td
-          if !event.price && !event.memberPrice && !event.materialFee
-            | Free
-          if event.price
-            = 'Price: $'
-            = event.priceDollars
-            br
-          if event.memberPrice
-            = 'Member price: $'
-            = event.memberPriceDollars
-            br
-          if event.materialFee
-            = 'Material Fee: $'
-            = event.materialFeeDollars
+      table.table.table-hover.table-responsive
+        tbody
+          tr
+            th Date & Time:
+            td= event.dateRange
+          tr
+            th Visibility
+            td.text-capitalize= event.visibility
+          tr
+            th Attendee Limit:
+            td= event.attendeeLimit
+          tr
+            th Price
+            td
+              if !event.price && !event.memberPrice && !event.materialFee
+                | Free
+              if event.price
+                = 'Price: $'
+                = event.priceDollars
+                br
+              if event.memberPrice
+                = 'Member price: $'
+                = event.memberPriceDollars
+                br
+              if event.materialFee
+                = 'Material Fee: $'
+                = event.materialFeeDollars

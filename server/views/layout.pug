@@ -12,27 +12,65 @@ html
     link(href='/frontend.css'  rel='stylesheet' type='text/css')
   body
 
-    nav.navbar.navbar-toggleable-sm.navbar-light.bg-faded.mb-5
-      .container
-        a.navbar-brand(href='/')
-          = config.APP_NAME
-        .navbar-collapse
-          .navbar-nav.mr-auto
-            a.nav-item.nav-link(href='/events') Events
-            a.nav-item.nav-link(href='#') Members
-            a.nav-item.nav-link(href='#') Checkins
-            a.nav-item.nav-link(href='#') Reports
-
     block page
-      .container.pt-2
-        block content
+      .wrapper
+        .sidebar
+          .sidebar-wrapper
+            .logo
+              a.simple-text(href='/')
+                = config.APP_NAME
 
-    footer.container.mt-3
-      p.text-muted.float-right
-        small
-          | &copy; 2017
-          = ' '
-          = config.APP_NAME
+            ul.nav.flex-column
+              li.nav-item(class=(section === 'events' ? 'active' : ''))
+                a.nav-link(href='/events')
+                  i.ti-calendar
+                  | Events
+
+              if currentUser && currentUser.staff
+                li.nav-item(class=(section === 'members' ? 'active' : ''))
+                  a.nav-link(href='#')
+                    i.ti-user
+                    | Members
+                li.nav-item(class=(section === 'checkins' ? 'active' : ''))
+                  a.nav-link(href='#')
+                    i.ti-key
+                    | Checkins
+                li.nav-item(class=(section === 'reports' ? 'active' : ''))
+                  a.nav-link(href='#')
+                    i.ti-bar-chart
+                    | Reports
+
+            hr
+            ul.nav.flex-column
+              if !currentUser
+                li.nav-item
+                  a.nav-link(href='/auth/login')
+                    i.ti-lock
+                    | Login
+              else
+                li.nav-item
+                  a.nav-link(href='/auth/logout')
+                    i.ti-power-off
+                    | Logout
+        .main-panel
+          .navbar.navbar-default
+            .container
+              .navbar-head
+                if section === 'events'
+                  a.float-right.btn.btn-success.btn-lg(href='/events/new')
+                    .fa.fa-plus.mr-3
+                    | Create Event
+                h1.navbar-brand.text-capitalize= section
+          .content
+            .container
+                block content
+
+          footer.mt-3
+            .container
+              .copyright.float-right
+                | &copy; 2017
+                = ' '
+                = config.APP_NAME
 
     script(src='/frontend.js')
 

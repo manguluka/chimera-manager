@@ -1,0 +1,20 @@
+extends ../layout.pug
+
+block title
+  | Login
+
+block content
+  .row
+    .col-md-6.offset-md-3
+      .card
+        .content
+          form(action='/auth/login' method='post')
+            .form-group
+              label(for='username') Username
+              input#username.form-control(type='text' name='username' placeholder='Username' tabindex=1 autofocus)
+            .form-group
+              a.float-right(href='/auth/forgot-password' tabindex=4) Forgot your password?
+              label(for='password') Password
+              input#password.form-control(type='password' name='password' placeholder='Password' tabindex=2)
+            p
+              button.btn.btn-primary.btn-lg(type='submit' tabindex=3) Login

@@ -7,13 +7,17 @@ block title
 block content
   p
     a(href=`/events/${event.id}`) ← Back to event
-  h1.page-heading Edit Event
-  form(action=`/events/${event.id}/update` method='post')
-    include ./_form.pug
-    p.mt-5
-      if event.draft
-        button.btn.btn-success.btn-lg.mr-3(type='submit' disabled) Publish Event
-        button.btn.btn-success.btn-lg(type='submit') Save Event
-      else
-        button.btn.btn-success.btn-lg(type='submit') Update Event
-      button.float-right.btn.btn-outline-danger.btn-sm(type='submit') Cancel Event
+
+  .card
+    .header
+      h1.title Edit Event
+    .content
+      form(action=`/events/${event.id}/update` method='post')
+        include ./_form.pug
+        p.mt-5
+          if event.draft
+            button.btn.btn-success.btn-lg.mr-3(type='submit' disabled) Publish Event
+            button.btn.btn-success.btn-lg(type='submit') Save Event
+          else
+            button.btn.btn-success.btn-lg(type='submit') Update Event
+          button.float-right.btn.btn-outline-danger.btn-sm(type='submit') Cancel Event

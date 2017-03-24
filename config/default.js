@@ -16,4 +16,5 @@ module.exports = {
   emails: {
     defaultFromAddress: 'info@chimeraarts.org',
   },
+  sessionSecret: 'supesekret',
 }
