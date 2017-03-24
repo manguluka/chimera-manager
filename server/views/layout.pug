@@ -55,7 +55,7 @@ html
                     | Login
               else
                 li.nav-item
-                  a.nav-link(href='/auth/logout')
+                  a.nav-link(href=`/auth/logout?redirect=${currentUrl}`)
                     i.ti-power-off
                     | Logout
         .main-panel
