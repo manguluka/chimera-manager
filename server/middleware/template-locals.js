@@ -9,7 +9,10 @@ module.exports = function templateLocalsMiddleware() {
       HOST: config.get('host'),
     }
     res.locals.currentUser = req.currentUser
+    res.locals.currentUrl = req.originalUrl
+
     console.log('[templateLocalsMiddleware] Locals:', res.locals)
+
     next()
   }
 }

@@ -1,0 +1,60 @@
+extends ../layout.pug
+
+block title
+  | Dashboard
+
+block content
+
+  h1
+    | March 2017
+    small Totals
+
+  .row
+
+    .col
+      .card.card-small
+        .content
+          .row
+            .col
+              .icon-big.icon-primary
+                i.ti-user
+            .col
+              .numbers
+                p Members
+                | 187
+
+    .col
+      .card.card-small
+        .content
+          .row
+            .col
+              .icon-big.icon-success
+                i.ti-user
+            .col
+              .numbers
+                p New
+                | +15
+
+    .col
+      .card.card-small
+        .content
+          .row
+            .col
+              .icon-big.icon-warning
+                i.ti-user
+            .col
+              .numbers
+                p Cancellations
+                | -5
+
+    .col
+      .card.card-small
+        .content
+          .row
+            .col
+              .icon-big.icon-info
+                i.ti-key
+            .col
+              .numbers
+                p Checkins
+                | 85

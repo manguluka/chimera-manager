@@ -6,43 +6,137 @@ block title
 block content
   p
     a(href='/events') ← Back to events
-  .card
-    .header
-      h1.title
-        if event.draft
-          .badge.badge-warning.mr-4 DRAFT
-        a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
-          .fa.fa-pencil.mr-3
-          | Edit
-        = event.title
-    .content
-      div.mb-5
-        = event.description
 
-      table.table.table-hover.table-responsive
-        tbody
-          tr
-            th Date & Time:
-            td= event.dateRange
-          tr
-            th Visibility
-            td.text-capitalize= event.visibility
-          tr
-            th Attendee Limit:
-            td= event.attendeeLimit
-          tr
-            th Price
-            td
-              if !event.price && !event.memberPrice && !event.materialFee
-                | Free
-              if event.price
-                = 'Price: $'
-                = event.priceDollars
-                br
-              if event.memberPrice
-                = 'Member price: $'
-                = event.memberPriceDollars
-                br
-              if event.materialFee
-                = 'Material Fee: $'
-                = event.materialFeeDollars
+  .row
+
+    .col-9
+      .card
+        .header
+          h1.title
+            if event.draft
+              .badge.badge-warning.mr-4 DRAFT
+            if currentUser && currentUser.staff
+              a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
+                .fa.fa-pencil.mr-3
+                | Edit
+            = event.title
+            if currentUser && currentUser.staff
+              small.text-capitalize.ml-3
+                if event.visibility === 'public'
+                  i.fa.fa-globe(title='Public')
+                else
+                  i.ti-user(title='Internal (Member-Only)')
+
+          h5.category.mt-2= event.dateRange
+        .content
+
+          .mb-4
+            = event.description
+
+          table.table.table-hover.table-responsive
+            tbody
+              tr
+                th Attendee Limit:
+                td= event.attendeeLimit
+              tr
+                th Price
+                td
+                  if !event.price && !event.memberPrice && !event.materialFee
+                    | Free
+                  if event.price
+                    = 'Price: $'
+                    = event.priceDollars
+                    br
+                  if event.memberPrice
+                    = 'Member price: $'
+                    = event.memberPriceDollars
+                    br
+                  if event.materialFee
+                    = 'Material Fee: $'
+                    = event.materialFeeDollars
+
+    .col-3
+      .text-center
+        if event.price
+          if event.price && event.memberPrice
+            h1.mt-0(style=(currentUser ? 'text-decoration: line-through' : ''))
+              | $
+              = event.priceDollars
+            p
+              small.text-muted for non-members
+            h1.mt-0(style=(currentUser ? '' : 'text-decoration: line-through'))
+              | $
+              = event.memberPriceDollars
+            p
+              small.text-muted for members
+          else
+            h1.mt-0
+              | $
+              = event.priceDollars
+            p
+              small.text-muted per attendee
+        if event.materialFee
+          p
+            em Material fee $#{event.materialFeeDollars}*
+        p
+          a.btn.btn-success.btn-lg.btn-block(href=`/events/${event.id}/attend`)
+            i.ti-plus.mr-2
+            span.text-capitalize Attend #{event.category}
+        p.mt-5
+          small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
+
+  if currentUser && currentUser.staff
+    .row
+
+      .col-7
+        .card
+          .header
+            .float-right
+              a.btn.btn-primary.btn-sm(href=`/events/${event.id}/add-attendee`)
+                i.ti-plus.mr-2
+                | Add Attendee
+            h4.title.text-success
+              i.ti-user.mr-3
+              | Attendees
+          .content
+            ul.list-unstyled
+              li
+                .row
+                  .col-2
+                    .avatar
+                      img(src='https://yt3.ggpht.com/-68PSo29g5Yo/AAAAAAAAAAI/AAAAAAAAAAA/kvVUTsLJs7E/s100-c-k-no-mo-rj-c0xffffff/photo.jpg' width=50 height=50)
+                  .col-5
+                    strong
+                      a(href='/members/1') John Smith
+                    br
+                    small.text-muted Dabbler
+                  .col-2
+                    small.text-success(title='Paid via cash')
+                      i.fa.fa-money.mr-2
+                      | Cash
+                  .col-3.text-right
+                    a.btn.btn-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                      i.ti-close.mr-2
+                      | Refund
+              li
+                .row
+                  .col-2
+                    .avatar
+                      img(src='https://yt3.ggpht.com/-68PSo29g5Yo/AAAAAAAAAAI/AAAAAAAAAAA/kvVUTsLJs7E/s100-c-k-no-mo-rj-c0xffffff/photo.jpg' width=50 height=50)
+                  .col-5
+                    strong
+                      a(href='/members/1') Jane Goodall
+                    br
+                    small.text-muted Professional
+                  .col-2
+                    small.text-success(title='Paid via credit card')
+                      i.fa.fa-credit-card.mr-2
+                      | Card
+                  .col-3.text-right
+                    a.btn.btn-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                      i.ti-close.mr-2
+                      | Refund
+      .col-5
+        .card
+          .content
+            p other stuff

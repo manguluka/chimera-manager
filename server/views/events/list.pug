@@ -6,7 +6,9 @@ block title
 block content
 
   .card
-    .content
+    .header
+      h3.title March 2017
+    .content.table-response.table-full-width
       if events && events.length
         table.table.table-striped.table-hover
           thead
@@ -32,6 +34,15 @@ block content
                     = event.priceDollars
                   else
                     em Free
+                  if event.memberPrice || event.materialFee
+                    = ' ( '
+                    if event.memberPrice
+                      | members: $#{event.memberPriceDollars}
+                    if event.memberPrice && event.materialFee
+                      = ', '
+                    if event.materialFee
+                      | materials: $#{event.materialFeeDollars}
+                    = ' )'
       else
         p
           em No events matching search

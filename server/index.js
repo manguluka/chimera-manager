@@ -46,7 +46,7 @@ app.use(templateLocalsMiddleware())
 // TODO: add basic auth
 app.use('/events', require('./routes/events'))
 app.use('/auth', require('./routes/auth'))
-app.get('/', (req, res) => res.redirect('/events'))
+app.get('/', require('./routes/dashboard'))
 
 // Catch any missing routes...
 app.use(notFound())

@@ -1,6 +1,7 @@
 {
   "ignore": [
     "frontend/*",
-    "public/*"
+    "public/*",
+    "server/views"
   ]
 }

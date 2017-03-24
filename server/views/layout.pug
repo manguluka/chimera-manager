@@ -21,6 +21,12 @@ html
                 = config.APP_NAME
 
             ul.nav.flex-column
+              if currentUser && currentUser.staff
+                li.nav-item(class=(section === 'dashboard' ? 'active' : ''))
+                  a.nav-link(href='/')
+                    i.ti-user
+                    | Dashboard
+
               li.nav-item(class=(section === 'events' ? 'active' : ''))
                 a.nav-link(href='/events')
                   i.ti-calendar
@@ -44,7 +50,7 @@ html
             ul.nav.flex-column
               if !currentUser
                 li.nav-item
-                  a.nav-link(href='/auth/login')
+                  a.nav-link(href=`/auth/login?redirect=${currentUrl}`)
                     i.ti-lock
                     | Login
               else
@@ -56,7 +62,7 @@ html
           .navbar.navbar-default
             .container
               .navbar-head
-                if section === 'events'
+                if currentUser && section === 'events'
                   a.float-right.btn.btn-success.btn-lg(href='/events/new')
                     .fa.fa-plus.mr-3
                     | Create Event

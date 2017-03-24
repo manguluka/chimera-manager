@@ -8,7 +8,16 @@ module.exports = wrap(async function authenticate(req, res) {
 
   console.log('[authenticate] Logging in user:', req.body)
 
+  // TODO: actually login
   req.session.currentUserId = 1
 
-  res.redirect('/')
+  // Redirect them where requested
+  let redirect = '/'
+  if (req.body.redirect && req.body.redirect !== '/auth/login') {
+    redirect = req.body.redirect
+  }
+
+  console.log('[authenticate] Redirecting to:', redirect)
+
+  res.redirect(redirect)
 })

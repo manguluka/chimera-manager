@@ -21,9 +21,15 @@
       width: 100%;
     }
   }
+
+  &.card-small .content{
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+  }
+
   .content {
     padding: 2.5rem 2.5rem 2rem 2.5rem;
   }
+
   .header{
     padding: 2.5rem 2.5rem 0;
   }
@@ -38,11 +44,12 @@
   }
   .category,
   label{
-    font-size: $font-size-base;
+    /*font-size: $font-size-base;*/
     font-weight: $font-weight-normal;
     color: $dark-gray;
     margin-bottom: 0px;
-    i{
+
+    i {
       font-size: $font-paragraph;
     }
   }

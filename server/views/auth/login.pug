@@ -9,6 +9,7 @@ block content
       .card
         .content
           form(action='/auth/login' method='post')
+            input(name='redirect' type='hidden' value=redirect)
             .form-group
               label(for='username') Username
               input#username.form-control(type='text' name='username' placeholder='Username' tabindex=1 autofocus)
