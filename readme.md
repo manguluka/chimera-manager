@@ -1,20 +1,25 @@
-# Chimera Manageer
+# Chimera Manager
 
 > Chimera Arts & Makerspace management software
 
-## Todo
+## Features
 
-- Bookings
+### Events
+  - **Event Categories** - Classes, meetups, trainings, events
+  - **Internal & external events** - Host member-only events or sell tickets to the general public
+  - **Free or paid events** - Sell access to classes, events, trainings and more or host free events.
+  - **Member discounts** - Give members discounted pricing for events, configurable globally or per-event.
+  - **Draft events** - Lock in an date and time before you have details for a given event.
+
+
+### Resources & Bookings
   - Reserve equipment/spaces
   - Charge for reservations based on plan
-- Events
-  - Classes, meetups, trainings, events
-  - Public/private
-  - Free/paid
-  - Member discounts
-- Resources
-- Instructors
-- Members
+
+### Access Control
+
+### Membership
+
 
 ## Overview
 
