@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk')
+const config = require('config')
 const Event = require('../server/models/event')
+
+const TIMEZONE = config.get('timezone')
 
 console.log(chalk.green('Seeding database...'))
 
@@ -20,8 +23,8 @@ async function seed() {
     price: 15000,
     member_price: 13500,
     material_fee: 2000,
-    starts_at: new Date('April 23 2017 10:00:00 PST'),
-    ends_at: new Date('April 23 2017 16:00:00 PST'),
+    starts_at: new Date(`April 23 2017 10:00:00 ${TIMEZONE}`),
+    ends_at: new Date(`April 23 2017 16:00:00 ${TIMEZONE}`),
   })
 
   await Event.create({
@@ -37,8 +40,8 @@ async function seed() {
     price: 3599,
     member_price: null,
     material_fee: null,
-    starts_at: new Date('April 28 2017 10:00:00 PST'),
-    ends_at: new Date('April 28 2017 12:00:00 PST'),
+    starts_at: new Date(`April 28 2017 10:00:00 ${TIMEZONE}`),
+    ends_at: new Date(`April 28 2017 12:00:00 ${TIMEZONE}`),
   })
 
   await Event.create({
@@ -54,8 +57,8 @@ async function seed() {
     price: null,
     member_price: null,
     material_fee: null,
-    starts_at: new Date('March 3 2017 16:30:00 PST'),
-    ends_at: new Date('March 3 2017 19:30:00 PST'),
+    starts_at: new Date(`March 3 2017 16:30:00 ${TIMEZONE}`),
+    ends_at: new Date(`March 3 2017 19:30:00 ${TIMEZONE}`),
   })
 
   console.log(chalk.green('Successfully seeded database!'))

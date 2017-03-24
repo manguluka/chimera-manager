@@ -1,5 +1,6 @@
 module.exports = {
   appName: 'Chimera Admin',
+  timezone: 'PST',
   db: {
     name: 'chimera',
     host: 'localhost',

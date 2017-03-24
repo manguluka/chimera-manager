@@ -16,27 +16,30 @@ block content
   div.mb-5
     = event.description
 
-  dl
-    dt Date & Time:
-    dd= event.dateRange
-
-    dt Visibility
-    dd.text-capitalize= event.visibility
-
-    dt Attendee Limit:
-    dd= event.attendeeLimit
-
-    dt Price:
-    dd
-      if event.price
-        = 'Price: $'
-        = event.priceDollars
-        br
-      if event.memberPrice
-        = 'Member price: $'
-        = event.memberPriceDollars
-        br
-      if event.materialFee
-        = 'Material Fee: $'
-        = event.materialFeeDollars
-
+  table.table.table-hover.table-responsive
+    tbody
+      tr
+        th Date & Time:
+        td= event.dateRange
+      tr
+        th Visibility
+        td.text-capitalize= event.visibility
+      tr
+        th Attendee Limit:
+        td= event.attendeeLimit
+      tr
+        th Price
+        td
+          if !event.price && !event.memberPrice && !event.materialFee
+            | Free
+          if event.price
+            = 'Price: $'
+            = event.priceDollars
+            br
+          if event.memberPrice
+            = 'Member price: $'
+            = event.memberPriceDollars
+            br
+          if event.materialFee
+            = 'Material Fee: $'
+            = event.materialFeeDollars
