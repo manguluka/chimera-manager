@@ -7,37 +7,32 @@ block content
 
   .card
     .content
-      .header
-        h1.title
-          | Events
-
-      .content
-        if events && events.length
-          table.table.table-striped.table-hover
-            thead
+      if events && events.length
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Title
+              th Visibility
+              th Attendance Limit
+              th Time
+              th Price
+          tbody
+            each event in events
               tr
-                th Title
-                th Visibility
-                th Attendance Limit
-                th Time
-                th Price
-            tbody
-              each event in events
-                tr
-                  td
-                    if event.draft
-                      .badge.badge-warning.mr-2 DRAFT
-                    a(href=`/events/${event.id}`)= event.title
-                  td.text-capitalize= event.visibility
-                  td= event.attendeeLimit
-                  td= event.dateRange
-                  td
-                    if event.price
-                      | $
-                      = event.priceDollars
-                    else
-                      em Free
-        else
-          p
-            em No events matching search
+                td
+                  if event.draft
+                    .badge.badge-warning.mr-2 DRAFT
+                  a(href=`/events/${event.id}`)= event.title
+                td.text-capitalize= event.visibility
+                td= event.attendeeLimit
+                td= event.dateRange
+                td
+                  if event.price
+                    | $
+                    = event.priceDollars
+                  else
+                    em Free
+      else
+        p
+          em No events matching search
 

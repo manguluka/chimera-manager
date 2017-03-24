@@ -1,3 +1,6 @@
 module.exports = function logout(req, res) {
-  console.log('LOGOUT')
+  req.currentUser = null
+  req.session.currentUserId = null
+  res.locals.currentUser = null
+  res.redirect('/')
 }

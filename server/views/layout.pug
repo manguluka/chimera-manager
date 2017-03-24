@@ -8,13 +8,13 @@ html
         = title
       = ' - '
       = config.APP_NAME
-    link(href='https://fonts.googleapis.com/css?family=Lato:400,900|Bitter' rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Muli:400,400i,900' rel='stylesheet')
     link(href='/frontend.css'  rel='stylesheet' type='text/css')
   body
 
     block page
       .wrapper
-        .sidebar
+        .sidebar(data-background-color='black' data-active-color='success')
           .sidebar-wrapper
             .logo
               a.simple-text(href='/')
