@@ -1,15 +1,25 @@
 const config = require('config')
 const Connect = require('pg-promise')()
+const sql = require('sql')
 
-const connection = Connect({
-  database: config.get('db.name'),
-  host: config.get('db.host'),
-  password: config.get('db.password'),
-  port: config.get('db.port'),
-  user: config.get('db.user'),
-})
+sql.setDialect('postgres')
 
-module.exports = connection
+let connection
+
+function createConnection(args) {
+  if (!connection) {
+    connection = Connect({
+      database: config.get('db.name'),
+      host: config.get('db.host'),
+      password: config.get('db.password'),
+      port: config.get('db.port'),
+      user: config.get('db.user'),
+    })
+  }
+  return connection
+}
+
+module.exports = createConnection()
 
 //const config = require('config')
 //const Pool = require('pg').Pool

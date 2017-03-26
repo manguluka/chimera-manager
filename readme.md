@@ -9,6 +9,7 @@
   - [ ] Model/schema
   - [ ] Cobot login (during transition)
   - [ ] Forget password
+- [ ] Calendar display ([see here](http://demos.creative-tim.com/fullcalendar))
 - [ ] Stripe checkout for event
   - [ ] Store transaction
   - [ ] Send confirmation email

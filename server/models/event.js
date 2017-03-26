@@ -1,73 +1,32 @@
-const _ = require('lodash')
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
-const camelizeObject = require('../../lib/camelize-object')
-const decamelizeObject = require('../../lib/decamelize-object')
-const db = require('../lib/db')
 const dollarsToCents = require('../../lib/dollars-to-cents')
 const marked = require('marked')
 const moment = require('moment')
-const sql = require('sql')
+const Model = require('../lib/model')
 
-//const Event = {}
+function dayString(date) {
+  return moment(date).format('YYYY-MM-DD')
+}
 
-sql.setDialect('postgres')
+function timeString(date) {
+  return moment(date).format('HH:mm')
+}
 
-const event = sql.define({
-  name: 'events',
-  columns: [
-    'id',
-
-    // Basic details
-    'title',
-    'description',
-    'photo_url',
-    'meetup_url',
-    'draft',
-    'internal',
-    'category',
-
-    // Attendees
-    'attendee_min',
-    'attendee_max',
-
-    // Pricing
-    'price',
-    'member_price',
-    'material_fee',
-
-    // Dates
-    'starts_at',
-    'ends_at',
-    'cancelled_at',
-
-    // Dates
-    'created_at',
-    'updated_at',
-  ]
-})
-
-class Event {
+class Event extends Model {
 
 
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  constructor(fields) {
-    //super(fields)
-    const attrs = Event.toModelFromDb(fields)
-    Object.assign(this, attrs)
-    //this = { ...this, ...attrs }
-  }
-
   toString() { return this.title }
 
   get descriptionHtml() { return marked(this.description) }
 
-  get startDay() { return moment(this.startsAt).format('YYYY-MM-DD') }
-  get startTime() { return moment(this.startsAt).format('HH:mm') }
-  get endDay() { return moment(this.endsAt).format('YYYY-MM-DD') }
-  get endTime() { return moment(this.endsAt).format('HH:mm') }
+  get startDay() {  return dayString(this.startsAt) }
+  get startTime() { return timeString(this.startsAt) }
+  get endDay() {    return dayString(this.endsAt) }
+  get endTime() {   return timeString(this.endsAt) }
 
   get visibility() {
     return this.internal ? 'internal (members only)' : 'public'
@@ -118,59 +77,9 @@ class Event {
   // Class methods
   //------------------------------------------------
 
-  static async create(fields) {
-    const values = Event.toDbFromModel(fields)
-    const query = event
-      .insert(values)
-      .returning().toQuery()
-    const result = await db.query(query)
-    return new Event(result[0])
-  }
-
-  static async findOne(id) {
-    const query = event
-      .select(event.star())
-      .where(event.id.equals(id))
-      .limit(1)
-      .toQuery()
-    const result = await db.query(query)
-    return new Event(result[0])
-  }
-
-  static async findMany(search) {
-    let query = event.select(event.star())
-
-    // If no query, return everything
-    if (!_.isEmpty(search)) {
-      let filters = []
-      if (search.draft !== undefined) filters.push(event.draft.equals(search.draft))
-      if (search.internal !== undefined) filters.push(event.internal.equals(search.internal))
-      query = query.where(filters)
-    }
-
-    const result = await db.query(query.order(event.starts_at).toQuery())
-    const events = result.map((e) => new Event(e))
-
-    return events
-  }
-
-  static async update(id, fields) {
-    const changes = Event.toDbFromModel(fields)
-    const query = event
-      .update(changes)
-      .where(event.id.equals(id))
-      .returning().toQuery()
-    const result = await db.query(query)
-    return new Event(result[0])
-  }
-
   static get categories() {
     return [ 'event', 'class', 'training', 'meetup' ]
   }
-
-  static toDbFromModel(model) { return decamelizeObject(model) }
-
-  static toModelFromDb(fields) { return camelizeObject(fields) }
 
   static toModelFromForm(fields) {
 
@@ -214,5 +123,39 @@ class Event {
   }
 
 }
+
+Event.configureSchema({
+  name: 'events',
+  columns: [
+    'id',
+
+    // Basic details
+    'title',
+    'description',
+    'photo_url',
+    'meetup_url',
+    'draft',
+    'internal',
+    'category',
+
+    // Attendees
+    'attendee_min',
+    'attendee_max',
+
+    // Pricing
+    'price',
+    'member_price',
+    'material_fee',
+
+    // Dates
+    'starts_at',
+    'ends_at',
+    'cancelled_at',
+
+    // Dates
+    'created_at',
+    'updated_at',
+  ]
+})
 
 module.exports = Event
