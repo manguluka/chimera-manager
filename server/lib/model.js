@@ -29,18 +29,7 @@ module.exports = class Model {
   }
 
   static async findOne(idOrQuery) {
-    let query
-
-    // Searching by ID
-    if (typeof idOrQuery === 'number') {
-      query = this._constructQuery({
-        where: { id: { equals: idOrQuery } },
-      })
-
-    // Searching by a custom query
-    } else {
-      query = this._constructQuery(idOrQuery)
-    }
+    let query = this._constructQuery(idOrQuery)
 
     query.limit(1)
     const result = await db.query(query.toQuery())
@@ -70,9 +59,22 @@ module.exports = class Model {
     }
   }
 
-  static _constructQuery(search, query) {
+  static _constructQuery(search, startingQuery) {
 
-    query = query ? query : this.schema.select(this.schema.star())
+    // Convert a string version of the ID to a number
+    // in case the consumer forgot to do the conversion themselves.
+    if (typeof search === 'string') {
+      search = Number(search)
+    }
+
+    // Searching by ID
+    if (typeof search === 'number') {
+      search = {
+        where: { id: { equals: search } },
+      }
+    }
+
+    const query = startingQuery ? startingQuery : this.schema.select(this.schema.star())
 
     // Filter results
     // See here for all possible values:

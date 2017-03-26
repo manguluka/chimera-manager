@@ -127,9 +127,23 @@ describe('server/lib/model', () => {
     context('.update()', () => {
 
       it('should update the given model row in the DB', async () => {
-        const e = await Event.create({ title: 'Laser Training' })
-        const updated = await Event.update(e.id, { title: 'Updated' })
+        const e1 = await Event.create({ title: 'Laser Training' })
+        const e2 = await Event.create({ title: 'Other Training' })
+        const updated = await Event.update(e1.id, { title: 'Updated' })
         expect(updated.title).to.equal('Updated')
+        expect(e2.title).to.equal('Other Training')
+      })
+
+    })
+
+    context('._constructQuery()', () => {
+
+      xit('should convert string IDs to numbers', () => {
+
+      })
+
+      xit('should support searching by an ID', () => {
+
       })
 
     })
