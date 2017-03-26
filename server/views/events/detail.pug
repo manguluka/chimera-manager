@@ -16,9 +16,13 @@ block content
             if event.draft
               .badge.badge-warning.mr-4 DRAFT
             if currentUser && currentUser.staff
-              a.btn.btn-primary.btn-lg.float-right(href=`/events/${event.id}/edit`)
-                .fa.fa-pencil.mr-3
-                | Edit
+              .float-right
+                a.btn.btn-primary.btn-lg(href=`/events/${event.id}/edit`)
+                  .fa.fa-pencil.mr-3
+                  | Edit
+                a.btn.btn-danger.btn-lg.ml-4(href=`/events/${event.id}/cancel`)
+                  i.ti-close.mr-2
+                  | Cancel
             = event.title
             small.ml-2.text-capitalize= event.category
             if currentUser && currentUser.staff
@@ -29,6 +33,7 @@ block content
                   i.ti-user(title='Internal (Member-Only)')
 
           h5.category.mt-2= event.dateRange
+
         .content
 
           p
@@ -36,7 +41,7 @@ block content
             = ' '
             =event.attendeeLimit
 
-          .mb-4
+          div
             != event.descriptionHtml
 
     .col-3
@@ -71,13 +76,6 @@ block content
         if event.materialFee
           p.mt-5
             small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
-
-        if currentUser && currentUser.staff
-          hr.mt-5.mb-5
-          p.mb-5
-            a.btn.btn-danger(href=`/events/${event.id}/cancel`)
-              i.ti-close.mr-2
-              | Cancel Event
 
   if currentUser && currentUser.staff
     .row

@@ -19,21 +19,17 @@ class Event extends Model {
   // Instance methods
   //------------------------------------------------
 
-  toString() { return this.title }
-
+  toString() {        return this.title }
+  get cancelled() {   return Boolean(this.cancelledAt) }
+  get startDay() {    return dayString(this.startsAt) }
+  get startTime() {   return timeString(this.startsAt) }
+  get endDay() {      return dayString(this.endsAt) }
+  get endTime() {     return timeString(this.endsAt) }
+  get visibility() {  return this.internal ? 'internal (members only)' : 'public' }
   get descriptionHtml() { return marked(this.description) }
 
-  get startDay() {  return dayString(this.startsAt) }
-  get startTime() { return timeString(this.startsAt) }
-  get endDay() {    return dayString(this.endsAt) }
-  get endTime() {   return timeString(this.endsAt) }
-
-  get visibility() {
-    return this.internal ? 'internal (members only)' : 'public'
-  }
 
   get attendeeLimit() {
-
     const min = this.attendeeMin
     const max = this.attendeeMax
 
@@ -59,8 +55,6 @@ class Event extends Model {
     return range
   }
 
-  get cancelled() { return Boolean(this.cancelledAt) }
-
   get priceDollars() {
     return this.price ? this.price / 100 : 0.00
   }
@@ -73,13 +67,14 @@ class Event extends Model {
     return this.materialFee ? this.materialFee / 100 : 0.00
   }
 
+
   //------------------------------------------------
   // Class methods
   //------------------------------------------------
 
-  static get categories() {
-    return [ 'event', 'class', 'training', 'meetup' ]
-  }
+  //static get categories() {
+    //return [ 'event', 'class', 'training', 'meetup' ]
+  //}
 
   static toModelFromForm(fields) {
 
