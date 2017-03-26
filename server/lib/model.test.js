@@ -5,8 +5,10 @@ class Event extends Model {
 
 }
 
-Event.configureSchema({
-  name: 'events',
+Event.debug = true
+
+Event.configure({
+  table: 'events',
   columns: [
     'id',
     'title',
@@ -132,6 +134,46 @@ describe('server/lib/model', () => {
         const updated = await Event.update(e1.id, { title: 'Updated' })
         expect(updated.title).to.equal('Updated')
         expect(e2.title).to.equal('Other Training')
+      })
+
+    })
+
+    context('.destroy()', () => {
+
+      xit('should destroy via ID', () => {
+
+      })
+
+      xit('should destroy via query', () => {
+
+      })
+
+      xit('should throw if no model found', () => {
+
+      })
+    })
+
+    context('.count()', () => {
+
+      it('should count all rows if no query is passed', async () => {
+        const e1 = await Event.create({ title: 'Model 1' })
+        const e2 = await Event.create({ title: 'Model 2' })
+        const count = await Event.count()
+        expect(count).to.equal(2)
+      })
+
+      it('should count all rows matching query', async () => {
+        const e1 = await Event.create({ title: 'Model 1' })
+        const e2 = await Event.create({ title: 'Model 2' })
+        const count = await Event.count({
+          where: { title: { equals: 'Model 1' } },
+        })
+        expect(count).to.equal(1)
+      })
+
+      it('should return 0 if none found', async () => {
+        const count = await Event.count()
+        expect(count).to.equal(0)
       })
 
     })

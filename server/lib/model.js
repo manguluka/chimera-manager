@@ -11,17 +11,21 @@ module.exports = class Model {
   // Class methods
   //---------------------------------------------
 
-  static configureSchema(schema) {
+  static configure(schema) {
     // TODO: instead take a custom schema definition which
     // handles validation?
-    if (!this.schema) {
-      this.schema = sql.define(schema)
+    this.schema = schema.columns
+    if (!this.table) {
+      this.table = sql.define({
+        name: schema.table,
+        columns: schema.columns,
+      })
     }
   }
 
   static async create(fields) {
     const values = this.toDbFromModel(fields)
-    const query = this.schema
+    const query = this.table
       .insert(values)
       .returning().toQuery()
     const result = await db.query(query)
@@ -44,7 +48,7 @@ module.exports = class Model {
 
   static async update(idOrQuery, fields) {
     const changes = this.toDbFromModel(fields)
-    const start = this.schema.update(changes)
+    const start = this.table.update(changes)
     const query = this._constructQuery(idOrQuery, start)
     query.returning()
 
@@ -52,9 +56,16 @@ module.exports = class Model {
     return new this(result[0])
   }
 
+  static async count(search = {}) {
+    const startingQuery = this.table.select(this.table.count())
+    const query = this._constructQuery(search, startingQuery)
+    const result = await db.query(query.toQuery())
+    return Number(result[0].events_count)
+  }
+
   static async destroyAll({ yesImReallySure }) {
     if (yesImReallySure) {
-      const query = this.schema.delete().toQuery()
+      const query = this.table.delete().toQuery()
       await db.query(query)
     }
   }
@@ -74,7 +85,7 @@ module.exports = class Model {
       }
     }
 
-    const query = startingQuery ? startingQuery : this.schema.select(this.schema.star())
+    const query = startingQuery ? startingQuery : this.table.select(this.table.star())
 
     // Filter results
     // See here for all possible values:
@@ -82,7 +93,7 @@ module.exports = class Model {
     if (search && search.where) {
       _.map(search.where, (filters, field) => {
         _.map(filters, (value, filter) => {
-          query.where(this.schema[field][filter](value))
+          query.where(this.table[field][filter](value))
         })
       })
     }
@@ -91,7 +102,7 @@ module.exports = class Model {
     if (search && search.order) {
       _.map(search.order, (sort, field) => {
         // TODO: Support "and/or" type queries
-        query.order(this.schema[field][sort])
+        query.order(this.table[field][sort])
       })
     }
 
@@ -99,6 +110,8 @@ module.exports = class Model {
     if (search && search.limit) {
       query.limit(search.limit)
     }
+
+    this._debug('[_constructQuery] Query:', query.toQuery())
 
     return query
   }
@@ -109,6 +122,10 @@ module.exports = class Model {
 
   static toString() {
     return this.name
+  }
+
+  static _debug() {
+    if (this.debug) console.log(...arguments)
   }
 
 

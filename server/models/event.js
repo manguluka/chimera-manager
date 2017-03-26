@@ -119,8 +119,8 @@ class Event extends Model {
 
 }
 
-Event.configureSchema({
-  name: 'events',
+Event.configure({
+  table: 'events',
   columns: [
     'id',
 
