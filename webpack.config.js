@@ -19,7 +19,7 @@ console.log(
 const webpackConfig = {
   entry:  {
     frontend: [
-      //'babel-polyfill',
+      'babel-polyfill',
       './frontend/index.js',
     ],
   },

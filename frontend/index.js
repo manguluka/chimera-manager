@@ -1,5 +1,5 @@
 //require('isomorphic-fetch')
-const React = require('react')
+//const React = require('react')
 //const ReactDOM = require('react-dom')
 //require('./styles/index.scss')
 
