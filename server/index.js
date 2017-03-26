@@ -7,6 +7,7 @@ const errorHandler = require('./middleware/error-handler')
 const express = require('express')
 const logger = require('./lib/logger')
 const notFound = require('./middleware/not-found')
+const path = require('path')
 const session = require('express-session')
 const templateLocalsMiddleware = require('./middleware/template-locals')
 
@@ -22,7 +23,7 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('trust proxy', 1)
-app.use(express.static('public'))
+app.use(express.static(path.join(process.cwd(), 'public')))
 app.use(session({
   secret: SESSION_SECRET,
   cookie: {
