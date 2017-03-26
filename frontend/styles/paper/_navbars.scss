@@ -9,19 +9,19 @@
   }
 }
 
-.navbar{
+.navbar {
   border: $none;
   border-radius: 0;
   font-size: $font-size-navbar;
   z-index: 3;
 
-  .navbar-brand{
+  .navbar-brand {
     font-weight: $font-weight-bold;
     margin: $navbar-margin-brand;
     padding: $navbar-padding-brand;
     font-size: $font-size-large-navbar;
   }
-  .navbar-nav{
+  .navbar-nav {
     > li > a {
       line-height: 1.42857;
       margin: $navbar-margin-a;

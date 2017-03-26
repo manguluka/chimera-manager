@@ -14,6 +14,7 @@ block content
           thead
             tr
               th Title
+              th Visibility
               th Time
               th Price
               th Attendance Limit
@@ -24,6 +25,12 @@ block content
                   if event.draft
                     .badge.badge-warning.mr-2 DRAFT
                   a(href=`/events/${event.id}`)= event.title
+                td
+                  small.ml-3
+                    if event.visibility === 'public'
+                      i.fa.fa-globe(title='Public')
+                    else
+                      i.ti-user(title='Internal (Member-Only)')
                 td= event.dateRange
                 td
                   if event.price

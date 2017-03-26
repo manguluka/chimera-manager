@@ -22,7 +22,7 @@ block content
             = event.title
             small.ml-2.text-capitalize= event.category
             if currentUser && currentUser.staff
-              small.text-capitalize.ml-3
+              small.ml-3
                 if event.visibility === 'public'
                   i.fa.fa-globe(title='Public')
                 else
@@ -72,11 +72,12 @@ block content
           p.mt-5
             small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
 
-        hr.mt-5.mb-5
-        p.mb-5
-          a.btn.btn-danger(href=`/events/${event.id}/cancel`)
-            i.ti-close.mr-2
-            | Cancel Event
+        if currentUser && currentUser.staff
+          hr.mt-5.mb-5
+          p.mb-5
+            a.btn.btn-danger(href=`/events/${event.id}/cancel`)
+              i.ti-close.mr-2
+              | Cancel Event
 
   if currentUser && currentUser.staff
     .row

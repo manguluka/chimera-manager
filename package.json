@@ -10,7 +10,8 @@
     "test": "npm run test-server & npm run test-frontend",
     "test-frontend": "NODE_ENV=test karma start",
     "test-server": "NODE_ENV=test mocha 'server/**/*.test.js'",
-    "watch": "echo 'TODO: Add npm run watch-test' && parallelshell 'npm run watch-assets' 'npm run watch-server'", "watch-assets": "npm run build-assets -- --watch",
+    "watch": "parallelshell 'npm run watch-test' 'npm run watch-assets' 'npm run watch-server'",
+    "watch-assets": "npm run build-assets -- --watch",
     "watch-server": "nodemon --exec npm start",
     "watch-test": "npm run watch-test-server npm run watch-test-frontend",
     "watch-test-server": "npm run test-server -- -w",
@@ -67,9 +68,15 @@
     "winston": "2.3.1"
   },
   "devDependencies": {
+    "chai": "true3.5.0",
+    "chai-as-promised": "true6.0.0",
     "mocha": "3.2.0",
     "nodemon": "1.11.0",
     "parallelshell": "2.0.0",
-    "phantomjs": "2.1.7"
+    "phantomjs": "2.1.7",
+    "sinon-express-mock": "true1.2.4"
+  },
+  "engines": {
+    "node": "7.7.1"
   }
 }
