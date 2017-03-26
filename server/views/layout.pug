@@ -34,15 +34,15 @@ html
 
               if currentUser && currentUser.staff
                 li.nav-item(class=(section === 'members' ? 'active' : ''))
-                  a.nav-link(href='#')
+                  a.nav-link.disabled(href='#')
                     i.ti-user
                     | Members
                 li.nav-item(class=(section === 'checkins' ? 'active' : ''))
-                  a.nav-link(href='#')
+                  a.nav-link.disabled(href='#')
                     i.ti-key
                     | Checkins
                 li.nav-item(class=(section === 'reports' ? 'active' : ''))
-                  a.nav-link(href='#')
+                  a.nav-link.disabled(href='#')
                     i.ti-bar-chart
                     | Reports
 
@@ -59,16 +59,16 @@ html
                     i.ti-power-off
                     | Logout
         .main-panel
-          .navbar.navbar-default
-            .container
+          .container-fluid
+            .navbar.navbar-default
               .navbar-head
                 if currentUser && section === 'events'
                   a.float-right.btn.btn-success.btn-lg(href='/events/new')
-                    .fa.fa-plus.mr-3
+                    i.ti-plus.mr-2
                     | Create Event
                 h1.navbar-brand.text-capitalize= section
-          .content
-            .container
+          .content.mb-5
+            .container-fluid
               for type in ['success', 'info', 'warning', 'danger']
                 if messages && messages[type]
                   .alert.fade_in(class=`alert-${type}` role='alert').mb-3
@@ -87,12 +87,18 @@ html
 
               block content
 
-          footer.mt-3
-            .container
-              .copyright.float-right
-                | &copy; 2017
-                = ' '
-                = config.APP_NAME
+            footer.footer.bg-faded.fixed-bottom.pt-3.pb-3
+              .container-fluid
+                .row
+                  .col-9
+                    a.btn.btn-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)
+                      i.ti-email.mr-3
+                      | Contact Us
+                  .col-3.text-right
+                    small
+                      | &copy; 2017
+                      = ' '
+                      = config.APP_NAME
 
     script(src='/frontend.js')
 

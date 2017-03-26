@@ -138,20 +138,17 @@ class Event {
   }
 
   static async findMany(search) {
-    let query
+    let query = event.select(event.star())
 
     // If no query, return everything
-    if (_.isEmpty(search)) {
-      query = event.select(event.star()).toQuery()
-    } else {
+    if (!_.isEmpty(search)) {
       let filters = []
       if (search.draft !== undefined) filters.push(event.draft.equals(search.draft))
       if (search.internal !== undefined) filters.push(event.internal.equals(search.internal))
-      query = event.select(event.star()).where(filters).toQuery()
+      query = query.where(filters)
     }
 
-
-    const result = await db.query(query)
+    const result = await db.query(query.order(event.starts_at).toQuery())
     const events = result.map((e) => new Event(e))
 
     return events

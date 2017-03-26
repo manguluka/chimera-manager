@@ -31,14 +31,13 @@ block content
           h5.category.mt-2= event.dateRange
         .content
 
+          p
+            strong Attendee Limit:
+            = ' '
+            =event.attendeeLimit
+
           .mb-4
             != event.descriptionHtml
-
-          table.table.table-hover.table-responsive
-            tbody
-              tr
-                th Attendee Limit:
-                td= event.attendeeLimit
 
     .col-3
       .text-center
@@ -66,11 +65,18 @@ block content
           p
             em Material fee $#{event.materialFeeDollars}*
         p
-          a.btn.btn-success.btn-lg.btn-block(href=`/events/${event.id}/attend`)
+          a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`/events/${event.id}/attend`)
             i.ti-plus.mr-2
             span.text-capitalize Attend #{event.category}
-        p.mt-5
-          small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
+        if event.materialFee
+          p.mt-5
+            small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
+
+        hr.mt-5.mb-5
+        p.mb-5
+          a.btn.btn-danger(href=`/events/${event.id}/cancel`)
+            i.ti-close.mr-2
+            | Cancel Event
 
   if currentUser && currentUser.staff
     .row

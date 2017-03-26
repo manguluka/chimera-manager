@@ -1,0 +1,30 @@
+extends ../layout.pug
+
+block title
+  | Cancel #{event.title}
+
+block content
+
+  p.text-center
+    a(href=`/events/${event.id}`)
+      i.ti-arrow-left.mr-2
+      | Back to event
+
+  .row
+    .col-sm-8.offset-sm-2
+      .card
+        .header.text-center
+          h1.title Cancel "#{event.title}"?
+        .content
+          p This will:
+          ul
+            li Remove the event from the website
+            li Notify all attendees and instructors of the cancellation
+            li Refund attendees
+            if event.category === 'meetup'
+              li Cancel the event on Meetup.com
+          p.mt-5
+            form(action=`/events/${event.id}/cancel` method='post')
+              button.btn.btn-danger.btn-lg.btn-block(type='submit')
+                i.ti-close.mr-2
+                | Cancel Event?

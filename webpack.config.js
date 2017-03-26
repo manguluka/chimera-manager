@@ -19,7 +19,7 @@ console.log(
 const webpackConfig = {
   entry:  {
     frontend: [
-      'babel-polyfill',
+      //'babel-polyfill',
       './frontend/index.js',
     ],
   },
@@ -36,6 +36,7 @@ const webpackConfig = {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify({
         ENV,
+        NODE_ENV: ENV,
       }),
     }),
   ],

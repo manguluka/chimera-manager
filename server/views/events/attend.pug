@@ -1,0 +1,48 @@
+extends ../layout.pug
+
+block title
+  | Attend #{event.title}
+
+block content
+
+  p.text-center
+    a(href=`/events/${event.id}`)
+      i.ti-arrow-left.mr-2
+      | Back to event
+
+  .row
+    .col-sm-6.offset-sm-3
+      .card
+        .header.text-center
+          h1.title Attend #{event.title}
+          h5.category.mt-2= event.dateRange
+        .content.text-center
+
+          if !currentUser && event.price && event.memberPrice
+            p
+              | If you're a Chimera member,
+              = ' '
+              a(href=`/auth/login?redirect=${currentUrl}`) please login
+              = ' '
+              | to apply your member discount.
+          h1
+            if !event.price
+              | Free!
+            else if currentUser && event.memberPrice
+              small Member Price
+              br
+              | $
+              = event.memberPriceDollars
+            else if event.price
+              small Non-Member Price
+              br
+              | $
+              = event.priceDollars
+          p.mt-5
+            form(action=`/events/${event.id}/attend` method='post')
+              button.btn.btn-success.btn-lg.btn-block(type='submit')
+                if !event.price
+                  | Free!
+                else
+                  | Pay Now
+                i.ti-arrow-right.ml-2

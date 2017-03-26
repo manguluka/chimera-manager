@@ -11,6 +11,19 @@
   @include btn-styles($default-color, $default-states-color);
   @include transition($fast-transition-time, linear);
 
+  &.btn-inverse {
+
+    &.btn-success {
+      background: $success-color;
+      color: $white;
+
+      &:hover {
+        background: none;
+        color: $success-color;
+      }
+    }
+  }
+
   &:hover,
   &:focus{
     outline: 0 !important;

@@ -2,9 +2,42 @@
 
 > Chimera Arts & Makerspace management software
 
+
+## Todo
+
+- [ ] User accounts
+  - [ ] Model/schema
+  - [ ] Cobot login (during transition)
+  - [ ] Forget password
+- [ ] Stripe checkout for event
+  - [ ] Store transaction
+  - [ ] Send confirmation email
+- [ ] Add attendance
+    - [ ] Cancellation flow
+      - [ ] Cancellation period setting
+      - [ ] Confirmation email has cancellation link
+- [ ] Event cancellation flow
+    - [ ] Email instructor and student of cancellation
+    - [ ] Refund students
+    - [ ] Cancel on Cobot
+- [ ] Add instructor to event
+- [ ] Email instructor with attendance link a week before event
+- [ ] Add refund functionality
+- [ ] Sync with Meetup.com
+- [ ] Filter events by month/week/day, draft/published, internal/external, category
+- [ ] Enforce attendee limits
+- [ ] Sync with Meetup.com
+- [ ] Set default member discount
+- [ ] Waitlist
+  - [ ] Show waitlist option if sold out
+  - [ ] Contact next in line if opening is created
+  - [ ] Changing from waitlist to attendee requires a charge
+
+
 ## Features
 
 ### Events
+
   - **Event Categories** - Classes, meetups, trainings, events
   - **Internal & external events** - Host member-only events or sell tickets to the general public
   - **Free or paid events** - Sell access to classes, events, trainings and more or host free events.
