@@ -40,7 +40,7 @@
     "express": "4.14.1",
     "express-flash": "0.0.2",
     "express-session": "1.15.1",
-    "extract-text-webpack-plugin": "2.0.0-beta",
+    "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "0.10.0",
     "font-awesome": "4.7.0",
     "html-webpack-plugin": "2.28.0",
