@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "build-assets": "webpack --colors",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm run build-assets",
     "lint": "eslint --fix server frontend",
     "start": "node server",
     "test": "npm run test-server & npm run test-frontend",
