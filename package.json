@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "build-assets": "webpack --colors",
+    "heroku-postbuild": "npm run build",
     "lint": "eslint --fix server frontend",
     "start": "node server",
     "test": "npm run test-server & npm run test-frontend",
@@ -74,6 +75,8 @@
     "nodemon": "1.11.0",
     "parallelshell": "2.0.0",
     "phantomjs": "2.1.7",
+    "sinon": "true2.1.0",
+    "sinon-chai": "true2.9.0",
     "sinon-express-mock": "true1.2.4"
   },
   "engines": {
