@@ -2,6 +2,7 @@
   "ignore": [
     "frontend/*",
     "public/*",
-    "server/views"
+    "server/views",
+    "server/**/*.test.js"
   ]
 }

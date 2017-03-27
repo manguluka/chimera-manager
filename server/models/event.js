@@ -2,7 +2,8 @@ const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 const dollarsToCents = require('../../lib/dollars-to-cents')
 const marked = require('marked')
 const moment = require('moment')
-const Model = require('../lib/model')
+const connection = require('../lib/db')
+const Model = require('simple-sql-model')
 
 function dayString(date) {
   return moment(date).format('YYYY-MM-DD')
@@ -14,6 +15,9 @@ function timeString(date) {
 
 class Event extends Model {
 
+  //constructor() {
+    //super(arguments)
+  //}
 
   //------------------------------------------------
   // Instance methods
@@ -27,7 +31,6 @@ class Event extends Model {
   get endTime() {     return timeString(this.endsAt) }
   get visibility() {  return this.internal ? 'internal (members only)' : 'public' }
   get descriptionHtml() { return marked(this.description) }
-
 
   get attendeeLimit() {
     const min = this.attendeeMin
@@ -120,6 +123,7 @@ class Event extends Model {
 }
 
 Event.configure({
+  connection,
   table: 'events',
   columns: [
     'id',

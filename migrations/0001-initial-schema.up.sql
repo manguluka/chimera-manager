@@ -22,13 +22,13 @@ create table events (
   material_fee integer,
 
   -- Dates
-  starts_at timestamp,
-  ends_at timestamp,
-  cancelled_at timestamp,
+  starts_at timestamp with time zone,
+  ends_at timestamp with time zone,
+  cancelled_at timestamp with time zone,
 
   -- Timestamps
-  created_at timestamp not null default current_timestamp,
-  updated_at timestamp
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
 );
 
 -- create table users (
@@ -40,7 +40,7 @@ create table events (
   -- updated_at date
 -- );
 
--- Automatically set updated_at timestamp
+-- Automatically set updated_at timestamp with time zone
 create or replace function update_updated_at_column()
 returns trigger as $$
 begin

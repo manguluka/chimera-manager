@@ -18,13 +18,13 @@ async function seed() {
     draft: false,
     internal: false,
     category: 'class',
-    attendee_min: 8,
-    attendee_max: 10,
+    attendeeMin: 8,
+    attendeeMax: 10,
     price: 15000,
-    member_price: 13500,
-    material_fee: 2000,
-    starts_at: new Date(`April 23 2017 10:00:00 ${TIMEZONE}`),
-    ends_at: new Date(`April 23 2017 16:00:00 ${TIMEZONE}`),
+    memberPrice: 13500,
+    materialFee: 2000,
+    startsAt: new Date('2017-04-23T17:00:00Z'),
+    endsAt: new Date('2017-04-23T23:00:00Z'),
   })
 
   await Event.create({
@@ -35,13 +35,13 @@ async function seed() {
     draft: true,
     internal: true,
     category: 'training',
-    attendee_min: 3,
-    attendee_max: 5,
+    attendeeMin: 3,
+    attendeeMax: 5,
     price: 3599,
-    member_price: null,
-    material_fee: null,
-    starts_at: new Date(`April 28 2017 10:00:00 ${TIMEZONE}`),
-    ends_at: new Date(`April 28 2017 12:00:00 ${TIMEZONE}`),
+    memberPrice: null,
+    materialFee: null,
+    startsAt: new Date('2017-04-28T17:00:00Z'),
+    endsAt: new Date('2017-04-28T19:00:00Z'),
   })
 
   await Event.create({
@@ -52,13 +52,13 @@ async function seed() {
     draft: false,
     internal: true,
     category: 'training',
-    attendee_min: 3,
-    attendee_max: 5,
+    attendeeMin: 3,
+    attendeeMax: 5,
     price: 3500,
-    member_price: null,
-    material_fee: null,
-    starts_at: new Date(`May 28 2017 16:00:00 ${TIMEZONE}`),
-    ends_at: new Date(`May 28 2017 18:00:00 ${TIMEZONE}`),
+    memberPrice: null,
+    materialFee: null,
+    startsAt: new Date('2017-06-02T02:30:00Z'),
+    endsAt: new Date('2017-06-02T04:30:00Z'),
   })
 
   await Event.create({
@@ -71,13 +71,13 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     draft: false,
     internal: false,
     category: 'meetup',
-    attendee_min: null,
-    attendee_max: null,
+    attendeeMin: null,
+    attendeeMax: null,
     price: null,
-    member_price: null,
-    material_fee: null,
-    starts_at: new Date(`March 3 2017 16:30:00 ${TIMEZONE}`),
-    ends_at: new Date(`March 3 2017 19:30:00 ${TIMEZONE}`),
+    memberPrice: null,
+    materialFee: null,
+    startsAt: new Date('2017-06-08T00:00:00Z'),
+    endsAt: new Date('2017-06-08T02:00:00Z'),
   })
 
   console.log(chalk.green('Successfully seeded database!'))
