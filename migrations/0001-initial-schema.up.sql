@@ -1,7 +1,7 @@
 create type event_category as enum ('event', 'class', 'meetup', 'training');
 
 create table events (
-  id SERIAL,
+  id SERIAL primary key,
 
   -- Basic details
   title varchar(150) not null,
@@ -31,14 +31,22 @@ create table events (
   updated_at timestamp with time zone
 );
 
--- create table users (
-  -- id SERIAL,
-  -- name varchar(120) not null,
-  -- video_url varchar(500) not null,
-  -- description varchar,
-  -- created_at date not null  default CURRENT_DATE,
-  -- updated_at date
--- );
+create table users (
+  id SERIAL primary key,
+  name varchar(120) not null,
+  email varchar(120) not null,
+  bio varchar default '',
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create table instructors (
+  primary key(user_id, event_id),
+  user_id int references users,
+  event_id int references events
+);
+
+-- TODO: Create indexes!
 
 -- Automatically set updated_at timestamp with time zone
 create or replace function update_updated_at_column()

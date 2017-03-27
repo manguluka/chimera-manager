@@ -23,6 +23,8 @@ block content
             li Refund attendees
             if event.category === 'meetup'
               li Cancel the event on Meetup.com
+          p
+            small.text-muted Note: this will <strong>not</strong> permanently delete this event. You can always re-publish it at a later point if you want.
           p.mt-5
             form(action=`/events/${event.id}/cancel` method='post')
               button.btn.btn-danger.btn-lg.btn-block(type='submit')

@@ -9,7 +9,12 @@ block content
 
   .row
 
-    .col-9
+
+
+    //--------------------------------------------------
+    // Event details
+    //--------------------------------------------------
+    .col-lg-9
       .card
         .header
           h1.title
@@ -17,10 +22,10 @@ block content
               .badge.badge-warning.mr-4 DRAFT
             if currentUser && currentUser.staff
               .float-right
-                a.btn.btn-primary.btn-lg(href=`/events/${event.id}/edit`)
-                  .fa.fa-pencil.mr-3
+                a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/edit`)
+                  i.ti-pencil.mr-3
                   | Edit
-                a.btn.btn-danger.btn-lg.ml-4(href=`/events/${event.id}/cancel`)
+                a.btn.btn-outline-danger.btn-sm.ml-4(href=`/events/${event.id}/cancel`)
                   i.ti-close.mr-2
                   | Cancel
             = event.title
@@ -44,14 +49,52 @@ block content
           div
             != event.descriptionHtml
 
+
+
+      //--------------------------------------------------
+      // Instructors
+      //--------------------------------------------------
       .card
         .header
-          h4.title Instructors
+          if currentUser && currentUser.staff
+            .float-right
+              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/add-instructor`)
+                i.ti-plus.mr-2
+                | Add Instructor
+          h4.title.text-info
+            i.ti-book.mr-3
+            | Instructors
         .content
-          p
-            em Coming soon...
+          if instructors && instructors.length
+            ul.list-unstyled
+              for user in instructors
+                li
+                  .row
+                    .col-2
+                      .avatar
+                        img(src=`https://www.gravatar.com/avatar/${user.gravatarHash}?s=50` width=50 height=50)
+                    .col-7
+                      strong
+                        a(href=`/users/${user.id}`)= user.name
+                      if currentUser && currentUser.staff
+                        br
+                        small.text-muted
+                          a(href=`mailto:${user.email}`)= user.email
+                    .col-3.text-right
+                      if currentUser && currentUser.staff
+                        a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/instructors/1/remove`)
+                          i.ti-close.mr-2
+                          | Remove
+          else
+            p
+              em No instructors...
 
-    .col-3
+
+
+    //--------------------------------------------------
+    // Pricing sidebar
+    //--------------------------------------------------
+    .col-lg-3
       .text-center
         if event.price
           if event.price && event.memberPrice
@@ -84,14 +127,24 @@ block content
           p.mt-5
             small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
 
+
+
+  //--------------------------------------------------
+  // Admin panels
+  //--------------------------------------------------
   if currentUser && currentUser.staff
     .row
 
+
+
+      //--------------------------------------------------
+      // Attendees
+      //--------------------------------------------------
       .col-6
         .card
           .header
             .float-right
-              a.btn.btn-primary.btn-sm(href=`/events/${event.id}/add-attendee`)
+              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/add-attendee`)
                 i.ti-plus.mr-2
                 | Add Attendee
             h4.title.text-success
@@ -114,7 +167,7 @@ block content
                       i.fa.fa-money.mr-2
                       | Cash
                   .col-3.text-right
-                    a.btn.btn-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/refund/1`)
                       i.ti-close.mr-2
                       | Refund
               li
@@ -132,9 +185,15 @@ block content
                       i.fa.fa-credit-card.mr-2
                       | Card
                   .col-3.text-right
-                    a.btn.btn-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/refund/1`)
                       i.ti-close.mr-2
                       | Refund
+
+
+
+      //--------------------------------------------------
+      // Recent changes
+      //--------------------------------------------------
       .col-6
         .card
           .header

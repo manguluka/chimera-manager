@@ -4,6 +4,8 @@ const marked = require('marked')
 const moment = require('moment')
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
+const Instructor = require('./instructor')
+const User = require('./user')
 
 function dayString(date) {
   return moment(date).format('YYYY-MM-DD')
@@ -70,6 +72,21 @@ class Event extends Model {
     return this.materialFee ? this.materialFee / 100 : 0.00
   }
 
+  /**
+   * Return all Instructor User instances
+   * for this Event.
+   */
+  async instructors() {
+    const instructors = await Instructor.findMany({
+      where: { eventId: { equals: this.id } },
+    })
+    return await Promise.all(
+      instructors.map((relation) => {
+        return User.findOne(relation.userId)
+      })
+    )
+  }
+
 
   //------------------------------------------------
   // Class methods
@@ -131,29 +148,29 @@ Event.configure({
     // Basic details
     'title',
     'description',
-    'photo_url',
-    'meetup_url',
+    'photoUrl',
+    'meetupUrl',
     'draft',
     'internal',
     'category',
 
     // Attendees
-    'attendee_min',
-    'attendee_max',
+    'attendeeMin',
+    'attendeeMax',
 
     // Pricing
     'price',
-    'member_price',
-    'material_fee',
+    'memberPrice',
+    'materialFee',
 
     // Dates
-    'starts_at',
-    'ends_at',
-    'cancelled_at',
+    'startsAt',
+    'endsAt',
+    'cancelledAt',
 
     // Dates
-    'created_at',
-    'updated_at',
+    'createdAt',
+    'updatedAt',
   ]
 })
 

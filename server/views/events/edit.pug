@@ -14,10 +14,24 @@ block content
     .content
       form(action=`/events/${event.id}/update` method='post')
         include ./_form.pug
-        p.mt-5
+        .mt-5
+
           if event.draft
-            button.btn.btn-success.btn-lg.mr-3(type='submit' disabled) Publish Event
-            button.btn.btn-success.btn-lg(type='submit') Save Event
+            button.btn.btn-success.btn-lg.mr-3(type='submit' disabled)
+              i.ti-announcement.mr-3
+              | Publish Event
+            button.btn.btn-success.btn-lg(type='submit')
+              i.ti-save.mr-3
+              | Save Event
           else
             button.btn.btn-success.btn-lg(type='submit') Update Event
-          button.float-right.btn.btn-outline-danger.btn-sm(type='submit') Cancel Event
+
+          .float-right.mt-2
+            a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/cancel`)
+              i.ti-close.mr-2
+              | Cancel Event
+
+          if event.draft
+            p.mt-3
+              small.text-muted.
+                Publish changes the status to published, dispalys the event publically and shares of Meetup.com (if external event). Saving just updates the details but does not publish.

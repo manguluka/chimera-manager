@@ -4,28 +4,33 @@
 //-----------------------------------------
 
 // Colors
-/*$white:  #fff !default;*/
 $black:  #111 !default;
 $red:    #EB5E28 !default;
-/*$orange: #f0ad4e !default;*/
 $yellow: #F3BB45 !default;
 $green:  #7AC29A !default;
 $blue:   #7A9E9F !default;
 $teal:   #68B3C8 !default;
-/*$pink:   #ff5b77 !default;*/
-/*$purple: #613d7c !default;*/
 
-// Create grayscale
-/*$gray-dark:                 #292b2c !default;*/
-/*$gray:                      #464a4c !default;*/
-/*$gray-light:                #636c72 !default;*/
-/*$gray-lighter:              #eceeef !default;*/
-/*$gray-lightest:             #f7f7f9 !default;*/
 
 // Fonts
+$small-font-size: 0.75rem;
 $font-family-sans-serif: 'Muli', sans-serif;
 /*$font-family-serif: 'Bitter', serif;*/
 $headings-font-family: $font-family-sans-serif;
+
+// Buttons
+$btn-border-radius: 100px; // make fully rounded
+$btn-border-radius-lg: $btn-border-radius;
+$btn-border-radius-sm: $btn-border-radius;
+$border-width: 2px;
+$input-btn-border-width: 2px;
+$btn-line-height: 1;
+$btn-padding-x: 1.8rem;
+$btn-padding-y: 0.85rem;
+$btn-padding-x-lg: 2.25rem;
+$btn-padding-y-lg: 0.75rem;
+$btn-padding-x-sm: 0.8rem;
+$btn-padding-y-sm: 0.3rem;
 
 
 //-----------------------------------------

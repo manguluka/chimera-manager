@@ -3,14 +3,14 @@
 const chalk = require('chalk')
 const config = require('config')
 const Event = require('../server/models/event')
-
-const TIMEZONE = config.get('timezone')
+const Instructor = require('../server/models/instructor')
+const User = require('../server/models/user')
 
 console.log(chalk.green('Seeding database...'))
 
 async function seed() {
 
-  await Event.create({
+  const welding = await Event.create({
     title: 'Intro to Welding',
     description: 'This will be fun!',
     //photo_url: '',
@@ -27,7 +27,7 @@ async function seed() {
     endsAt: new Date('2017-04-23T23:00:00Z'),
   })
 
-  await Event.create({
+  const jewelry = await Event.create({
     title: 'Jewelry Training',
     description: 'Making rings and shit',
     //photo_url: '',
@@ -44,7 +44,7 @@ async function seed() {
     endsAt: new Date('2017-04-28T19:00:00Z'),
   })
 
-  await Event.create({
+  const laser = await Event.create({
     title: 'Laser Cutter Training',
     description: 'LASERS!',
     //photo_url: '',
@@ -61,7 +61,7 @@ async function seed() {
     endsAt: new Date('2017-06-02T04:30:00Z'),
   })
 
-  await Event.create({
+  const printing = await Event.create({
     title: '3D Printing Meetup',
     description: `Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
 
@@ -79,6 +79,25 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     startsAt: new Date('2017-06-08T00:00:00Z'),
     endsAt: new Date('2017-06-08T02:00:00Z'),
   })
+
+
+
+
+  const user1 = await User.create({
+    name: 'Dana Woodman',
+    email: 'dana@chimeraarts.org',
+  })
+
+
+
+
+  await Instructor.create({
+    eventId: welding.id,
+    userId: user1.id,
+  })
+
+
+
 
   console.log(chalk.green('Successfully seeded database!'))
 
