@@ -33,17 +33,48 @@ create table events (
 
 create table users (
   id SERIAL primary key,
+
+  -- Basic details
   name varchar(120) not null,
   email varchar(120) not null,
   bio varchar default '',
+
+  -- Type
+  staff boolean default false,
+
+  -- Timestamps
   created_at timestamp with time zone not null default current_timestamp,
   updated_at timestamp with time zone
 );
 
 create table instructors (
   primary key(user_id, event_id),
-  user_id int references users,
-  event_id int references events
+  user_id integer references users,
+  event_id integer references events,
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create table attendees (
+  primary key(user_id, event_id),
+  user_id integer references users,
+  event_id integer references events,
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create table activities (
+  -- primary key(user_id, event_id),
+  user_id integer references users,
+  -- event_id integer references events,
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
 );
 
 -- TODO: Create indexes!
@@ -52,9 +83,13 @@ create table instructors (
 create or replace function update_updated_at_column()
 returns trigger as $$
 begin
-    new.updated_at = now();
-    return new;
+  new.updated_at = now();
+  return new;
 end;
 $$ language 'plpgsql';
 
 create trigger update_events_modtime before update on events for each row execute procedure  update_updated_at_column();
+create trigger update_users_modtime before update on users for each row execute procedure  update_updated_at_column();
+create trigger update_instructors_modtime before update on instructors for each row execute procedure  update_updated_at_column();
+create trigger update_attendees_modtime before update on attendees for each row execute procedure  update_updated_at_column();
+create trigger update_activities_modtime before update on activities for each row execute procedure  update_updated_at_column();

@@ -1,12 +1,11 @@
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
 
-class Instructor extends Model {
-}
+class Attendee extends Model {}
 
-Instructor.configure({
+Attendee.configure({
   connection,
-  table: 'instructors',
+  table: 'attendees',
   columns: [
     'eventId',
     'userId',
@@ -15,6 +14,6 @@ Instructor.configure({
   ],
 })
 
-Instructor.debug = true
+//Attendee.debug = true
 
-module.exports = Instructor
+module.exports = Attendee

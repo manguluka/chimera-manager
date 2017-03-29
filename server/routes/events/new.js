@@ -1,3 +1,6 @@
+const Event = require('../../models/event')
+
 module.exports = function newEvent(req, res) {
-  res.render('events/new')
+  const categories = Event.categories
+  res.render('events/new', { categories })
 }

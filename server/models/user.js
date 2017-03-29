@@ -33,6 +33,9 @@ User.configure({
     'email',
     'bio',
 
+    // Type
+    'staff',
+
     // Dates
     'createdAt',
     'updatedAt',

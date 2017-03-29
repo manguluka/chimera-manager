@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const config = require('config')
 
 module.exports = function templateLocalsMiddleware() {
@@ -10,6 +11,7 @@ module.exports = function templateLocalsMiddleware() {
     }
     res.locals.currentUser = req.currentUser
     res.locals.currentUrl = req.originalUrl
+    res.locals._ = _
 
     console.log('[templateLocalsMiddleware] Locals:', res.locals)
 

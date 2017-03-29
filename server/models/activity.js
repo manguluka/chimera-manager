@@ -1,20 +1,18 @@
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
 
-class Instructor extends Model {
-}
+class Activity extends Model {}
 
-Instructor.configure({
+Activity.configure({
   connection,
-  table: 'instructors',
+  table: 'activities',
   columns: [
-    'eventId',
     'userId',
     'createdAt',
     'updatedAt',
   ],
 })
 
-Instructor.debug = true
+//Activity.debug = true
 
-module.exports = Instructor
+module.exports = Activity

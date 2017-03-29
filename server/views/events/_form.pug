@@ -88,17 +88,33 @@
     //em Coming soon...
 
 //--------------------------------------------------
+// Category
+//--------------------------------------------------
+
+.row
+  .col-4
+    .form-group
+      label(for='category') Category
+      select#category.form-control(name='category')
+        for category in categories
+          option(value=category selected=(event.category === category))= _.capitalize(category)
+
+
+//--------------------------------------------------
 // Internal
 //--------------------------------------------------
+
 .form-group
   label(for='internal')
     input#internal.mr-2(name='internal' type='checkbox' checked=event.internal)
     | Internal event?
     small.text-muted.ml-3 Internal events are only visible to logged in members. Uncheck to make public.
 
+
 //--------------------------------------------------
 // Draft
 //--------------------------------------------------
+
 .form-group
   label(for='draft')
     input#draft.mr-2(name='draft' type='checkbox' checked=event.draft)

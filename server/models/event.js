@@ -92,9 +92,9 @@ class Event extends Model {
   // Class methods
   //------------------------------------------------
 
-  //static get categories() {
-    //return [ 'event', 'class', 'training', 'meetup' ]
-  //}
+  static get categories() {
+    return [ 'event', 'class', 'meetup', 'training' ]
+  }
 
   static toModelFromForm(fields) {
 
@@ -105,6 +105,7 @@ class Event extends Model {
       attendeeMin,
       attendeeMax,
 
+      category,
       draft,
       internal,
 
@@ -125,6 +126,7 @@ class Event extends Model {
       attendeeMin: Number(attendeeMin),
       attendeeMax: Number(attendeeMax),
 
+      category,
       draft,
       internal,
 

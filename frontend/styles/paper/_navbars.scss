@@ -1,5 +1,8 @@
 .nav {
-  position: relative;
+
+  .nav-item {
+    position: relative;
+  }
 
   > li{
     > a:hover,

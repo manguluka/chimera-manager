@@ -17,26 +17,25 @@ block content
     .col-lg-9
       .card
         .header
-          h1.title
+          if currentUser && currentUser.staff
+            .float-right
+              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/edit`)
+                i.ti-pencil.mr-3
+                | Edit
+              a.btn.btn-outline-danger.btn-sm.ml-4(href=`/events/${event.id}/cancel`)
+                i.ti-close.mr-2
+                | Cancel
+          div
             if event.draft
-              .badge.badge-warning.mr-4 DRAFT
-            if currentUser && currentUser.staff
-              .float-right
-                a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/edit`)
-                  i.ti-pencil.mr-3
-                  | Edit
-                a.btn.btn-outline-danger.btn-sm.ml-4(href=`/events/${event.id}/cancel`)
-                  i.ti-close.mr-2
-                  | Cancel
-            = event.title
-            small.ml-2.text-capitalize= event.category
-            if currentUser && currentUser.staff
-              small.ml-3
+              span.badge.badge-warning.mr-3 DRAFT
+            span.text-muted
+              span.mr-3.text-uppercase= event.category
+              if currentUser && currentUser.staff
                 if event.visibility === 'public'
-                  i.fa.fa-globe(title='Public')
+                  i.ti-world(title='Public')
                 else
                   i.ti-user(title='Internal (Member-Only)')
-
+          h1.title= event.title
           h5.category.mt-2= event.dateRange
 
         .content
@@ -58,7 +57,7 @@ block content
         .header
           if currentUser && currentUser.staff
             .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/add-instructor`)
+              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/instructors/new`)
                 i.ti-plus.mr-2
                 | Add Instructor
           h4.title.text-info
@@ -68,26 +67,29 @@ block content
           if instructors && instructors.length
             ul.list-unstyled
               for user in instructors
-                li
+                li.mb-3
                   .row
-                    .col-2
+                    .col-1
                       .avatar
                         img(src=`https://www.gravatar.com/avatar/${user.gravatarHash}?s=50` width=50 height=50)
-                    .col-7
-                      strong
-                        a(href=`/users/${user.id}`)= user.name
+                    .col-8.pl-5
                       if currentUser && currentUser.staff
+                        strong
+                          a(href=`/users/${user.id}`)= user.name
                         br
                         small.text-muted
                           a(href=`mailto:${user.email}`)= user.email
+                      else
+                        strong= user.name
                     .col-3.text-right
                       if currentUser && currentUser.staff
-                        a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/instructors/1/remove`)
-                          i.ti-close.mr-2
-                          | Remove
+                        form(action=`/events/${event.id}/instructors/${user.id}/remove` method='post')
+                          button.btn.btn-outline-danger.btn-sm(type='submit')
+                            i.ti-close.mr-2
+                            | Remove
           else
             p
-              em No instructors...
+              em There are no instructors for this event.
 
 
 
@@ -140,11 +142,11 @@ block content
       //--------------------------------------------------
       // Attendees
       //--------------------------------------------------
-      .col-6
+      .col-xl-6
         .card
           .header
             .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/add-attendee`)
+              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/attendees/new`)
                 i.ti-plus.mr-2
                 | Add Attendee
             h4.title.text-success
@@ -167,7 +169,7 @@ block content
                       i.fa.fa-money.mr-2
                       | Cash
                   .col-3.text-right
-                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/attendees/1/refund`)
                       i.ti-close.mr-2
                       | Refund
               li
@@ -194,7 +196,7 @@ block content
       //--------------------------------------------------
       // Recent changes
       //--------------------------------------------------
-      .col-6
+      .col-xl-6
         .card
           .header
             h4.title.text-info

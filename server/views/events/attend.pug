@@ -38,11 +38,16 @@ block content
               br
               | $
               = event.priceDollars
+          if event.materialFee
+            p.mt-5.text-muted
+              strong Material Fee:
+              br
+              | Remeber to bring cash or a check for <em>$#{event.materialFeeDollars}</em> on the day of the event.
           p.mt-5
             form(action=`/events/${event.id}/attend` method='post')
               button.btn.btn-success.btn-lg.btn-block(type='submit')
                 if !event.price
-                  | Free!
+                  | Attend for Free!
                 else
-                  | Pay Now
+                  | Pay $#{event.memberPrice ? event.memberPriceDollars : event.priceDollars} Now
                 i.ti-arrow-right.ml-2

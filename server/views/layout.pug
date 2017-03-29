@@ -24,7 +24,7 @@ html
               if currentUser && currentUser.staff
                 li.nav-item(class=(section === 'dashboard' ? 'active' : ''))
                   a.nav-link(href='/')
-                    i.ti-user
+                    i.ti-dashboard
                     | Dashboard
 
               li.nav-item(class=(section === 'events' ? 'active' : ''))
@@ -94,7 +94,7 @@ html
                     a.btn.btn-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)
                       i.ti-email.mr-3
                       | Contact Us
-                  .col-3.text-right
+                  .col-3.text-right.mt-2
                     small
                       | &copy; 2017
                       = ' '

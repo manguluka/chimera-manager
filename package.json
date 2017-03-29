@@ -1,7 +1,7 @@
 {
-  "name": "base-project",
+  "name": "chimera-manager",
   "version": "1.0.0",
-  "description": "> Events calendar for Cobot events",
+  "description": "Makerspace management software",
   "main": "webpack.config.js",
   "scripts": {
     "build-assets": "webpack --colors",
@@ -62,7 +62,7 @@
     "redux-logger": "2.8.1",
     "redux-thunk": "2.2.0",
     "sass-loader": "5.0.1",
-    "simple-sql-model": "0.2.0",
+    "simple-sql-model": "0.5.0",
     "sql": "0.74.0",
     "stripe": "4.15.1",
     "style-loader": "0.13.1",
