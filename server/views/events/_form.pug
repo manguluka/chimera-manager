@@ -64,10 +64,16 @@
       .row
         .col
           input#event-price.form-control(name='price' type='number' step='0.01' placeholder='Price' value=event.price / 100)
+          p
+            small.text-muted Price
         .col
           input#event-price.form-control(name='memberPrice' type='number' placeholder='Member Price' value=event.memberPrice / 100)
+          p
+            small.text-muted Member Price
         .col
           input#event-material-fee.form-control(name='materialFee' type='number' placeholder='Materials' value=event.materialFee / 100)
+          p
+            small.text-muted Material Fee
 
 
 //--------------------------------------------------
