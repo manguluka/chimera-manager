@@ -2,6 +2,15 @@
 
 > Chimera Arts & Makerspace management software
 
+## Technical Overview
+
+- Backend written in JavaScript using Node.js 7.1+
+- Frontend built with pug templates and some WebPack/React
+- Styles in Sass using Bootstrap
+- Database is PostgreSQL
+- Test suite using Mocha, Chai
+
+
 ## Todo
 
 ### Events
