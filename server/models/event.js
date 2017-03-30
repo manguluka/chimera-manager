@@ -1,3 +1,4 @@
+const Activity = require('./activity')
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 const dollarsToCents = require('../../lib/dollars-to-cents')
 const marked = require('marked')
@@ -87,13 +88,43 @@ class Event extends Model {
     )
   }
 
+  get url() { return `/events/${this.id}` }
+
 
   //------------------------------------------------
   // Class methods
   //------------------------------------------------
 
+  static async cancel(id) {
+    const event = await this.findOne(id)
+    await event.update({ cancelledAt: new Date() })
+    return event
+  }
+
   static get categories() {
     return [ 'event', 'class', 'meetup', 'training' ]
+  }
+
+  static get url() { return '/events'}
+
+  static async afterCreate(model, fields) {
+    await Activity.record({
+      action: 'created',
+      model,
+      extraInfo: {
+        fields,
+      },
+    })
+  }
+
+  static async afterUpdate(model, fields) {
+    await Activity.record({
+      action: 'updated',
+      model,
+      extraInfo: {
+        fields,
+      },
+    })
   }
 
   static toModelFromForm(fields) {

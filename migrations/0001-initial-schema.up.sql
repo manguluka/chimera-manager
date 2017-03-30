@@ -68,9 +68,18 @@ create table attendees (
 );
 
 create table activities (
-  -- primary key(user_id, event_id),
-  user_id integer references users,
-  -- event_id integer references events,
+  id SERIAL primary key,
+
+  -- Change info
+  action varchar(150),
+
+  -- Relations
+  user_id integer,
+  model_id integer,
+  model_name varchar(30),
+
+  -- Extra info
+  extra_info json,
 
   -- Timestamps
   created_at timestamp with time zone not null default current_timestamp,
@@ -88,8 +97,18 @@ begin
 end;
 $$ language 'plpgsql';
 
-create trigger update_events_modtime before update on events for each row execute procedure  update_updated_at_column();
-create trigger update_users_modtime before update on users for each row execute procedure  update_updated_at_column();
-create trigger update_instructors_modtime before update on instructors for each row execute procedure  update_updated_at_column();
-create trigger update_attendees_modtime before update on attendees for each row execute procedure  update_updated_at_column();
-create trigger update_activities_modtime before update on activities for each row execute procedure  update_updated_at_column();
+create trigger update_events_modtime before
+  update on events for each row
+  execute procedure  update_updated_at_column();
+create trigger update_users_modtime before
+  update on users for each row
+  execute procedure  update_updated_at_column();
+create trigger update_instructors_modtime before
+  update on instructors for each row
+  execute procedure  update_updated_at_column();
+create trigger update_attendees_modtime before
+  update on attendees for each row
+  execute procedure  update_updated_at_column();
+create trigger update_activities_modtime before
+  update on activities for each row
+  execute procedure  update_updated_at_column();

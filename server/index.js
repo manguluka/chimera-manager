@@ -48,6 +48,8 @@ app.use(templateLocalsMiddleware())
 // Routes
 // TODO: add basic auth
 app.use('/events', require('./routes/events'))
+app.use('/activities', require('./routes/activities'))
+app.use('/users', require('./routes/users'))
 app.use('/auth', require('./routes/auth'))
 app.get('/', require('./routes/dashboard'))
 

@@ -1,5 +1,7 @@
 const _ = require('lodash')
 const config = require('config')
+const moment = require('moment')
+const pluralize = require('pluralize')
 
 module.exports = function templateLocalsMiddleware() {
   return (req, res, next) => {
@@ -12,8 +14,14 @@ module.exports = function templateLocalsMiddleware() {
     res.locals.currentUser = req.currentUser
     res.locals.currentUrl = req.originalUrl
     res.locals._ = _
+    res.locals.moment = moment
+    res.locals.pluralize = pluralize
 
-    console.log('[templateLocalsMiddleware] Locals:', res.locals)
+    console.log('[templateLocalsMiddleware] Locals:', {
+      config: res.locals.config,
+      currentUser: res.locals.currentUser,
+      currentUrl: res.locals.currentUrl,
+    })
 
     next()
   }

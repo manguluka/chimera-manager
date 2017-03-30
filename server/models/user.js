@@ -13,6 +13,14 @@ class User extends Model {
   get firstName() { return human.parseName(this.name).firstName }
   get lastName() { return human.parseName(this.name).lastName }
   get gravatarHash() { return md5(this.email) }
+  get url() { return `/users/${this.id}` }
+
+
+  //------------------------------------------------
+  // Class methods
+  //------------------------------------------------
+
+  static get url() { return '/users' }
 }
 
 User.configure({

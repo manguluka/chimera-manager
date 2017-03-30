@@ -19,13 +19,16 @@ block content
         .header
           if currentUser && currentUser.staff
             .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/edit`)
+              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
                 i.ti-pencil.mr-3
                 | Edit
-              a.btn.btn-outline-danger.btn-sm.ml-4(href=`/events/${event.id}/cancel`)
-                i.ti-close.mr-2
-                | Cancel
+              if !event.cancelled
+                a.btn.btn-outline-danger.btn-sm.ml-4(href=`${event.url}/cancel`)
+                  i.ti-close.mr-2
+                  | Cancel
           div
+            if event.cancelled
+              span.badge.badge-danger.mr-3 CANCELLED
             if event.draft
               span.badge.badge-warning.mr-3 DRAFT
             span.text-muted
@@ -57,7 +60,7 @@ block content
         .header
           if currentUser && currentUser.staff
             .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/instructors/new`)
+              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
                 i.ti-plus.mr-2
                 | Add Instructor
           h4.title.text-info
@@ -75,7 +78,7 @@ block content
                     .col-8.pl-5
                       if currentUser && currentUser.staff
                         strong
-                          a(href=`/users/${user.id}`)= user.name
+                          a(href=user.url)= user.name
                         br
                         small.text-muted
                           a(href=`mailto:${user.email}`)= user.email
@@ -122,7 +125,7 @@ block content
           p
             em Material fee $#{event.materialFeeDollars}*
         p
-          a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`/events/${event.id}/attend`)
+          a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`${event.url}/attend`)
             i.ti-plus.mr-2
             span.text-capitalize Attend #{event.category}
         if event.materialFee
@@ -146,7 +149,7 @@ block content
         .card
           .header
             .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`/events/${event.id}/attendees/new`)
+              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/attendees/new`)
                 i.ti-plus.mr-2
                 | Add Attendee
             h4.title.text-success
@@ -169,7 +172,7 @@ block content
                       i.fa.fa-money.mr-2
                       | Cash
                   .col-3.text-right
-                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/attendees/1/refund`)
+                    a.btn.btn-outline-danger.btn-sm(href=`${event.url}/attendees/1/refund`)
                       i.ti-close.mr-2
                       | Refund
               li
@@ -187,7 +190,7 @@ block content
                       i.fa.fa-credit-card.mr-2
                       | Card
                   .col-3.text-right
-                    a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/refund/1`)
+                    a.btn.btn-outline-danger.btn-sm(href=`${event.url}/refund/1`)
                       i.ti-close.mr-2
                       | Refund
 
@@ -204,55 +207,25 @@ block content
               | Recent Changes
           .content
             ul.list-unstyled
-              li
-                .row
-                  .col-1.text-danger
-                    i.ti-face-sad
-                  .col-4
-                    a(href='/users/1') Dana Woodman
-                  .col-3.text-muted Cancelled
-                  .col-4.text-right
-                    a(href='/activities/24' title='View this activity')
-                      small 3/9/17 @ 2:25pm
-              li
-                .row
-                  .col-1.text-danger
-                    i.ti-user
-                  .col-4
-                    a(href='/users/2') James Smith
-                  .col-3.text-muted Removed
-                  .col-4.text-right
-                    a(href='/activities/23' title='View this activity')
-                      small 3/8/17 @ 7:45pm
-              li
-                .row
-                  .col-1.text-success
-                    i.ti-user
-                  .col-4
-                    a(href='/users/2') James Smith
-                  .col-3.text-muted Added
-                  .col-4.text-right
-                    a(href='/activities/18' title='View this activity')
-                      small 3/8/17 @ 11:18am
-              li
-                .row
-                  .col-1.text-info
-                    i.ti-pencil
-                  .col-4
-                    a(href='/users/2') Deborah Chuck
-                  .col-3.text-muted Edited
-                  .col-4.text-right
-                    a(href='/activities/16' title='View this activity')
-                      small 3/7/17 @ 7:10pm
-              li
-                .row
-                  .col-1.text-success
-                    i.ti-face-smile
-                  .col-4
-                    a(href='/users/1') Dana Woodman
-                  .col-3.text-muted Created
-                  .col-4.text-right
-                    a(href='/activities/10' title='View this activity')
-                      small 3/5/17 @ 9:45am
-
-
+              for activity in activities
+                li
+                  .row
+                    .col-8
+                      if activity.action === 'created'
+                        i.ti-face-smile.text-success
+                      if activity.action === 'updated'
+                        i.ti-pencil.text-info
+                      if activity.action === 'cancelled'
+                        i.ti-face-sad.text-danger
+                      if activity.action === 'added instructor'
+                        i.ti-user.text-info
+                      if activity.action === 'removed instructor'
+                        i.ti-user.text-danger
+                      a.ml-3(href=activity.user.url)
+                        = activity.user.firstName
+                      = ' '
+                      = activity.action
+                    .col-4.text-right
+                      a(href=activity.url title='View this activity')
+                        small(title=activity.createdAt)
+                          = moment(activity.createdAt).fromNow()

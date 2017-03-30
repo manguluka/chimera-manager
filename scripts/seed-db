@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const Activity = require('../server/models/activity')
 const chalk = require('chalk')
 const config = require('config')
 const Event = require('../server/models/event')
@@ -86,11 +87,12 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   const dana = await User.create({
     name: 'Dana Woodman',
     email: 'dana@chimeraarts.org',
+    staff: true,
   })
 
-  const sugar = await User.create({
-    name: 'Deborah "Sugar" Chuck',
-    email: 'sugar@chimeraarts.org',
+  const kimberly = await User.create({
+    name: 'Kimberly Mullen',
+    email: 'kimberly@chimeraarts.org',
   })
 
   const jim = await User.create({
@@ -118,7 +120,7 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
 
   await Instructor.create({
     eventId: jewelry.id,
-    userId: sugar.id,
+    userId: kimberly.id,
   })
 
   await Instructor.create({
@@ -127,6 +129,12 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   })
 
 
+
+  await Activity.record({
+    action: 'updated',
+    model: welding,
+    user: dana,
+  })
 
 
   console.log(chalk.green('Successfully seeded database!'))
