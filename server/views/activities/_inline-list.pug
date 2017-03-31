@@ -1,0 +1,32 @@
+if activities.length
+  ul.list-unstyled
+    for activity in activities
+      li
+        .row
+          .col-8
+            if activity.action === 'created'
+              i.ti-face-smile.text-success
+            if activity.action === 'updated'
+              i.ti-pencil.text-info
+            if activity.action === 'cancelled'
+              i.ti-face-sad.text-danger
+            if activity.action === 'added instructor'
+              i.ti-user.text-info
+            if activity.action === 'removed instructor'
+              i.ti-user.text-danger
+            if activity.user
+              a.ml-3(href=activity.user.url)
+                = activity.user.firstName
+            else if user
+              a.ml-3(href=user.url)
+                = user.firstName
+            else
+              span.ml-3 Unknown
+            = ' '
+            = activity.action
+          .col-4.text-right
+            a(href=activity.url title='View this activity')
+              small(title=activity.createdAt)
+                = moment(activity.createdAt).fromNow()
+else
+  p.text-muted No activities for this user...

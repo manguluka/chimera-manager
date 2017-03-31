@@ -8,6 +8,8 @@ router.use((req, res, next) => {
   next()
 })
 
+router.post('/:id/update', requireStaff(), require('./update'))
+router.get('/:id/edit', requireStaff(), require('./edit'))
 router.get('/:id', requireStaff(), require('./detail'))
 router.get('/', requireStaff(), require('./list'))
 

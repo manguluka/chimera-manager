@@ -1,7 +1,7 @@
 const Event = require('../../models/event')
 const wrap = require('../../lib/express-async-wrapper')
 
-module.exports = wrap(async function updateEvent(req, res) {
+module.exports = wrap(async function update(req, res) {
 
   const id = Number(req.params.id)
   const fields = Event.toModelFromForm(req.body)

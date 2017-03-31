@@ -1,0 +1,38 @@
+extends ../layout.pug
+
+block title
+  = 'Edit '
+  = user.name
+
+block content
+  p
+    a(href=user.url) ← Back to user
+
+  .card
+    .header
+      h1.title Edit User
+    .content
+      form(action=`${user.url}/update` method='post')
+
+        .row
+          .col
+            .form-group
+              label(for='user-name') Name
+              input#user-name.form-control(name='name' type='text' placeholder='Name...' required value=user.name autofocus)
+          .col
+            .form-group
+              label(for='user-email') Email
+              input#user-email.form-control(name='email' type='text' placeholder='Email...' required value=user.email)
+
+        .form-group
+          label(for='user-bio') Bio
+          textarea#user-bio.form-control(name='bio' placeholder='Bio...' rows=7 required)=user.bio
+
+        if currentUser.staff
+          .form-group
+            label(for='user-staff')
+              input#user-staff.mr-2(name='staff' type='checkbox' placeholder='Staff...' checked=user.staff)
+              | Staff
+
+        .mt-5
+          button.btn.btn-success.btn-lg(type='submit') Edit User

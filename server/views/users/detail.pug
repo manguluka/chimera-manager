@@ -10,9 +10,42 @@ block content
 
   .card
     .header
-      h1.title= user.name
+      if user.staff || user.id === currentUser.id
+        .float-right
+          a.btn.btn-outline-primary.btn-sm(href=`${user.url}/edit`)
+            i.ti-pencil.mr-2
+            | Edit
+      h1.title
+        = user.name
+        if user.staff
+          .badge.badge-info.ml-3 STAFF
     .content
       p
-        a(href=`mailto:${user.email}`)= user.email
-      if user.staff
-        p Staff
+        strong
+          a(href=`mailto:${user.email}`)= user.email
+      p
+        strong.mr-2 Created:
+        span.text-muted= moment(user.createdAt).fromNow()
+      if user.bio
+        p= user.bio
+
+  .row
+
+    .col
+      .card
+        .header
+          h4.title.text-info
+            i.ti-calendar.mr-3
+            | Events
+        .content
+          p Hello world
+
+    if activities
+      .col
+        .card
+          .header
+            h4.title.text-primary
+              i.ti-menu.mr-3
+              | Activities
+          .content
+            include ../activities/_inline-list.pug

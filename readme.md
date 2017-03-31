@@ -19,7 +19,7 @@
 - [x] I want to sell internal and external events on one platform
 - [x] I want to automatically apply member discounts
 - [ ] I want our public events to sync with Meetup.com
-- [ ] I want a record of who changed what
+- [x] I want a record of who changed what
 - [ ] I want staff to have an interface where they can sort by month/week/day, draft/published, internal/external, category
 - [ ] I want to notify instructors of their students and class status changes automatically
 - [ ] I want members, the public and staff to be able to add to an event
