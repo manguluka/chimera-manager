@@ -1,5 +1,6 @@
 const express = require('express')
 const requireStaff = require('../../middleware/require-staff')
+const currentEvent = require('../../middleware/current-event')
 
 const router = express.Router()
 
@@ -10,18 +11,19 @@ router.use((req, res, next) => {
 
 router.get('/new', requireStaff(), require('./new'))
 router.post('/new', requireStaff(), require('./create'))
-router.get('/:id/edit', requireStaff(), require('./edit'))
-router.post('/:id/update', requireStaff(), require('./update'))
-router.get('/:id/cancel', requireStaff(), require('./cancel-confirmation'))
-router.post('/:id/cancel', requireStaff(), require('./cancel'))
-router.get('/:id/instructors/new', requireStaff(), require('../instructors/new'))
-router.post('/:id/instructors', requireStaff(), require('../instructors/create'))
-router.post('/:id/instructors/:userId/remove', requireStaff(), require('../instructors/remove'))
-//router.get('/:id/attendees/new', require('../attendees/new'))
-//router.post('/:id/attendees', require('../attendees/create'))
-//router.post('/:id/attendees/:userId/refund', require('../attendees/refund'))
-router.get('/:id/attend', require('./attend'))
-router.get('/:id', require('./detail'))
+router.get('/:eventId/edit', requireStaff(), currentEvent(), require('./edit'))
+router.post('/:eventId/update', requireStaff(), currentEvent(), require('./update'))
+router.get('/:eventId/cancel', requireStaff(), currentEvent(), require('./cancel-confirmation'))
+router.post('/:eventId/cancel', requireStaff(), currentEvent(), require('./cancel'))
+router.get('/:eventId/instructors/new', requireStaff(), currentEvent(), require('../instructors/new'))
+router.post('/:eventId/instructors', requireStaff(), currentEvent(), require('../instructors/create'))
+router.post('/:eventId/instructors/:userId/remove', requireStaff(), currentEvent(), require('../instructors/remove'))
+//router.get('/:eventId/attendees/new', currentEvent(), require('../attendees/new'))
+//router.post('/:eventId/attendees', currentEvent(), require('../attendees/create'))
+//router.post('/:eventId/attendees/:userId/refund', currentEvent(), require('../attendees/refund'))
+router.get('/:eventId/attend', currentEvent(), require('./attend'))
+router.post('/:eventId/purchase', currentEvent(), require('./purchase'))
+router.get('/:eventId', currentEvent(), require('./detail'))
 router.get('/', require('./list'))
 
 module.exports = router

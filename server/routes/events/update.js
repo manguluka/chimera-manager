@@ -1,14 +1,14 @@
 const Event = require('../../models/event')
-const wrap = require('../../lib/express-async-wrapper')
+const logger = require('../../lib/logger')
+const wrap = require('express-async-wrapper')
 
-module.exports = wrap(async function update(req, res) {
+module.exports = wrap(async (req, res) => {
 
-  const id = Number(req.params.id)
   const fields = Event.toModelFromForm(req.body)
 
-  console.log('[updateEvent] Updating event:', { id, fields, body: req.body })
+  logger.log('info', '[updateEvent] Updating event:', { event: req.event, fields, body: req.body })
 
-  await Event.update(id, fields)
+  const event = await Event.update(req.event.id, fields)
 
-  res.redirect(`/events/${id}`)
+  res.redirect(req.event.url)
 })

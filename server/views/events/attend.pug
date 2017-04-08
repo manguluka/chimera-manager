@@ -1,5 +1,33 @@
 extends ../layout.pug
 
+block scripts
+  script(src='https://checkout.stripe.com/checkout.js')
+  script.
+    var form = document.getElementById('checkout-form')
+    var tokenField = document.getElementById('stripe-token')
+    var emailField = document.getElementById('email')
+    var handler = StripeCheckout.configure({
+      key: '#{config.STRIPE_PUBLIC_KEY}',
+      //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        console.log('token', token)
+        tokenField.value = token.id
+        emailField.value = token.email
+        form.submit()
+      },
+    })
+    form.addEventListener('submit', function(form) {
+      form.preventDefault()
+      handler.open({
+        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        name: '#{event.title}',
+        description: 'Pay for one attendee',
+        email: '#{currentUser ? currentUser.email : ''}',
+        amount: #{currentUser && event.memberPrice ? event.memberPrice : event.price},
+      })
+    })
+
 block title
   | Attend #{event.title}
 
@@ -11,7 +39,7 @@ block content
       | Back to event
 
   .row
-    .col-sm-6.offset-sm-3
+    .col-md-6.offset-md-3
       .card
         .header.text-center
           h1.title Attend #{event.title}
@@ -44,10 +72,13 @@ block content
               br
               | Remeber to bring cash or a check for <em>$#{event.materialFeeDollars}</em> on the day of the event.
           p.mt-5
-            form(action=`/events/${event.id}/attend` method='post')
+            form#checkout-form(action=`${event.url}/purchase` method='post')
+              // TODO: signup on meetup if a meetup
+              input#stripe-token(name='token' type='hidden')
+              input#email(name='email' type='hidden')
               button.btn.btn-success.btn-lg.btn-block(type='submit')
                 if !event.price
                   | Attend for Free!
                 else
-                  | Pay $#{event.memberPrice ? event.memberPriceDollars : event.priceDollars} Now
+                  | Pay $#{currentUser && event.memberPrice ? event.memberPriceDollars : event.priceDollars} Now
                 i.ti-arrow-right.ml-2

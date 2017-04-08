@@ -72,6 +72,6 @@ Activity.configure({
   ],
 })
 
-Activity.debug = true
+//Activity.debug = true
 
 module.exports = Activity

@@ -1,12 +1,9 @@
-const Activity = require('./activity')
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 const dollarsToCents = require('../../lib/dollars-to-cents')
 const marked = require('marked')
 const moment = require('moment')
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
-const Instructor = require('./instructor')
-const User = require('./user')
 
 function dayString(date) {
   return moment(date).format('YYYY-MM-DD')
@@ -18,9 +15,6 @@ function timeString(date) {
 
 class Event extends Model {
 
-  //constructor() {
-    //super(arguments)
-  //}
 
   //------------------------------------------------
   // Instance methods
@@ -32,6 +26,7 @@ class Event extends Model {
   get startTime() {   return timeString(this.startsAt) }
   get endDay() {      return dayString(this.endsAt) }
   get endTime() {     return timeString(this.endsAt) }
+  get free() {        return Boolean(!this.price && !this.memberPrice) }
   get visibility() {  return this.internal ? 'internal (members only)' : 'public' }
   get descriptionHtml() { return marked(this.description) }
 
@@ -54,7 +49,7 @@ class Event extends Model {
   get dateRange() {
     let range = ''
     range += moment(this.startsAt).format('M/D/YY')
-    range += ' from '
+    range += ' '
     range += moment(this.startsAt).format('h:mma')
     range += '-'
     range +=  moment(this.endsAt).format('h:mma')
@@ -78,14 +73,29 @@ class Event extends Model {
    * for this Event.
    */
   async instructors() {
-    const instructors = await Instructor.findMany({
+    const instructors = await require('./instructor').findMany({
       where: { eventId: { equals: this.id } },
     })
     return await Promise.all(
       instructors.map((relation) => {
-        return User.findOne(relation.userId)
+        return require('./user').findOne(relation.userId)
       })
     )
+  }
+
+  async attendees() {
+    return await require('./attendee').findMany({
+      where: { eventId: { equals: this.id } },
+    })
+  }
+
+  async activities() {
+    return await require('./activity').forModel(this)
+  }
+
+  async cancel() {
+    this.cancelledAt = new Date()
+    return await this.save()
   }
 
   get url() { return `/events/${this.id}` }
@@ -101,14 +111,10 @@ class Event extends Model {
     return event
   }
 
-  static get categories() {
-    return [ 'event', 'class', 'meetup', 'training' ]
-  }
-
   static get url() { return '/events'}
 
   static async afterCreate(model, fields) {
-    await Activity.record({
+    await require('./activity').record({
       action: 'created',
       model,
       extraInfo: {
@@ -116,9 +122,7 @@ class Event extends Model {
       },
     })
   }
-
-  static async afterUpdate(model, fields) {
-    await Activity.record({
+static async afterUpdate(model, fields) { await require('./activity').record({
       action: 'updated',
       model,
       extraInfo: {
@@ -171,6 +175,22 @@ class Event extends Model {
   }
 
 }
+
+// Categories
+Event.EVENT = 'event'
+Event.CLASS = 'class'
+Event.MEETUP = 'meetup'
+Event.TRAINING = 'training'
+Event.SIGNOFF = 'signoff'
+Event.STAFF = 'staff'
+Event.categories = [
+  Event.EVENT,
+  Event.CLASS,
+  Event.MEETUP,
+  Event.TRAINING,
+  Event.SIGNOFF,
+  Event.STAFF,
+]
 
 Event.configure({
   connection,

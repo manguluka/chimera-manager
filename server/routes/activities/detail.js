@@ -1,5 +1,5 @@
 const models = require('../../models')
-const wrap = require('../../lib/express-async-wrapper')
+const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async function detail(req, res) {
   const activity = await models.Activity.findOne(req.params.id)

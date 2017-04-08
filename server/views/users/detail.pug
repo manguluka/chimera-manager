@@ -10,7 +10,7 @@ block content
 
   .card
     .header
-      if user.staff || user.id === currentUser.id
+      if currentUser.staff || user.id === currentUser.id
         .float-right
           a.btn.btn-outline-primary.btn-sm(href=`${user.url}/edit`)
             i.ti-pencil.mr-2

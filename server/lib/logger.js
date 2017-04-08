@@ -15,7 +15,7 @@ const transports = [
 if (ENV === 'production') {
   transports.push(
     new LogDnaTransport({
-      key: config.get('logDnaKey'),
+      key: config.get('logging.logDnaKey'),
       hostname: config.get('host'),
       app: config.get('appName'),
       index_meta: true,

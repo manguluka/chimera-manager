@@ -1,0 +1,27 @@
+extends ../layout.pug
+
+block title
+  | Transactions
+
+block content
+  .card
+    .content
+      if transactions && transactions.length
+        table.table.table-sm
+          thead
+            tr
+              th ID
+              th Stripe ID
+              th Created At
+          tbody
+              for transaction in transactions
+                tr
+                  td
+                    a(href=transaction.url)
+                      = transaction.id
+                  td
+                    a(href=transaction.stripeUrl target='_blank')
+                      = transaction.stripeTransactionId
+                  td= moment(transaction.createdAt).fromNow()
+      else
+        p.text-muted No transactions yet

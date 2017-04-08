@@ -13,6 +13,13 @@
 
 ## Todo
 
+### Major Functionality
+
+- [ ] Signup/pay flow
+- [ ] Email functionality
+- [ ] Meetup sync
+- [ ] Real auth
+
 ### Events
 
 - [x] I want to post our events in one place
@@ -22,7 +29,8 @@
 - [x] I want a record of who changed what
 - [ ] I want staff to have an interface where they can sort by month/week/day, draft/published, internal/external, category
 - [ ] I want to notify instructors of their students and class status changes automatically
-- [ ] I want members, the public and staff to be able to add to an event
+- [ ] I want non-staff to submit proposal for events (must be users first)
+- [ ] I want staff to be able to add to an event
     - [ ] I want attendees to get an email confirmation with class info, reminders, a link to cancel and a receipt
     - [ ] I want to enforce attendee limits by not allowing more signups or automatically cancelling event by cancellation period if minimum wasn't hit
     - [ ] I want to automatically notify attendees and instructors of cancellation, refund students and cancel on Meetup.com

@@ -9,6 +9,7 @@ const logger = require('./lib/logger')
 const notFound = require('./middleware/not-found')
 const path = require('path')
 const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
 const templateLocalsMiddleware = require('./middleware/template-locals')
 
 const APP_NAME = config.get('appName')
@@ -28,10 +29,16 @@ app.use(session({
   secret: SESSION_SECRET,
   cookie: {
     //httpOnly: true,
-    //secure: true,
+    //secure: ENV === 'production',
     maxAge: (365 * 24 * 60 * 60 * 1000),
   },
-  //store,
+  store: new RedisStore({
+    //client: '',
+    //host: '',
+    //port: '',
+    //socket: '',
+    //url: '',
+  }),
   saveUninitialized: false,
   resave: false,
 }))
@@ -50,6 +57,7 @@ app.use(templateLocalsMiddleware())
 app.use('/events', require('./routes/events'))
 app.use('/activities', require('./routes/activities'))
 app.use('/users', require('./routes/users'))
+app.use('/transactions', require('./routes/transactions'))
 app.use('/auth', require('./routes/auth'))
 app.get('/', require('./routes/dashboard'))
 

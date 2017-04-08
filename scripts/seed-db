@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 const Activity = require('../server/models/activity')
+const Attendee = require('../server/models/attendee')
 const chalk = require('chalk')
 const config = require('config')
 const Event = require('../server/models/event')
 const Instructor = require('../server/models/instructor')
+const Transaction = require('../server/models/transaction')
 const User = require('../server/models/user')
 
 console.log(chalk.green('Seeding database...'))
@@ -129,6 +131,38 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     userId: jim.id,
   })
 
+
+  const t1 = await Transaction.create({
+    stripeTransactionId: 'asdf',
+    type: Transaction.CARD,
+    lastFour: 1234,
+    memo: 'here is a note',
+  })
+  await Attendee.create({
+    eventId: welding.id,
+    transactionId: t1.id,
+    userId: dana.id,
+  })
+
+  const t2 = await Transaction.create({
+    type: Transaction.CASH,
+    memo: 'Paid day of event',
+  })
+  await Attendee.create({
+    eventId: welding.id,
+    transactionId: t2.id,
+    userId: jim.id,
+  })
+
+  const t3 = await Transaction.create({
+    type: Transaction.CHECK,
+    checkNumber: '2012341',
+  })
+  await Attendee.create({
+    eventId: welding.id,
+    transactionId: t3.id,
+    userId: kimberly.id,
+  })
 
 
   await Activity.record({

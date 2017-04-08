@@ -1,5 +1,5 @@
 const Event = require('../../models/event')
-const wrap = require('../../lib/express-async-wrapper')
+const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async function home(req, res, next) {
 

@@ -1,5 +1,5 @@
 const User = require('../../models/user')
-const wrap = require('../../lib/express-async-wrapper')
+const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async function edit(req, res) {
   const user = await User.findOne(req.params.id)

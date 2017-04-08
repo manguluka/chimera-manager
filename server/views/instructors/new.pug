@@ -13,10 +13,11 @@ block content
   .row
     .col-sm-8.offset-sm-2
       .card
+        - instructorLabel = event.category === 'meetup' ? 'Host' : 'Instructor'
         .header
-          h1.title Add Instructor
+          h1.title Add #{instructorLabel}
         .content
-          p This person will be notified that they are the instructor of this event and will get reminders about the event and have access to the attendee list.
+          p This person will be notified that they are the #{instructorLabel.toLowerCase()} of this event and will get reminders about the event and have access to the attendee list.
           form(action=`/events/${event.id}/instructors` method='post')
             .form-group
               select.form-control.mt-3(name='instructor')
@@ -26,4 +27,4 @@ block content
             p.mt-5
               button.btn.btn-success.btn.lg.btn-block(type='submit')
                 i.ti-plus.mr-3
-                | Add Instructor
+                | Add #{instructorLabel}

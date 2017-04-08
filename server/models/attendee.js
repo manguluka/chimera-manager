@@ -20,9 +20,28 @@ class Attendee extends Model {
 Attendee.configure({
   connection,
   table: 'attendees',
+  references: {
+    event: {
+      model: require('./event'),
+      key: 'eventId',
+    },
+    transaction: {
+      model: require('./transaction'),
+      key: 'transactionId',
+    },
+    user: {
+      model: require('./user'),
+      key: 'userId',
+    },
+  },
   columns: [
+    'id',
+
+    // References
     'eventId',
+    'transactionId',
     'userId',
+
     'createdAt',
     'updatedAt',
   ],

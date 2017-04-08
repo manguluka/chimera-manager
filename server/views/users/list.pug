@@ -16,6 +16,7 @@ block content
           for user in users
             tr
               td
+                img.rounded-circle.mr-3(src=user.avatarUrl(20) width=20 height=20)
                 a(href=user.url)= user.name
               td
                 a(href=`mailto:${user.email}`)= user.email

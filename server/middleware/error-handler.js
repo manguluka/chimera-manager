@@ -1,8 +1,10 @@
+const logger = require('../lib/logger')
+
 module.exports = function errorHandlerMiddleware() {
   return (error, req, res, next) => {
     res.status(500)
 
-    console.log('[errorHanlder] Error:', error)
+    logger.log('error', '[errorHanlder] Error:', error)
 
     // respond with html page
     if (req.accepts('html')) {

@@ -15,6 +15,10 @@ class User extends Model {
   get gravatarHash() { return md5(this.email) }
   get url() { return `/users/${this.id}` }
 
+  avatarUrl(size = 20) {
+    return `https://www.gravatar.com/avatar/${this.gravatarHash}?s=${size}`
+  }
+
 
   //------------------------------------------------
   // Class methods

@@ -8,6 +8,10 @@ module.exports = {
     port: 5432,
     user: 'dana',
   },
+  payments: {
+    stripePublicKey: 'pk_rci4rrUMIrHkdAOY0roPYIRsRbAVj',
+    stripePrivateKey: 'XXrG3naVp36XyGzdYycZasxc2S1Rk9go',
+  },
   env: 'development',
   host: 'localhost',
   logDnaKey: 'no-key',

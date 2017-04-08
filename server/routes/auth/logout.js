@@ -1,3 +1,5 @@
+const logger = require('../../lib/logger')
+
 module.exports = function logout(req, res) {
   req.currentUser = null
   req.session.currentUserId = null
@@ -8,7 +10,7 @@ module.exports = function logout(req, res) {
     redirect = req.query.redirect
   }
 
-  console.log('[logout] Logging out and redirecting to:', redirect)
+  logger.log('info', '[logout] Logging out and redirecting to:', redirect)
 
   res.redirect(redirect)
 }

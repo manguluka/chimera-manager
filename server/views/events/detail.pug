@@ -62,10 +62,16 @@ block content
             .float-right
               a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
                 i.ti-plus.mr-2
-                | Add Instructor
+                if event.category === 'meetup'
+                  | Add Host
+                else
+                  | Add Instructor
           h4.title.text-info
             i.ti-book.mr-3
-            | Instructors
+            if event.category === 'meetup'
+              | Hosts
+            else
+              | Instructors
         .content
           if instructors && instructors.length
             ul.list-unstyled
@@ -73,8 +79,7 @@ block content
                 li.mb-3
                   .row
                     .col-1
-                      .avatar
-                        img(src=`https://www.gravatar.com/avatar/${user.gravatarHash}?s=50` width=50 height=50)
+                      img.rounded-circle(src=user.avatarUrl(50) width=50 height=50)
                     .col-8.pl-5
                       if currentUser && currentUser.staff
                         strong
@@ -138,72 +143,75 @@ block content
   // Admin panels
   //--------------------------------------------------
   if currentUser && currentUser.staff
-    .row
 
 
 
-      //--------------------------------------------------
-      // Attendees
-      //--------------------------------------------------
-      .col-xl-6
-        .card
-          .header
-            .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/attendees/new`)
-                i.ti-plus.mr-2
-                | Add Attendee
-            h4.title.text-success
-              i.ti-user.mr-3
-              | Attendees
-          .content
-            ul.list-unstyled
-              li
-                .row
-                  .col-2
-                    .avatar
-                      img(src='https://yt3.ggpht.com/-68PSo29g5Yo/AAAAAAAAAAI/AAAAAAAAAAA/kvVUTsLJs7E/s100-c-k-no-mo-rj-c0xffffff/photo.jpg' width=50 height=50)
-                  .col-4
-                    strong
-                      a(href='/members/1') John Smith
+    //--------------------------------------------------
+    // Attendees
+    //--------------------------------------------------
+    .card
+      .header
+        .float-right
+          a.btn.btn-outline-primary.btn-sm(href=`${event.url}/attendees/new`)
+            i.ti-plus.mr-2
+            | Add Attendee
+        h4.title.text-success
+          i.ti-user.mr-3
+          | Attendees
+      .content
+        ul.list-unstyled
+          for attendee in attendees
+            - transaction = attendee.transaction
+            li.mb-3
+              .row
+                .col-1
+                  .avatar
+                    img(src=attendee.user.avatarUrl(50) width=50 height=50)
+                .col-3
+                  strong
+                    a(href=attendee.user.url)= attendee.user.name
+                  br
+                  small.text-muted Dabbler
+                .col-5
+                  a(href=transaction.url)
+                    small.text-success.text-uppercase(title='Paid via cash')
+                      - type = transaction.type
+                      if type === 'card'
+                        i.fa.fa-credit-card.mr-2
+                        = type
+                        span.text-muted.ml-2 **** **** **** #{transaction.lastFour}
+                      if type === 'check'
+                        i.fa.fa-list-alt.mr-2
+                        = type
+                        span.text-muted.ml-2 ##{transaction.checkNumber}
+                      if type === 'cash'
+                        i.fa.fa-money.mr-2
+                        = type
+                      if type === 'other'
+                        i.fa.fa-question-circl-o.mr-2
+                        = type
+                  if transaction.memo
                     br
-                    small.text-muted Dabbler
-                  .col-3
-                    small.text-success(title='Paid via cash')
-                      i.fa.fa-money.mr-2
-                      | Cash
-                  .col-3.text-right
-                    a.btn.btn-outline-danger.btn-sm(href=`${event.url}/attendees/1/refund`)
+                    small.text-muted= transaction.memo
+
+                .col-3.text-right
+                  .btn-group
+                    a.btn.btn-outline-primary.btn-sm(href=attendee.url)
+                      i.ti-eye.mr-2
+                      | View
+                    a.btn.btn-outline-danger.btn-sm(href=`${attendee.url}/refund`)
                       i.ti-close.mr-2
                       | Refund
-              li
-                .row
-                  .col-2
-                    .avatar
-                      img(src='https://yt3.ggpht.com/-68PSo29g5Yo/AAAAAAAAAAI/AAAAAAAAAAA/kvVUTsLJs7E/s100-c-k-no-mo-rj-c0xffffff/photo.jpg' width=50 height=50)
-                  .col-4
-                    strong
-                      a(href='/members/1') James Dellemonico
-                    br
-                    small.text-muted Professional
-                  .col-3
-                    small.text-success(title='Paid via credit card')
-                      i.fa.fa-credit-card.mr-2
-                      | Card
-                  .col-3.text-right
-                    a.btn.btn-outline-danger.btn-sm(href=`${event.url}/refund/1`)
-                      i.ti-close.mr-2
-                      | Refund
 
 
 
-      //--------------------------------------------------
-      // Recent changes
-      //--------------------------------------------------
-      .col-xl-6
-        .card
-          .header
-            h4.title.text-info
-              i.ti-time.mr-3
-              | Recent Changes
-          .content
-            include ../activities/_inline-list.pug
+    //--------------------------------------------------
+    // Recent changes
+    //--------------------------------------------------
+    .card
+      .header
+        h4.title.text-info
+          i.ti-time.mr-3
+          | Recent Changes
+      .content
+        include ../activities/_inline-list.pug
