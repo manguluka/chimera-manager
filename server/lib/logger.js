@@ -4,9 +4,11 @@ const logdna = require('logdna')
 const LogDnaTransport = logdna.WinstonTransport
 
 const ENV = config.get('env')
+const LOG_LEVEL = config.get('logging.level')
 
 const transports = [
   new winston.transports.Console({
+    level: LOG_LEVEL,
     colorize: ENV === 'development',
     prettyPrint: ENV === 'development',
   }),

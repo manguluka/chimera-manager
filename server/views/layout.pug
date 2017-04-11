@@ -41,6 +41,10 @@ html
                   a.nav-link.disabled(href='#')
                     i.ti-key
                     | Checkins
+                li.nav-item(class=(section === 'charges' ? 'active' : ''))
+                  a.nav-link(href='/charges')
+                    i.ti-money
+                    | Charges
                 li.nav-item(class=(section === 'reports' ? 'active' : ''))
                   a.nav-link.disabled(href='#')
                     i.ti-bar-chart
@@ -66,10 +70,17 @@ html
           .container-fluid
             .navbar.navbar-default
               .navbar-head
-                if currentUser && section === 'events'
-                  a.float-right.btn.btn-success.btn-lg(href='/events/new')
-                    i.ti-plus.mr-2
-                    | Create Event
+                if currentUser && currentUser.staff
+                  if section === 'events'
+                    .float-right
+                      a.btn.btn-success.btn-lg(href='/events/new')
+                        i.ti-plus.mr-2
+                        | Create Event
+                  if section === 'charges'
+                    .float-right
+                      a.btn.btn-success.btn-lg(href='/charges/new')
+                        i.ti-plus.mr-2
+                        | Add Charge
                 h1.navbar-brand.text-capitalize= section
           .content.mb-5
             .container-fluid
@@ -91,15 +102,13 @@ html
 
               block content
 
-            footer.footer.bg-faded.fixed-bottom.pt-3.pb-3
-              .container-fluid
-                .row
-                  .col-9
+              footer.footer.pt-3.pb-3.mt-5
+                .container-fluid
+                  .text-center
                     a.btn.btn-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)
                       i.ti-email.mr-3
                       | Contact Us
-                  .col-3.text-right.mt-2
-                    small
+                    small.ml-4
                       | &copy; 2017
                       = ' '
                       = config.APP_NAME

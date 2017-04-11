@@ -14,7 +14,10 @@ module.exports = {
   },
   env: 'development',
   host: 'localhost',
-  logDnaKey: 'no-key',
+  logging: {
+    level: 'debug',
+    logDnaKey: 'no-key',
+  },
   port: 3333,
   emails: {
     defaultFromAddress: 'info@chimeraarts.org',

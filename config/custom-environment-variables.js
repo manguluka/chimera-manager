@@ -15,6 +15,7 @@ module.exports = {
   env: 'NODE_ENV',
   host: 'HOST',
   logging: {
+    level: 'LOG_LEVEL',
     logDnaKey: 'LOG_DNA_KEY',
   },
   port: 'PORT',

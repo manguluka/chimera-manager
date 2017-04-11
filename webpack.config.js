@@ -26,6 +26,8 @@ const webpackConfig = {
   output: {
     path: path.join(__dirname, 'public'),
     filename: '[name].js',
+    library: 'Application',
+    libraryTarget: 'var',
   },
   plugins: [
     new ExtractTextPlugin('[name].css'),

@@ -10,6 +10,7 @@ router.use((req, res, next) => {
 
 router.use(requireStaff())
 router.get('/new', require('./new'))
+router.get('/:id', require('./detail'))
 router.post('/', require('./create'))
 router.get('/', require('./list'))
 

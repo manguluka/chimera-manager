@@ -3,13 +3,23 @@ extends ../layout.pug
 block title
   | Add Charge
 
+block scripts
+  script.
+    Application.selectSearch(
+      '#user-select',
+      function onChange(e) {
+        var user = e.target.value
+        var url = '/charges/new?user=' + user + '&type=#{type}&amount=#{amount}'
+        window.open(url, '_self')
+      }
+    )
+
 block content
 
-  //if eventId
-    //p.text-center
-      //a(href=`/events/${eventId}`)
-        //i.ti-arrow-left.mr-2
-        //| Back to event
+  p.text-center
+    a(href='/charges')
+      i.ti-arrow-left.mr-2
+      | Back to charges
 
   .row
     .col-sm-8.offset-sm-2
@@ -19,18 +29,19 @@ block content
         .content
 
 
-
           if !user
-            p.float-right
+            .form-group
+              label(for='user-select') Select User
+              select.form-control#user-select
+                for user in users
+                  option
+                  option(value=user.id)
+                    = user.name
+            .mt-4
+              p Or...
               a.btn.btn-outline-primary.btn-sm(href='/users/new?redirect=${currentUrl}')
                 i.ti-plus.mr-2
                 | Create new user
-            h4.mt-0 Select User
-            ul
-              for user in users
-                li
-                  a(href=`/charges/new?user=${user.id}&type=${type}&amount=${amount}`)
-                    = user.name
           else
             if !type
               p
@@ -122,8 +133,8 @@ block content
                     | Memo
                     small.text-muted.ml-3 optional
                   textarea#memo-field.form-control(name='memo')
-                  p
-                    small.text-muted Notes about the charge
+                  //p
+                    //small.text-muted Notes about the charge
                 p.mt-5
                   button.btn.btn-success.btn-lg(type='submit')
                     i.ti-plus.mr-3

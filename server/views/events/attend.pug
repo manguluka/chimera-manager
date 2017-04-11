@@ -3,29 +3,20 @@ extends ../layout.pug
 block scripts
   script(src='https://checkout.stripe.com/checkout.js')
   script.
+
     var form = document.getElementById('checkout-form')
     var tokenField = document.getElementById('stripe-token')
     var emailField = document.getElementById('email')
-    var handler = StripeCheckout.configure({
+
+    Application.stripeCheckout({
+      amount: #{currentUser && event.memberPrice ? event.memberPrice : event.price},
+      description: 'Pay for one attendee',
+      email: '#{currentUser.email}',
+      emailField: emailField,
+      form: form,
       key: '#{config.STRIPE_PUBLIC_KEY}',
-      //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-      locale: 'auto',
-      token: function(token) {
-        console.log('token', token)
-        tokenField.value = token.id
-        emailField.value = token.email
-        form.submit()
-      },
-    })
-    form.addEventListener('submit', function(form) {
-      form.preventDefault()
-      handler.open({
-        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-        name: '#{event.title}',
-        description: 'Pay for one attendee',
-        email: '#{currentUser ? currentUser.email : ''}',
-        amount: #{currentUser && event.memberPrice ? event.memberPrice : event.price},
-      })
+      name: '#{event.title}',
+      tokenField: tokenField,
     })
 
 block title

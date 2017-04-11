@@ -5,23 +5,27 @@ block title
 
 block content
   .card
-    .content
-      if charges && charges.length
-        table.table.table-sm
-          thead
-            tr
-              th ID
-              th Stripe ID
-              th Created At
-          tbody
-              for charge in charges
-                tr
-                  td
-                    a(href=charge.url)
-                      = charge.id
-                  td
-                    a(href=charge.stripeUrl target='_blank')
-                      = charge.stripeTransactionId
-                  td= moment(charge.createdAt).fromNow()
-      else
-        p.text-muted No charges yet
+    if charges && charges.length
+      table.table.table-sm
+        thead
+          tr
+            th User
+            th Type
+            th Amount
+            th Memo
+            th Created At
+        tbody
+            for charge in charges
+              tr
+                td
+                  a(href=charge.url)
+                    = charge.user.name
+                td.text-success
+                  include ./_type-display.pug
+                td
+                  | $
+                  = charge.amountDollars
+                td= charge.memo
+                td= moment(charge.createdAt).fromNow()
+    else
+      p.text-muted No charges yet

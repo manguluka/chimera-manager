@@ -103,7 +103,7 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     name: 'Dana Woodman',
     email: 'dana@chimeraarts.org',
     staff: true,
-    stripeCustomerId: 'cus_6RfK6rnJC25aID',
+    stripeCustomerId: 'cus_ASCAicaPwBtUnb',
     bio: 'Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
   })
 
@@ -147,10 +147,12 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
 
 
   const t1 = await Charge.create({
+    amount: 4599,
     stripeChargeId: 'asdf',
     type: Charge.CARD,
     lastFour: 1234,
     memo: 'here is a note',
+    userId: dana.id,
   })
   await Attendee.create({
     eventId: welding.id,
@@ -159,8 +161,10 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   })
 
   const t2 = await Charge.create({
+    amount: 400,
     type: Charge.CASH,
     memo: 'Paid day of event',
+    userId: jim.id,
   })
   await Attendee.create({
     eventId: welding.id,
@@ -169,8 +173,10 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   })
 
   const t3 = await Charge.create({
+    amount: 2945,
     type: Charge.CHECK,
     checkNumber: '2012341',
+    userId: kimberly.id,
   })
   await Attendee.create({
     eventId: welding.id,

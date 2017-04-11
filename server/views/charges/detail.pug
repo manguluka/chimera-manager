@@ -1,0 +1,63 @@
+extends ../layout.pug
+
+block title
+  | Charge detail
+
+block content
+
+  p.text-center
+    a(href='/charges') ← Back to charges
+
+  .row
+    .col-6.offset-3
+      .card
+        .header
+          .btn-group.float-right
+            a.btn.btn-outline-primary.btn-sm(href=`${charge.url}/edit`)
+              i.ti-pencil.mr-2
+              | Edit
+            a.btn.btn-outline-danger.btn-sm(href=`${charge.url}/refund`)
+              i.ti-close.mr-2
+              | Refund
+          h1.title
+            | Charge ##{charge.id}
+        .content
+          table.table.table-hover
+            tbody
+              tr
+                th Type
+                td
+                  include ./_type-display.pug
+              tr
+                th Created At
+                td
+                  abbr(title=charge.createdAt.toLocaleString())
+                    = moment(charge.createdAt).fromNow()
+              tr
+                th User
+                td
+                  a(href=charge.user.url)
+                    = charge.user.name
+              tr
+                th Amount
+                td
+                  | $
+                  = charge.amountDollars
+              tr
+                th Memo
+                td= charge.memo
+              if charge.type === 'card'
+                tr
+                  th Last Four
+                  td
+                    | *** *** ***
+                    = charge.lastFour
+                tr
+                  th Stripe Charge
+                  td
+                    a(href=charge.stripeUrl target='_blank')
+                      = charge.stripeChargeId
+              if charge.type === 'check'
+                tr
+                  th Check Number
+                  td= charge.checkNumber

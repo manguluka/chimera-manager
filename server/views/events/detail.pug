@@ -177,21 +177,7 @@ block content
                 .col-5
                   a(href=charge.url)
                     small.text-success.text-uppercase(title='Paid via cash')
-                      - type = charge.type
-                      if type === 'card'
-                        i.fa.fa-credit-card.mr-2
-                        = type
-                        span.text-muted.ml-2 **** **** **** #{charge.lastFour}
-                      if type === 'check'
-                        i.fa.fa-list-alt.mr-2
-                        = type
-                        span.text-muted.ml-2 ##{charge.checkNumber}
-                      if type === 'cash'
-                        i.fa.fa-money.mr-2
-                        = type
-                      if type === 'other'
-                        i.fa.fa-question-circl-o.mr-2
-                        = type
+                      include ../charges/_type-display.pug
                   if charge.memo
                     br
                     small.text-muted= charge.memo

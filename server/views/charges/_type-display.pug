@@ -1,0 +1,16 @@
+- type = charge.type
+span.text-capitalize
+  if type === 'card'
+    i.fa.fa-credit-card.mr-2
+    span.text-success= type
+    span.text-muted.ml-2 **** **** **** #{charge.lastFour}
+  if type === 'check'
+    i.fa.fa-list-alt.mr-2
+    span.text-success= type
+    span.text-muted.ml-2 ##{charge.checkNumber}
+  if type === 'cash'
+    i.fa.fa-money.mr-2
+    span.text-success= type
+  if type === 'other'
+    i.fa.fa-question-circl-o.mr-2
+    span.text-success= type

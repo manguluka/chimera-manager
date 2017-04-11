@@ -88,7 +88,7 @@ create table activities (
   action varchar(150),
 
   -- Relations
-  user_id integer,
+  user_id integer references users,
   model_id integer,
   model_name varchar(30),
 
@@ -110,11 +110,15 @@ create table charges (
   id SERIAL primary key,
 
   -- Details
+  amount integer not null,
   memo varchar,
   last_four integer,
-  type charge_type,
+  type charge_type not null,
   stripe_charge_id varchar(100),
   check_number varchar(20),
+
+  -- References
+  user_id integer references users,
 
   -- Timestamps
   created_at timestamp with time zone not null default current_timestamp,
