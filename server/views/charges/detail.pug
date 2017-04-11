@@ -19,7 +19,8 @@ block content
             a.btn.btn-outline-danger.btn-sm(href=`${charge.url}/refund`)
               i.ti-close.mr-2
               | Refund
-          h1.title
+          h2.title
+            i.ti-receipt.mr-3
             | Charge ##{charge.id}
         .content
           table.table.table-hover
@@ -50,13 +51,17 @@ block content
                 tr
                   th Last Four
                   td
-                    | *** *** ***
-                    = charge.lastFour
+                    | **** **** **** #{charge.lastFour}
                 tr
                   th Stripe Charge
                   td
-                    a(href=charge.stripeUrl target='_blank')
+                    a(href=charge.stripeChargeUrl target='_blank')
                       = charge.stripeChargeId
+                tr
+                  th Stripe Card
+                  td
+                    a(href=charge.stripeCardUrl target='_blank')
+                      = charge.stripeCardId
               if charge.type === 'check'
                 tr
                   th Check Number
