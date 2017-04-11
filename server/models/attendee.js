@@ -25,9 +25,9 @@ Attendee.configure({
       model: require('./event'),
       key: 'eventId',
     },
-    transaction: {
-      model: require('./transaction'),
-      key: 'transactionId',
+    charge: {
+      model: require('./charge'),
+      key: 'chargeId',
     },
     user: {
       model: require('./user'),
@@ -39,7 +39,7 @@ Attendee.configure({
 
     // References
     'eventId',
-    'transactionId',
+    'chargeId',
     'userId',
 
     'createdAt',

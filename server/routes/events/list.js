@@ -5,14 +5,19 @@ module.exports = wrap(async function home(req, res, next) {
 
   // TODO: find by date, hide drafts, hide public, etc...
 
-  let query = {}
+  let query = {
+    where: {},
+    order: {
+      startsAt: 'asc',
+    },
+  }
   if (req.currentUser) {
     if (!req.currentUser.staff) {
-      query.draft = false
+      query.where.draft = false
     }
   } else {
-    query.draft = false
-    query.internal = false
+    query.where.draft = false
+    query.where.internal = false
   }
 
   const events = await Event.findMany(query)

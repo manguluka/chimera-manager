@@ -27,6 +27,8 @@ block content
                   i.ti-close.mr-2
                   | Cancel
           div
+            if !event.future
+              span.badge.badge-danger.mr-3 PAST
             if event.cancelled
               span.badge.badge-danger.mr-3 CANCELLED
             if event.draft
@@ -152,7 +154,7 @@ block content
     .card
       .header
         .float-right
-          a.btn.btn-outline-primary.btn-sm(href=`${event.url}/attendees/new`)
+          a.btn.btn-outline-primary.btn-sm(href=`/attendees/new?event=${event.id}`)
             i.ti-plus.mr-2
             | Add Attendee
         h4.title.text-success
@@ -161,7 +163,7 @@ block content
       .content
         ul.list-unstyled
           for attendee in attendees
-            - transaction = attendee.transaction
+            - charge = attendee.charge
             li.mb-3
               .row
                 .col-1
@@ -173,26 +175,26 @@ block content
                   br
                   small.text-muted Dabbler
                 .col-5
-                  a(href=transaction.url)
+                  a(href=charge.url)
                     small.text-success.text-uppercase(title='Paid via cash')
-                      - type = transaction.type
+                      - type = charge.type
                       if type === 'card'
                         i.fa.fa-credit-card.mr-2
                         = type
-                        span.text-muted.ml-2 **** **** **** #{transaction.lastFour}
+                        span.text-muted.ml-2 **** **** **** #{charge.lastFour}
                       if type === 'check'
                         i.fa.fa-list-alt.mr-2
                         = type
-                        span.text-muted.ml-2 ##{transaction.checkNumber}
+                        span.text-muted.ml-2 ##{charge.checkNumber}
                       if type === 'cash'
                         i.fa.fa-money.mr-2
                         = type
                       if type === 'other'
                         i.fa.fa-question-circl-o.mr-2
                         = type
-                  if transaction.memo
+                  if charge.memo
                     br
-                    small.text-muted= transaction.memo
+                    small.text-muted= charge.memo
 
                 .col-3.text-right
                   .btn-group

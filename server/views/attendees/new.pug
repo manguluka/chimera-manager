@@ -1,0 +1,44 @@
+extends ../layout.pug
+
+block title
+  | Add Attendee
+
+block content
+
+  if eventId
+    p.text-center
+      a(href=`/events/${eventId}`)
+        i.ti-arrow-left.mr-2
+        | Back to event
+
+  .row
+    .col-sm-8.offset-sm-2
+      .card
+        .header
+          h1.title Add Attendee
+        .content
+          form(action='/attendees' method='post')
+            if eventId
+              .form-group
+                input(name='event' type='hidden' value=eventId)
+                label Event
+                p
+                  strong= event.title
+            else
+              .form-group
+                label(for='event-field') Event
+                select#event-field.form-control(name='event')
+                  for event in events
+                    option(value=event.id)
+                      = event.title
+            .form-group
+              label(for='user-field') User
+              select#user-field.form-control(name='user')
+                option
+                for user in users
+                  option(selected=(user.id === userId) value=user.id)
+                    = user.name
+            p.mt-5
+              button.btn.btn-success.btn-lg(type='submit')
+                i.ti-plus.mr-3
+                | Add Attendee

@@ -3,6 +3,6 @@ module.exports = {
   Attendee: require('./attendee'),
   Event: require('./event'),
   Instructor: require('./instructor'),
-  Transaction: require('./transaction'),
+  Charge: require('./charge'),
   User: require('./user'),
 }

@@ -11,19 +11,15 @@ module.exports = () => {
 
     if (req.session.currentUserId) {
       try {
-        req.currentUser = new User({
-          id: 1,
-          email: 'dana@chimeraarts.org',
-          staff: true,
-          name: 'Dana',
+        // TODO THIS IS TEMPORARY!
+        req.currentUser = await User.findOne({
+          where: {
+            email: { equals: 'dana@chimeraarts.org' },
+          },
         })
-        //req.currentUser = await User.readAsync(req.session.currentUserID)
-        //if (req.currentUser) req.currentUser.superAdmin = await User.isSuperAdmin(req.currentUser)
       } catch (e) {
-        // Ignore a EntityNotFound error. Throw all other errors.
-        //if (e.code !== 'Neo.ClientError.Statement.EntityNotFound') {
-          throw e
-        //}
+        // TODO catch not found?
+        throw e
       }
 
       // No user found? Clear the login state.

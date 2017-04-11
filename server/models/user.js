@@ -2,6 +2,7 @@ const connection = require('../lib/db')
 const human = require('humanparser')
 const md5 = require('crypto-js/md5')
 const Model = require('simple-sql-model')
+const stripe = require('../lib/stripe')
 
 class User extends Model {
 
@@ -17,6 +18,14 @@ class User extends Model {
 
   avatarUrl(size = 20) {
     return `https://www.gravatar.com/avatar/${this.gravatarHash}?s=${size}`
+  }
+
+  async cards() {
+    if (!this.stripeCustomerId) return []
+    // TODO: go to stripe and get all cards for customer
+    const customer = await stripe.customers.retrieve(this.stripeCustomerId)
+    console.log('CUSTOMER', customer)
+    return customer.sources.data
   }
 
 
@@ -44,6 +53,9 @@ User.configure({
     'name',
     'email',
     'bio',
+
+    // Payment info
+    'stripeCustomerId',
 
     // Type
     'staff',

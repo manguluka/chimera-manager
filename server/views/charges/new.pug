@@ -1,0 +1,130 @@
+extends ../layout.pug
+
+block title
+  | Add Charge
+
+block content
+
+  //if eventId
+    //p.text-center
+      //a(href=`/events/${eventId}`)
+        //i.ti-arrow-left.mr-2
+        //| Back to event
+
+  .row
+    .col-sm-8.offset-sm-2
+      .card
+        .header
+          h1.title Add Charge
+        .content
+
+
+
+          if !user
+            p.float-right
+              a.btn.btn-outline-primary.btn-sm(href='/users/new?redirect=${currentUrl}')
+                i.ti-plus.mr-2
+                | Create new user
+            h4.mt-0 Select User
+            ul
+              for user in users
+                li
+                  a(href=`/charges/new?user=${user.id}&type=${type}&amount=${amount}`)
+                    = user.name
+          else
+            if !type
+              p
+                a.btn.btn-success.btn-lg.btn-block(href=`/charges/new?type=card&user=${user.id}&amount=${amount}`)
+                  i.ti-credit-card.mr-3
+                  | Card
+              p
+                a.btn.btn-success.btn-lg.btn-block(href=`/charges/new?type=cash&user=${user.id}&amount=${amount}`)
+                  i.fa.fa-money.mr-3
+                  | Cash
+              p
+                a.btn.btn-success.btn-lg.btn-block(href=`/charges/new?type=check&user=${user.id}&amount=${amount}`)
+                  i.fa.fa-list-alt.mr-3
+                  | Check
+              p
+                a.btn.btn-success.btn-lg.btn-block(href=`/charges/new?type=other&user=${user.id}&amount=${amount}`)
+                  i.fa.fa-question-circle.mr-3
+                  | Other
+
+
+
+            else
+              form(action='/charges' method='post')
+
+                // User
+                .form-group
+                  input(type='hidden' name='user' value=user.id)
+                  label User
+                    strong.text-uppercase.pl-3= user.name
+                    span.font-weight-normal.ml-3
+                      a.btn.btn-outline-primary.btn-sm(href=`/charges/new?type=${type}&amount=${amount}`)
+                        i.ti-pencil.mr-2
+                        | Change
+
+                // Type
+                .form-group
+                  input(type='hidden' name='type' value=type)
+                  label Type
+                    strong.text-uppercase.pl-3= type
+                    span.font-weight-normal.ml-3
+                      a.btn.btn-outline-primary.btn-sm(href=`/charges/new?user=${user.id}&amount=${amount}`)
+                        i.ti-pencil.mr-2
+                        | Change
+
+                // Amount
+                hr.my-4
+                .row
+                  .col-4
+                    .form-group
+                      label(for='amount-field') Amount
+                      .input-group
+                        .input-group-addon $
+                        input#amount-field.form-control(type='number' name='amount' value=amount step=0.01)
+                hr.my-4
+
+                // Payment type
+                if type === 'card'
+                  .form-group
+                    label Cards
+                    if cards && cards.length
+                      ul.list-unstyled
+                        each card, index in cards
+                          - expired = new Date(card.exp_year, card.exp_month - 1) <= new Date()
+                          li
+                            label
+                              input.mr-4(type='checkbox' name='card' value=card.id checked=index === 0)
+                              if expired
+                                .badge.badge-danger.mr-3 EXPIRED
+                              strong **** **** **** #{card.last4}
+                              em.text-muted.ml-3 Exp. #{card.exp_month} / #{card.exp_year}
+                    else
+                      p
+                        small.text-muted This user has no credit cards setup yet...
+                    p.my-4
+                      a.btn.btn-outline-success.btn-sm(href='#')
+                        i.ti-plus.mr-2
+                        | Add a new credit card
+                  hr.my-5
+
+                if type === 'check'
+                  .form-group
+                    label(for='check-number-field')
+                      | Check Number
+                      small.text-muted.ml-3 optional
+                    input#check-number-field.form-control(name='checkNumber' type='text')
+
+                .form-group
+                  label(for='memo-field')
+                    | Memo
+                    small.text-muted.ml-3 optional
+                  textarea#memo-field.form-control(name='memo')
+                  p
+                    small.text-muted Notes about the charge
+                p.mt-5
+                  button.btn.btn-success.btn-lg(type='submit')
+                    i.ti-plus.mr-3
+                    | Add Charge

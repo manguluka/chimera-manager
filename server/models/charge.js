@@ -1,37 +1,37 @@
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
 
-class Transaction extends Model {
+class Charge extends Model {
 
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  get url() { return `/transactions/${this.id}` }
+  get url() { return `/charges/${this.id}` }
   get stripeUrl() { return `https://dashboard.stripe.com/payments/${this.stripeTransactionId}` }
 
   //------------------------------------------------
   // Class methods
   //------------------------------------------------
 
-  static get url() { return '/transactions' }
+  static get url() { return '/charges' }
 }
 
-// Transaction types
-Transaction.CARD = 'card'
-Transaction.CASH = 'cash'
-Transaction.CHECK = 'check'
-Transaction.OTHER = 'other'
-Transaction.types = [
-  Transaction.CARD,
-  Transaction.CASH,
-  Transaction.CHECK,
-  Transaction.OTHER,
+// Charge types
+Charge.CARD = 'card'
+Charge.CASH = 'cash'
+Charge.CHECK = 'check'
+Charge.OTHER = 'other'
+Charge.types = [
+  Charge.CARD,
+  Charge.CASH,
+  Charge.CHECK,
+  Charge.OTHER,
 ]
 
-Transaction.configure({
+Charge.configure({
   connection,
-  table: 'transactions',
+  table: 'charges',
   columns: [
     'id',
 
@@ -47,6 +47,6 @@ Transaction.configure({
   ],
 })
 
-//Transaction.debug = true
+//Charge.debug = true
 
-module.exports = Transaction
+module.exports = Charge

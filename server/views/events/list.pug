@@ -19,6 +19,8 @@ block content
           each event in events
             tr
               td
+                if !event.future
+                  .badge.badge-danger.mr-2 PAST
                 if event.cancelled
                   .badge.badge-danger.mr-2 CANCELLED
                 if event.draft

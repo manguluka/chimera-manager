@@ -52,6 +52,9 @@ create table users (
   email varchar(120) not null,
   bio varchar default '',
 
+  -- Payment info
+  stripe_customer_id varchar(30),
+
   -- Type
   staff boolean default false,
 
@@ -101,16 +104,16 @@ create trigger update_activities_modtime before
   update on activities for each row
   execute procedure  update_updated_at_column();
 
-create type transaction_type as enum ('card', 'cash', 'check', 'other');
+create type charge_type as enum ('card', 'cash', 'check', 'other');
 
-create table transactions (
+create table charges (
   id SERIAL primary key,
 
   -- Details
   memo varchar,
   last_four integer,
-  type transaction_type,
-  stripe_transaction_id varchar(100),
+  type charge_type,
+  stripe_charge_id varchar(100),
   check_number varchar(20),
 
   -- Timestamps
@@ -119,13 +122,13 @@ create table transactions (
 );
 
 create table attendees (
-  primary key(id, user_id, event_id, transaction_id),
+  primary key(id, user_id, event_id, charge_id),
   id SERIAL,
 
   -- References
   user_id integer references users,
   event_id integer references events,
-  transaction_id integer references transactions,
+  charge_id integer references charges,
 
   -- Extra details
   memo varchar,
@@ -139,8 +142,8 @@ create trigger update_attendees_modtime before
   update on attendees for each row
   execute procedure  update_updated_at_column();
 
-create trigger update_transactions_modtime before
-  update on transactions for each row
+create trigger update_charges_modtime before
+  update on charges for each row
   execute procedure  update_updated_at_column();
 
 -- TODO: Create indexes!

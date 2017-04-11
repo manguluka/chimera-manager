@@ -27,8 +27,20 @@ class Event extends Model {
   get endDay() {      return dayString(this.endsAt) }
   get endTime() {     return timeString(this.endsAt) }
   get free() {        return Boolean(!this.price && !this.memberPrice) }
-  get visibility() {  return this.internal ? 'internal (members only)' : 'public' }
-  get descriptionHtml() { return marked(this.description) }
+  get visibility() {
+    return this.internal ?
+      'internal (members only)' :
+      'public'
+  }
+
+  get future() {
+    console.log(this.startsAt, new Date())
+    return Boolean(this.startsAt >= new Date())
+  }
+
+  get descriptionHtml() {
+    return marked(this.description)
+  }
 
   get attendeeLimit() {
     const min = this.attendeeMin
@@ -105,6 +117,18 @@ class Event extends Model {
   // Class methods
   //------------------------------------------------
 
+  static async future() {
+    return await this.findMany({
+      where: {
+        draft: { equals: false },
+        //endsAt: { gte: new Date() },
+      },
+      order: {
+        startsAt: 'asc',
+      },
+    })
+  }
+
   static async cancel(id) {
     const event = await this.findOne(id)
     await event.update({ cancelledAt: new Date() })
@@ -122,6 +146,7 @@ class Event extends Model {
       },
     })
   }
+
 static async afterUpdate(model, fields) { await require('./activity').record({
       action: 'updated',
       model,

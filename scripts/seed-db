@@ -6,12 +6,25 @@ const chalk = require('chalk')
 const config = require('config')
 const Event = require('../server/models/event')
 const Instructor = require('../server/models/instructor')
-const Transaction = require('../server/models/transaction')
+const Charge = require('../server/models/charge')
 const User = require('../server/models/user')
 
 console.log(chalk.green('Seeding database...'))
 
 async function seed() {
+
+  const past = await Event.create({
+    title: 'Past Event',
+    description: 'Old event',
+    //photo_url: '',
+    //meetup_url: '',
+    draft: false,
+    internal: false,
+    category: 'event',
+    attendeeMax: 100,
+    startsAt: new Date('2016-09-12T12:00:00Z'),
+    endsAt: new Date('2016-09-12T23:00:00Z'),
+  })
 
   const welding = await Event.create({
     title: 'Intro to Welding',
@@ -90,6 +103,7 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     name: 'Dana Woodman',
     email: 'dana@chimeraarts.org',
     staff: true,
+    stripeCustomerId: 'cus_6RfK6rnJC25aID',
     bio: 'Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
   })
 
@@ -132,35 +146,35 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   })
 
 
-  const t1 = await Transaction.create({
-    stripeTransactionId: 'asdf',
-    type: Transaction.CARD,
+  const t1 = await Charge.create({
+    stripeChargeId: 'asdf',
+    type: Charge.CARD,
     lastFour: 1234,
     memo: 'here is a note',
   })
   await Attendee.create({
     eventId: welding.id,
-    transactionId: t1.id,
+    chargeId: t1.id,
     userId: dana.id,
   })
 
-  const t2 = await Transaction.create({
-    type: Transaction.CASH,
+  const t2 = await Charge.create({
+    type: Charge.CASH,
     memo: 'Paid day of event',
   })
   await Attendee.create({
     eventId: welding.id,
-    transactionId: t2.id,
+    chargeId: t2.id,
     userId: jim.id,
   })
 
-  const t3 = await Transaction.create({
-    type: Transaction.CHECK,
+  const t3 = await Charge.create({
+    type: Charge.CHECK,
     checkNumber: '2012341',
   })
   await Attendee.create({
     eventId: welding.id,
-    transactionId: t3.id,
+    chargeId: t3.id,
     userId: kimberly.id,
   })
 
