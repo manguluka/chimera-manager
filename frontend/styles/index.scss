@@ -3,9 +3,15 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/scss/font-awesome';
 @import '~select2/src/scss/core';
+@import '~select2-bootstrap-theme/dist/select2-bootstrap';
 @import 'paper-dashboard';
 @import 'themify-icons';
 @import 'buttons';
+
+// Override disabled options in select2 search.
+.select2-container--bootstrap .select2-results__option[aria-disabled=true] {
+  color: #ccc;
+}
 
 .form-group label {
   font-weight: bold;

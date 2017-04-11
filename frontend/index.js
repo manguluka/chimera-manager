@@ -48,8 +48,10 @@ function stripeCheckout({
 }
 
 function selectSearch(selector, onChange) {
-  $(selector).select2()
-  $(selector).on('select2:select', onChange)
+  $(selector).select2({
+    theme: 'bootstrap',
+  })
+  onChange && $(selector).on('select2:select', onChange)
 }
 
 module.exports = {

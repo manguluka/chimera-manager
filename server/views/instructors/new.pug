@@ -3,6 +3,11 @@ extends ../layout.pug
 block title
   | Add Instructor to #{event.title}
 
+block scripts
+  script.
+    Application.selectSearch('#instructor-select')
+
+
 block content
 
   p.text-center
@@ -20,7 +25,7 @@ block content
           p This person will be notified that they are the #{instructorLabel.toLowerCase()} of this event and will get reminders about the event and have access to the attendee list.
           form(action=`/events/${event.id}/instructors` method='post')
             .form-group
-              select.form-control.mt-3(name='instructor')
+              select#instructor-select.form-control.mt-3(name='instructor')
                 - instructorIds = instructors.map((i) => i.userId)
                 for user in users
                   option(value=user.id disabled=instructorIds.includes(user.id))= user.name
