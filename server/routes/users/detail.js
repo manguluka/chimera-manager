@@ -1,4 +1,5 @@
 const Activity = require('../../models/activity')
+const Charge = require('../../models/charge')
 const User = require('../../models/user')
 const wrap = require('express-async-wrapper')
 

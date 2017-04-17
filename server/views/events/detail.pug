@@ -18,12 +18,12 @@ block content
       .card
         .header
           if currentUser && currentUser.staff
-            .float-right
+            .btn-group.float-right
               a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
                 i.ti-pencil.mr-3
                 | Edit
               if !event.cancelled
-                a.btn.btn-outline-danger.btn-sm.ml-4(href=`${event.url}/cancel`)
+                a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
                   i.ti-close.mr-2
                   | Cancel
           div
@@ -131,10 +131,27 @@ block content
         if event.materialFee
           p
             em Material fee $#{event.materialFeeDollars}*
-        p
-          a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`${event.url}/attend`)
-            i.ti-plus.mr-2
-            span.text-capitalize Attend #{event.category}
+        if remainingSpots > 0
+          p
+            a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`${event.url}/attend`)
+              i.ti-plus.mr-2
+              span.text-capitalize Attend #{event.category}
+          p
+            small
+              em
+                if remainingSpots === Infinity
+                  | No attendee limit
+                else
+                  | There are #{remainingSpots} spots left!
+        else
+          p This event is full, join the waitlist and get notified if spots become available.
+          p
+            strong COMING SOON!
+          p
+            a.btn.btn-success.btn-lg.btn-inverse.btn-block.disabled(href=`${event.url}/join-waitlist` disabled)
+              i.ti-plus.mr-2
+              span.text-capitalize Join Waitlist
+
         if event.materialFee
           p.mt-5
             small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
