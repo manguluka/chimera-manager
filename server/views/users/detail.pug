@@ -40,6 +40,27 @@ block content
         .content
           p Hello world
 
+    .col
+      .card
+        .header
+          h4.title.text-info
+            i.ti-receipt.mr-3
+            | Charges
+        .content
+          if charges
+            for charge in charges
+              .row
+                .col-4
+                  | $
+                  = charge.amountDollars
+                .col-3= charge.type
+                .col-5
+                  small= moment(charge.createdAt).fromNow()
+          else
+            p
+              em No charges yet...
+
+
     if activities
       .col
         .card

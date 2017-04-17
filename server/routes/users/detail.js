@@ -9,8 +9,12 @@ module.exports = wrap(async function detail(req, res) {
     where: { userId: { equals: user.id } },
     order: { createdAt: 'desc' },
   })
+  const charges = await Charge.findMany({
+    where: { userId: user.id },
+    order: { createdAt: 'desc' },
+  })
   //const events = await Event.findMany({
     //where: { },
   //})
-  res.render('users/detail', { activities, user })
+  res.render('users/detail', { activities, charges, user })
 })
