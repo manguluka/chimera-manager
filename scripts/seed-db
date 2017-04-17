@@ -96,6 +96,16 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     endsAt: new Date('2017-06-08T02:00:00Z'),
   })
 
+  const full = await Event.create({
+    title: 'Full Event',
+    description: `This is full`,
+    category: 'class',
+    attendeeMin: null,
+    attendeeMax: 1,
+    startsAt: new Date('2017-09-08T00:00:00Z'),
+    endsAt: new Date('2017-09-08T02:00:00Z'),
+  })
+
 
 
 
@@ -184,6 +194,16 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     userId: kimberly.id,
   })
 
+  const t4 = await Charge.create({
+    amount: 400,
+    type: Charge.CASH,
+    userId: kimberly.id,
+  })
+  await Attendee.create({
+    eventId: full.id,
+    chargeId: t4.id,
+    userId: kimberly.id,
+  })
 
   await Activity.record({
     action: 'updated',
