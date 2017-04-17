@@ -6,8 +6,11 @@ const wrap = require('express-async-wrapper')
 // to the request to make it easily available to routes/views.
 module.exports = () => {
   return wrap(async (req, res, next) => {
-
-    logger.log('debug', '[currentUserMiddleware] Current user ID:', req.session.currentUserId)
+    logger.log(
+      'debug',
+      '[currentUserMiddleware] Current user ID:',
+      req.session.currentUserId
+    )
 
     if (req.session.currentUserId) {
       try {
@@ -29,7 +32,11 @@ module.exports = () => {
       }
     }
 
-    logger.log('debug', '[currentUserMiddleware] Current user:', req.currentUser)
+    logger.log(
+      'debug',
+      '[currentUserMiddleware] Current user:',
+      req.currentUser
+    )
 
     next()
   })

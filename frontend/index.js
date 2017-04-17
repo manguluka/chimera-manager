@@ -9,7 +9,7 @@ console.log('Frontend loaded with environment:', process.env.NODE_ENV)
 
 //const editor = document.querySelector('.markdown-editor')
 //if (editor) {
-  //ReactDOM.render(<h1>hi</h1>, editor)
+//ReactDOM.render(<h1>hi</h1>, editor)
 //}
 
 function stripeCheckout({
@@ -22,7 +22,6 @@ function stripeCheckout({
   name,
   tokenField,
 }) {
-
   const handler = StripeCheckout.configure({
     key,
     //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
@@ -35,7 +34,7 @@ function stripeCheckout({
     },
   })
 
-  form.addEventListener('submit', (form) => {
+  form.addEventListener('submit', form => {
     form.preventDefault()
     handler.open({
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',

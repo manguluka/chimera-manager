@@ -6,7 +6,10 @@ const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res, next) => {
   const userId = Number(req.params.userId)
-  logger.log('info', '[destroyInstructor] Removing instructor:', { event: req.event, userId })
+  logger.log('info', '[destroyInstructor] Removing instructor:', {
+    event: req.event,
+    userId,
+  })
 
   await Instructor.destroy({
     where: {
@@ -25,7 +28,6 @@ module.exports = wrap(async (req, res, next) => {
     user: res.locals.currentUser,
     extraInfo: {
       instructor,
-    }
+    },
   })
 })
-

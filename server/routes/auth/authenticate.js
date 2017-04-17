@@ -3,7 +3,6 @@ const logger = require('../../lib/logger')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async function authenticate(req, res) {
-
   //const fields = User.toModelFromForm(req.body)
   //const event = await User.create(fields)
 

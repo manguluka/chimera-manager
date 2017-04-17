@@ -4,7 +4,6 @@ const User = require('../../models/user')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res) => {
-
   logger.log('debug', '[routes/charges/new] Charge query:', req.query)
 
   const q = req.query
@@ -13,7 +12,11 @@ module.exports = wrap(async (req, res) => {
   const type = q.type || ''
   const amount = q.amount ? Number(q.amount) : 0.00
 
-  logger.log('info', '[routes/charges/new] Creating charge:', { type, amount, userId })
+  logger.log('info', '[routes/charges/new] Creating charge:', {
+    type,
+    amount,
+    userId,
+  })
 
   let cards
   let user

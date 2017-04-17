@@ -2,7 +2,6 @@ const dollarsToCents = require('../../lib/dollars-to-cents')
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 
 module.exports = function eventFormToModel(body) {
-
   const {
     title,
     description,

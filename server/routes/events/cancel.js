@@ -2,7 +2,6 @@ const Activity = require('../../models/activity')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res) => {
-
   const event = await req.event.cancel(req.params.id)
   req.flash('success', 'Event cancelled')
   res.redirect(event.url)

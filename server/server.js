@@ -25,31 +25,35 @@ app.set('view engine', 'pug')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('trust proxy', 1)
 app.use(express.static(path.join(process.cwd(), 'public')))
-app.use(session({
-  secret: SESSION_SECRET,
-  cookie: {
-    //httpOnly: true,
-    //secure: ENV === 'production',
-    maxAge: (365 * 24 * 60 * 60 * 1000),
-  },
-  store: new RedisStore({
-    //client: '',
-    //host: '',
-    //port: '',
-    //socket: '',
-    //url: '',
-  }),
-  saveUninitialized: false,
-  resave: false,
-}))
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    cookie: {
+      //httpOnly: true,
+      //secure: ENV === 'production',
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+    },
+    store: new RedisStore(
+      {
+        //client: '',
+        //host: '',
+        //port: '',
+        //socket: '',
+        //url: '',
+      }
+    ),
+    saveUninitialized: false,
+    resave: false,
+  })
+)
 app.use(flash())
 app.use(currentUserMiddleware())
 app.use(templateLocalsMiddleware())
 //app.use(session({
-  //secret: config.get('sessionSecret'),
-  //resave: false,
-  //saveUninitialized: true,
-  ////cookie: { secure: true }
+//secret: config.get('sessionSecret'),
+//resave: false,
+//saveUninitialized: true,
+////cookie: { secure: true }
 //}))
 
 // Routes

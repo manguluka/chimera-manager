@@ -3,8 +3,10 @@ const User = require('../../models/user')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res) => {
-
-  logger.log('info', '[routes/user/update] Updating user:', { id: req.params.id, body: req.body })
+  logger.log('info', '[routes/user/update] Updating user:', {
+    id: req.params.id,
+    body: req.body,
+  })
 
   const fields = {
     bio: req.body.bio,

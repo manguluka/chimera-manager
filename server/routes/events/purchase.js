@@ -7,7 +7,6 @@ const STRIPE_PRIVATE_KEY = config.get('payments.stripePrivateKey')
 const stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 
 module.exports = wrap(async (req, res) => {
-
   const { body, event, user } = req
   const { email, token } = body
 

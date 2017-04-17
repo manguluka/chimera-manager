@@ -5,16 +5,25 @@ const Model = require('simple-sql-model')
 const stripe = require('../lib/stripe')
 
 class User extends Model {
-
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  toString() { return this.name }
-  get firstName() { return human.parseName(this.name).firstName }
-  get lastName() { return human.parseName(this.name).lastName }
-  get gravatarHash() { return md5(this.email) }
-  get url() { return `/users/${this.id}` }
+  toString() {
+    return this.name
+  }
+  get firstName() {
+    return human.parseName(this.name).firstName
+  }
+  get lastName() {
+    return human.parseName(this.name).lastName
+  }
+  get gravatarHash() {
+    return md5(this.email)
+  }
+  get url() {
+    return `/users/${this.id}`
+  }
 
   avatarUrl(size = 20) {
     return `https://www.gravatar.com/avatar/${this.gravatarHash}?s=${size}`
@@ -28,22 +37,23 @@ class User extends Model {
     return customer.sources.data
   }
 
-
   //------------------------------------------------
   // Class methods
   //------------------------------------------------
 
-  static get url() { return '/users' }
+  static get url() {
+    return '/users'
+  }
 }
 
 User.configure({
   connection,
   // TODO:
   //validations: {
-    //email: {
-      //lower: true,
-      //trim: true,
-    //},
+  //email: {
+  //lower: true,
+  //trim: true,
+  //},
   //},
   table: 'users',
   columns: [
@@ -63,7 +73,7 @@ User.configure({
     // Dates
     'createdAt',
     'updatedAt',
-  ]
+  ],
 })
 
 module.exports = User

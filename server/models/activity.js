@@ -3,30 +3,26 @@ const Model = require('simple-sql-model')
 const User = require('./user')
 
 class Activity extends Model {
-
-
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  get url() { return `/activities/${this.id}` }
-
+  get url() {
+    return `/activities/${this.id}`
+  }
 
   //------------------------------------------------
   // Class methods
   //------------------------------------------------
 
-  static get url() { return '/activities' }
+  static get url() {
+    return '/activities'
+  }
   /**
    * A helper utility to create an activity without
    * needing to know the implementation.
    */
-  static record({
-    action,
-    extraInfo = {},
-    model = null,
-    user = null,
-  }) {
+  static record({ action, extraInfo = {}, model = null, user = null }) {
     return this.create({
       action,
       extraInfo,
@@ -49,7 +45,7 @@ class Activity extends Model {
     })
 
     return await Promise.all(
-      activities.map(async(activity) => {
+      activities.map(async activity => {
         activity.user = await User.findOne(activity.userId)
         return activity
       })

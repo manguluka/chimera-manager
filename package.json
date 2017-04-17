@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "build-assets": "webpack --colors",
+    "format": "prettier --write $(cat prettier.opts) '{frontend,server,scripts,lib,config,test}/**/*.js'",
     "heroku-postbuild": "npm run build-assets",
     "lint": "eslint --fix server frontend",
     "start": "node server/server",
@@ -85,6 +86,7 @@
     "nodemon": "1.11.0",
     "parallelshell": "2.0.0",
     "phantomjs": "2.1.7",
+    "prettier": "^1.1.0",
     "sinon": "2.1.0",
     "sinon-chai": "2.9.0",
     "sinon-express-mock": "1.2.4"

@@ -24,4 +24,3 @@ module.exports = wrap(async (req, res, next) => {
     },
   })
 })
-

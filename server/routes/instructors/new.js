@@ -11,4 +11,3 @@ module.exports = wrap(async (req, res, next) => {
   })
   res.render('instructors/new', { instructors, users })
 })
-

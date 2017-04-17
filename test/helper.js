@@ -14,6 +14,6 @@ global.expect = chai.expect
 global.sinon = require('sinon')
 
 // Allows Bluebird to catch unhandled exceptions.
-Promise.onPossiblyUnhandledRejection((err) => {
+Promise.onPossiblyUnhandledRejection(err => {
   throw err
 })

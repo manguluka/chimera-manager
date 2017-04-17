@@ -3,7 +3,6 @@ const User = require('../../models/user')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res) => {
-
   let event
   let eventId
   if (req.query && req.query.event) {

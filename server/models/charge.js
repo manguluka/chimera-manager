@@ -10,15 +10,22 @@ class MissingCardError extends ExtendableError {}
 class StripeError extends ExtendableError {}
 
 class Charge extends Model {
-
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  get url() { return `/charges/${this.id}` }
-  get stripeChargeUrl() { return `https://dashboard.stripe.com/payments/${this.stripeChargeId}` }
-  get stripeCardUrl() { return `https://dashboard.stripe.com/cards/${this.stripeCardId}` }
-  get amountDollars() { return this.amount / 100 }
+  get url() {
+    return `/charges/${this.id}`
+  }
+  get stripeChargeUrl() {
+    return `https://dashboard.stripe.com/payments/${this.stripeChargeId}`
+  }
+  get stripeCardUrl() {
+    return `https://dashboard.stripe.com/cards/${this.stripeCardId}`
+  }
+  get amountDollars() {
+    return this.amount / 100
+  }
 
   //------------------------------------------------
   // Class methods
@@ -32,8 +39,11 @@ class Charge extends Model {
     type,
     user: userId,
   }) {
-
-    logger.log('debug', '[Charge.process] Processing transaction:', arguments[0])
+    logger.log(
+      'debug',
+      '[Charge.process] Processing transaction:',
+      arguments[0]
+    )
 
     const description = 'This is a test'
     amount = dollarsToCents(amount)
@@ -46,7 +56,6 @@ class Charge extends Model {
     }
 
     if (type === 'card') {
-
       if (!card) {
         throw new MissingCardError()
       }
@@ -72,7 +81,6 @@ class Charge extends Model {
       chargeData.stripeChargeId = charge.id
       chargeData.stripeCardId = card
       chargeData.lastFour = Number(charge.source.last4)
-
     } else if (type === 'cash') {
       console.log('CASH')
     } else if (type === 'check') {
@@ -86,7 +94,9 @@ class Charge extends Model {
     return await this.create(chargeData)
   }
 
-  static get url() { return '/charges' }
+  static get url() {
+    return '/charges'
+  }
 }
 
 // Charge types
@@ -94,12 +104,7 @@ Charge.CARD = 'card'
 Charge.CASH = 'cash'
 Charge.CHECK = 'check'
 Charge.OTHER = 'other'
-Charge.types = [
-  Charge.CARD,
-  Charge.CASH,
-  Charge.CHECK,
-  Charge.OTHER,
-]
+Charge.types = [Charge.CARD, Charge.CASH, Charge.CHECK, Charge.OTHER]
 
 Charge.configure({
   connection,

@@ -1,9 +1,7 @@
 const Event = require('./event')
 
 describe('server/lib/event', () => {
-
   context('instance methods', () => {
-
     it('has convenience methods', () => {
       console.log(new Event())
       const event = new Event({
@@ -18,5 +16,4 @@ describe('server/lib/event', () => {
       expect(event.startTime).to.equal('12:00')
     })
   })
-
 })
