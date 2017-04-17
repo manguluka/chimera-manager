@@ -114,7 +114,8 @@ create table charges (
   memo varchar,
   last_four integer,
   type charge_type not null,
-  stripe_charge_id varchar(100),
+  stripe_charge_id varchar(50),
+  stripe_card_id varchar(50),
   check_number varchar(20),
 
   -- References
