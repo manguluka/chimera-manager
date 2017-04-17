@@ -33,7 +33,7 @@ class Charge extends Model {
     user: userId,
   }) {
 
-    console.log('PROCESS', arguments)
+    logger.log('debug', '[Charge.process] Processing transaction:', arguments[0])
 
     const description = 'This is a test'
     amount = dollarsToCents(amount)

@@ -14,23 +14,33 @@ function timeString(date) {
 }
 
 class Event extends Model {
-
-
   //------------------------------------------------
   // Instance methods
   //------------------------------------------------
 
-  toString() {        return this.title }
-  get cancelled() {   return Boolean(this.cancelledAt) }
-  get startDay() {    return dayString(this.startsAt) }
-  get startTime() {   return timeString(this.startsAt) }
-  get endDay() {      return dayString(this.endsAt) }
-  get endTime() {     return timeString(this.endsAt) }
-  get free() {        return Boolean(!this.price && !this.memberPrice) }
+  toString() {
+    return this.title
+  }
+  get cancelled() {
+    return Boolean(this.cancelledAt)
+  }
+  get startDay() {
+    return dayString(this.startsAt)
+  }
+  get startTime() {
+    return timeString(this.startsAt)
+  }
+  get endDay() {
+    return dayString(this.endsAt)
+  }
+  get endTime() {
+    return timeString(this.endsAt)
+  }
+  get free() {
+    return Boolean(!this.price && !this.memberPrice)
+  }
   get visibility() {
-    return this.internal ?
-      'internal (members only)' :
-      'public'
+    return this.internal ? 'internal (members only)' : 'public'
   }
 
   get future() {
@@ -64,7 +74,7 @@ class Event extends Model {
     range += ' '
     range += moment(this.startsAt).format('h:mma')
     range += '-'
-    range +=  moment(this.endsAt).format('h:mma')
+    range += moment(this.endsAt).format('h:mma')
     return range
   }
 
@@ -80,6 +90,15 @@ class Event extends Model {
     return this.materialFee ? this.materialFee / 100 : 0.00
   }
 
+  async remainingSpots() {
+    // If no limit, we indicate there is no limit.
+    if (!this.attendeeMax) return Infinity
+    const attendeeCount = await require('./attendee').count({
+      where: { eventId: { equals: this.id } },
+    })
+    return this.attendeeMax - attendeeCount
+  }
+
   /**
    * Return all Instructor User instances
    * for this Event.
@@ -89,7 +108,7 @@ class Event extends Model {
       where: { eventId: { equals: this.id } },
     })
     return await Promise.all(
-      instructors.map((relation) => {
+      instructors.map(relation => {
         return require('./user').findOne(relation.userId)
       })
     )
@@ -110,8 +129,9 @@ class Event extends Model {
     return await this.save()
   }
 
-  get url() { return `/events/${this.id}` }
-
+  get url() {
+    return `/events/${this.id}`
+  }
 
   //------------------------------------------------
   // Class methods
@@ -135,7 +155,9 @@ class Event extends Model {
     return event
   }
 
-  static get url() { return '/events'}
+  static get url() {
+    return '/events'
+  }
 
   static async afterCreate(model, fields) {
     await require('./activity').record({
@@ -147,7 +169,8 @@ class Event extends Model {
     })
   }
 
-static async afterUpdate(model, fields) { await require('./activity').record({
+  static async afterUpdate(model, fields) {
+    await require('./activity').record({
       action: 'updated',
       model,
       extraInfo: {
@@ -157,7 +180,6 @@ static async afterUpdate(model, fields) { await require('./activity').record({
   }
 
   static toModelFromForm(fields) {
-
     const {
       title,
       description,
@@ -198,7 +220,6 @@ static async afterUpdate(model, fields) { await require('./activity').record({
       endsAt: dayTimeToDatetime(endDay, endTime),
     }
   }
-
 }
 
 // Categories
@@ -249,7 +270,7 @@ Event.configure({
     // Dates
     'createdAt',
     'updatedAt',
-  ]
+  ],
 })
 
 module.exports = Event
