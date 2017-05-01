@@ -16,7 +16,6 @@ create table events (
   title varchar(150) not null,
   description varchar default '',
   photo_url varchar(250),
-  meetup_url varchar(250),
   draft boolean default true,
   internal boolean default true,
   category event_category,
@@ -29,6 +28,9 @@ create table events (
   price integer,
   member_price integer,
   material_fee integer,
+
+  -- External references
+  meetup_id integer,
 
   -- Dates
   starts_at timestamp with time zone,

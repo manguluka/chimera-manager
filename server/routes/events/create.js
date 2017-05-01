@@ -9,4 +9,8 @@ module.exports = wrap(async function createEvent(req, res) {
   logger.log('info', '[createEvent] Created event:', event)
 
   res.redirect(`/events/${event.id}`)
+
+  // TODO: This is async but we don't want to block, so don't
+  // "await" it.
+  await event.sync()
 })

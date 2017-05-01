@@ -1,6 +1,7 @@
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 const dollarsToCents = require('../../lib/dollars-to-cents')
 const marked = require('marked')
+const meetup = require('../lib/meetup')
 const moment = require('moment')
 const connection = require('../lib/db')
 const Model = require('simple-sql-model')
@@ -43,8 +44,10 @@ class Event extends Model {
     return this.internal ? 'internal (members only)' : 'public'
   }
 
+  /**
+   * @returns Boolean whether or not event is in the future
+   */
   get future() {
-    console.log(this.startsAt, new Date())
     return Boolean(this.startsAt >= new Date())
   }
 
@@ -96,7 +99,7 @@ class Event extends Model {
     const attendeeCount = await require('./attendee').count({
       where: { eventId: { equals: this.id } },
     })
-    return this.attendeeMax - attendeeCount
+    return this.attendeeMax - attendeeCount || 0
   }
 
   /**
@@ -122,6 +125,23 @@ class Event extends Model {
 
   async activities() {
     return await require('./activity').forModel(this)
+  }
+
+  /**
+   * Sync this event with remote services, namely Meetup.com
+   */
+  async sync() {
+    // Update event on meetup if it is published and
+    if (!this.draft && !this.internal) {
+      if (this.meetupId) {
+        // Update it on Meetup.com if it exists
+        meetup.update(this)
+      } else {
+        // Create on Meetup.com
+        const id = meetup.create(this)
+        this.save({ meetupId: id })
+      }
+    }
   }
 
   async cancel() {
@@ -248,7 +268,6 @@ Event.configure({
     'title',
     'description',
     'photoUrl',
-    'meetupUrl',
     'draft',
     'internal',
     'category',
@@ -262,12 +281,15 @@ Event.configure({
     'memberPrice',
     'materialFee',
 
+    // External references
+    'meetupId',
+
     // Dates
     'startsAt',
     'endsAt',
     'cancelledAt',
 
-    // Dates
+    // Timestamps
     'createdAt',
     'updatedAt',
   ],

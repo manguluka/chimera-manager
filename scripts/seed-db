@@ -17,11 +17,11 @@ async function seed() {
     title: 'Past Event',
     description: 'Old event',
     //photo_url: '',
-    //meetup_url: '',
     draft: false,
     internal: false,
     category: 'event',
     attendeeMax: 100,
+    meetupId: 9393,
     startsAt: new Date('2016-09-12T12:00:00Z'),
     endsAt: new Date('2016-09-12T23:00:00Z'),
   })
@@ -30,7 +30,6 @@ async function seed() {
     title: 'Intro to Welding',
     description: 'This will be fun!',
     //photo_url: '',
-    //meetup_url: '',
     draft: false,
     internal: false,
     category: 'class',
@@ -39,15 +38,15 @@ async function seed() {
     price: 15000,
     memberPrice: 13500,
     materialFee: 2000,
-    startsAt: new Date('2017-04-23T17:00:00Z'),
-    endsAt: new Date('2017-04-23T23:00:00Z'),
+    meetupId: 1234,
+    startsAt: new Date('2017-09-23T17:00:00Z'),
+    endsAt: new Date('2017-09-23T23:00:00Z'),
   })
 
   const jewelry = await Event.create({
     title: 'Jewelry Training',
     description: 'Making rings and shit',
     //photo_url: '',
-    //meetup_url: '',
     draft: true,
     internal: true,
     category: 'training',
@@ -56,15 +55,14 @@ async function seed() {
     price: 3599,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-04-28T17:00:00Z'),
-    endsAt: new Date('2017-04-28T19:00:00Z'),
+    startsAt: new Date('2017-09-28T17:00:00Z'),
+    endsAt: new Date('2017-09-28T19:00:00Z'),
   })
 
   const laser = await Event.create({
     title: 'Laser Cutter Training',
     description: 'LASERS!',
     //photo_url: '',
-    //meetup_url: '',
     draft: false,
     internal: true,
     category: 'training',
@@ -73,8 +71,8 @@ async function seed() {
     price: 3500,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-05-02T02:30:00Z'),
-    endsAt: new Date('2017-05-02T04:30:00Z'),
+    startsAt: new Date('2017-11-02T02:30:00Z'),
+    endsAt: new Date('2017-11-02T04:30:00Z'),
   })
 
   const printing = await Event.create({
@@ -83,7 +81,6 @@ async function seed() {
 
 Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
     //photo_url: '',
-    //meetup_url: '',
     draft: false,
     internal: false,
     category: 'meetup',
@@ -92,8 +89,8 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     price: null,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-06-08T00:00:00Z'),
-    endsAt: new Date('2017-06-08T02:00:00Z'),
+    startsAt: new Date('2017-12-08T00:00:00Z'),
+    endsAt: new Date('2017-12-08T02:00:00Z'),
   })
 
   const full = await Event.create({
@@ -102,8 +99,8 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     category: 'class',
     attendeeMin: null,
     attendeeMax: 1,
-    startsAt: new Date('2017-09-08T00:00:00Z'),
-    endsAt: new Date('2017-09-08T02:00:00Z'),
+    startsAt: new Date('2017-12-08T00:00:00Z'),
+    endsAt: new Date('2017-12-08T02:00:00Z'),
   })
 
 

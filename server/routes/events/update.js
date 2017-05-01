@@ -3,15 +3,23 @@ const logger = require('../../lib/logger')
 const wrap = require('express-async-wrapper')
 
 module.exports = wrap(async (req, res) => {
-  const fields = Event.toModelFromForm(req.body)
+  const body = req.body
+  let event = req.event
+  const fields = Event.toModelFromForm(body)
 
   logger.log('info', '[updateEvent] Updating event:', {
-    event: req.event,
+    event,
     fields,
-    body: req.body,
+    body,
   })
 
-  const event = await Event.update(req.event.id, fields)
+  // TODO: handle validation errors
+  event = await event.save(fields)
 
-  res.redirect(req.event.url)
+  req.flash('success', 'Event successfully updated!')
+  res.redirect(event.url)
+
+  // TODO: This is async but we don't want to block, so don't
+  // "await" it.
+  await event.sync()
 })
