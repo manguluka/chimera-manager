@@ -11,7 +11,7 @@ const meetup = require('meetup-api')({ key: API_KEY })
 function eventToMeetup(event) {
   const parameters = {
     name: event.title,
-    description: '<strong>This is a description</strong>',
+    description: '<strong>This is a description, look at me!</strong>',
     duration: moment.duration(event.endsAt - event.startsAt).asMilliseconds(),
     group_id: GROUP_ID,
     group_urlname: URL_NAME,
