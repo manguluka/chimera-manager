@@ -8,10 +8,11 @@ module.exports = wrap(async (req, res) => {
   if (req.query && req.query.event) {
     eventId = Number(req.query.event)
     event = await Event.findOne(eventId)
+    remainingSpots = await event.remainingSpots()
   }
 
   const events = await Event.future()
   const users = await User.findMany()
 
-  res.render('attendees/new', { event, eventId, events, users })
+  res.render('attendees/new', { event, eventId, events, remainingSpots, users })
 })

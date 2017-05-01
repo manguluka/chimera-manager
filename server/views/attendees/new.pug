@@ -17,6 +17,10 @@ block content
         .header
           h1.title Add Attendee
         .content
+          if remainingSpots === 0
+            .alert.alert-warning
+              i.ti-alert.mr-2
+              | This event has no more spots left. Adding an attendee will put this event over the maximum attendee limit.
           form(action='/attendees' method='post')
             if eventId
               .form-group

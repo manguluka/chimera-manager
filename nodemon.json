@@ -3,6 +3,7 @@
     "frontend/*",
     "public/*",
     "server/views",
-    "server/**/*.test.js"
+    "server/**/*.test.js",
+    "*.config.js"
   ]
 }
