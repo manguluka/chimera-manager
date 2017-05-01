@@ -17,11 +17,8 @@ console.log(
 )
 
 const webpackConfig = {
-  entry:  {
-    frontend: [
-      'babel-polyfill',
-      './frontend/index.js',
-    ],
+  entry: {
+    frontend: ['babel-polyfill', './frontend/index.js'],
   },
   output: {
     path: path.join(__dirname, 'public'),
@@ -30,31 +27,44 @@ const webpackConfig = {
     libraryTarget: 'var',
   },
   plugins: [
+    //new webpack.ProvidePlugin({
+    //$: 'jquery',
+    //jQuery: 'jquery',
+    //}),
     new ExtractTextPlugin('[name].css'),
     //new HtmlWebpackPlugin({
-      //title: config.get('appName'),
-      //template: 'frontend/index.html',
+    //title: config.get('appName'),
+    //template: 'frontend/index.html',
     //}),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify({
-        ENV,
-        NODE_ENV: ENV,
-      }),
-    }),
+    //new webpack.DefinePlugin({
+    //'process.env': JSON.stringify({
+    //ENV,
+    //NODE_ENV: ENV,
+    //}),
+    //}),
   ],
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(server|node_modules)/,
+        exclude: /(node_modules|server)/,
         loader: 'babel-loader',
       },
       {
         test: /\.(css|scss|sass)/,
-        loader: ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader!autoprefixer-loader!sass-loader'
-        })
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            'postcss-loader',
+            'sass-loader',
+          ],
+        }),
       },
       {
         test: /\.(svg|woff|woff2|eot|dtd|png|gif|jpg|jpeg|ttf)(\?.*)?$/,
@@ -71,7 +81,7 @@ if (ENV === 'test' || ENV === 'development') {
 if (ENV === 'production') {
   webpackConfig.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: { warnings: false },
     })
   )
   webpackConfig.sassLoader = {

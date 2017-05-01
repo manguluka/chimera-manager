@@ -1,9 +1,10 @@
-const $ = require('jquery')
-require('select2')
+import $ from 'jquery'
+import MarkdownEditor from './components/markdown-editor'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import 'select2'
 //require('isomorphic-fetch')
-//const React = require('react')
-//const ReactDOM = require('react-dom')
-require('./styles/index.scss')
+import './styles/index.scss'
 
 console.log('Frontend loaded with environment:', process.env.NODE_ENV)
 
@@ -52,6 +53,21 @@ function selectSearch(selector, onChange) {
   })
   onChange && $(selector).on('select2:select', onChange)
 }
+
+function markdownEditor() {
+  const textareas = document.querySelectorAll('.markdown-editor')
+  Array.from(textareas).map(textarea => {
+    textarea.style.display = 'none'
+    const editor = document.createElement('div')
+    textarea.parentNode.insertBefore(editor, textarea.nextSibling)
+    ReactDOM.render(
+      <MarkdownEditor textarea={textarea} value={textarea.value} />,
+      editor
+    )
+  })
+}
+
+markdownEditor()
 
 module.exports = {
   selectSearch,

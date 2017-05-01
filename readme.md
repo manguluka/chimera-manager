@@ -13,6 +13,9 @@
 
 ## Todo
 
+- [ ] Change "end date" to "duration" (use [this](https://github.com/koss-lebedev/bootstrap-duration-picker)?)
+
+
 ### Major Functionality
 
 - [ ] Signup/pay flow
