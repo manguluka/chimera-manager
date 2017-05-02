@@ -1,16 +1,25 @@
-
 //-----------------------------------------
 // Bootstrap
 //-----------------------------------------
 
 // Colors
-$black:  #111 !default;
-$red:    #EB5E28 !default;
-$yellow: #F3BB45 !default;
-$green:  #7AC29A !default;
-$blue:   #7A9E9F !default;
-$teal:   #68B3C8 !default;
+$black:  #111;
+$white:  #fff;
+$red:    #EB5E28;
+$yellow: #F3BB45;
+$green:  #7AC29A;
+$blue:   #7A9E9F;
+$teal:   #68B3C8;
+$tan:    #f4f3ef;
+$gray-lightest: $tan;
+$gray-lighter: darken($tan, 15%);
+$gray-light: darken($tan, 30%);
+$gray: darken($tan, 45%);
+$gray-dark: darken($tan, 60%);
+$gray-darker: darken($tan, 75%);
+$gray-darkest: darken($tan, 90%);
 
+$text-muted: $gray;
 
 // Fonts
 $small-font-size: 0.75rem;
@@ -31,6 +40,11 @@ $btn-padding-x-lg: 2.25rem;
 $btn-padding-y-lg: 0.75rem;
 $btn-padding-x-sm: 0.8rem;
 $btn-padding-y-sm: 0.3rem;
+
+// Tables
+$table-border-color: $gray-light;
+$table-head-color: $gray-darker;
+$table-bg-hover: $white;
 
 
 //-----------------------------------------

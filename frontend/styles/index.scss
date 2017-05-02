@@ -4,25 +4,15 @@
 @import '~font-awesome/scss/font-awesome';
 @import '~select2/src/scss/core';
 @import '~select2-bootstrap-theme/dist/select2-bootstrap';
-@import 'paper-dashboard';
+//@import 'paper-dashboard';
 @import 'themify-icons';
+@import 'layout';
+@import 'type';
+@import 'forms';
 @import 'buttons';
+@import 'tables';
 
 // Override disabled options in select2 search.
 .select2-container--bootstrap .select2-results__option[aria-disabled=true] {
   color: #ccc;
-}
-
-.form-group label {
-  font-weight: bold;
-}
-
-.page-heading {
-  border-bottom: 1px solid #ececec;
-  margin-bottom: 2.5rem;
-  padding-bottom: 0.75rem;
-}
-
-em {
-  font-style: italic;
 }

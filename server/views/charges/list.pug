@@ -4,28 +4,34 @@ block title
   | Charges
 
 block content
-  .card
-    if charges && charges.length
-      table.table.table-sm
-        thead
-          tr
-            th User
-            th Type
-            th Amount
-            th Memo
-            th Created At
-        tbody
-            for charge in charges
-              tr
-                td
-                  a(href=charge.url)
-                    = charge.user.name
-                td.text-success
-                  include ./_type-display.pug
-                td
-                  | $
-                  = charge.amountDollars
-                td= charge.memo
-                td= moment(charge.createdAt).fromNow()
-    else
-      p.text-muted No charges yet
+  if currentUser && currentUser.staff
+    .float-right
+      a.btn.btn-success.btn-sm(href='/charges/new')
+        i.ti-plus.mr-2
+        | Add Charge
+
+  if charges && charges.length
+    h1.page-heading Charges
+    table.table
+      thead
+        tr
+          th User
+          th Type
+          th Amount
+          th Memo
+          th Created At
+      tbody
+          for charge in charges
+            tr
+              td
+                a(href=charge.url)
+                  = charge.user.name
+              td.text-success
+                include ./_type-display.pug
+              td
+                | $
+                = charge.amountDollars
+              td= charge.memo
+              td= moment(charge.createdAt).fromNow()
+  else
+    p.text-muted No charges yet

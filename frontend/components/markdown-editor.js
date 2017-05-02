@@ -6,13 +6,13 @@ export default class MarkdownEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: RichTextEditor.createValueFromString(props.value, 'html'),
+      value: RichTextEditor.createValueFromString(props.value, 'markdown'),
     }
   }
 
   onChange = value => {
     this.setState({ value })
-    this.props.textarea.value = value.toString('html')
+    this.props.textarea.value = value.toString('markdown')
   }
 
   render() {

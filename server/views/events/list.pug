@@ -5,51 +5,57 @@ block title
 
 block content
 
-  .card
-    if events && events.length
-      table.table.table-striped.table-hover
-        thead
+  if currentUser && currentUser.staff
+    .float-right
+      a.btn.btn-success.btn-sm(href='/events/new')
+        i.ti-plus.mr-2
+        | Create Event
+
+  if events && events.length
+    h1.page-heading Events
+    table.table.table-hover
+      thead
+        tr
+          th Title
+          th Visibility
+          th Time
+          th Price
+          th Attendance Limit
+      tbody
+        each event in events
           tr
-            th Title
-            th Visibility
-            th Time
-            th Price
-            th Attendance Limit
-        tbody
-          each event in events
-            tr
-              td
-                if !event.future
-                  .badge.badge-danger.mr-2 PAST
-                if event.cancelled
-                  .badge.badge-danger.mr-2 CANCELLED
-                if event.draft
-                  .badge.badge-warning.mr-2 DRAFT
-                a(href=`/events/${event.id}`)= event.title
-              td
-                small.ml-3
-                  if event.visibility === 'public'
-                    i.ti-world(title='Public')
-                  else
-                    i.ti-user(title='Internal (Member-Only)')
-              td= event.dateRange
-              td
-                if event.price
-                  | $
-                  = event.priceDollars
+            td
+              if !event.future
+                .badge.badge-danger.mr-2 PAST
+              if event.cancelled
+                .badge.badge-danger.mr-2 CANCELLED
+              if event.draft
+                .badge.badge-warning.mr-2 DRAFT
+              a(href=`/events/${event.id}`)= event.title
+            td
+              small.ml-3
+                if event.visibility === 'public'
+                  i.ti-world(title='Public')
                 else
-                  em Free
-                if event.memberPrice || event.materialFee
-                  = ' ( '
+                  i.ti-user(title='Internal (Member-Only)')
+            td= event.dateRange
+            td
+              if event.price
+                | $
+                = event.priceDollars
+              else
+                em Free
+              if event.memberPrice || event.materialFee
+                br
+                small.text-muted
                   if event.memberPrice
                     | members: $#{event.memberPriceDollars}
                   if event.memberPrice && event.materialFee
                     = ', '
                   if event.materialFee
                     | materials: $#{event.materialFeeDollars}
-                  = ' )'
-              td= event.attendeeLimit
-    else
-      p
-        em No events matching search
+            td= event.attendeeLimit
+  else
+    p
+      em No events matching search
 

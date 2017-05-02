@@ -4,25 +4,25 @@ block title
   | Activities
 
 block content
-  .card
-    if activities
-      table.table.table-sm
-        thead
+  if activities
+    h1.page-heading Activities
+    table.table
+      thead
+        tr
+          th What
+          th Who
+          th When
+      tbody
+        for activity in activities
           tr
-            th What
-            th Who
-            th When
-        tbody
-          for activity in activities
-            tr
-              td
-                = activity.modelName
-                = ': '
-                a(href=activity.url)
-                  = activity.action
-              td
-                if activity.userId
-                  a(href=`/users/${activity.userId}`)= activity.userId
-                else
-                  | Unknown
-              td= moment(activity.createdAt).fromNow()
+            td
+              = activity.modelName
+              = ': '
+              a(href=activity.url)
+                = activity.action
+            td
+              if activity.userId
+                a(href=`/users/${activity.userId}`)= activity.userId
+              else
+                | Unknown
+            td= moment(activity.createdAt).fromNow()

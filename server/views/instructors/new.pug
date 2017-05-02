@@ -10,26 +10,23 @@ block scripts
 
 block content
 
-  p.text-center
+  p.text-center.mb-5
     a(href=`/events/${event.id}`)
       i.ti-arrow-left.mr-2
       | Back to event
 
   .row
-    .col-sm-8.offset-sm-2
-      .card
-        - instructorLabel = event.category === 'meetup' ? 'Host' : 'Instructor'
-        .header
-          h1.title Add #{instructorLabel}
-        .content
-          p This person will be notified that they are the #{instructorLabel.toLowerCase()} of this event and will get reminders about the event and have access to the attendee list.
-          form(action=`/events/${event.id}/instructors` method='post')
-            .form-group
-              select#instructor-select.form-control.mt-3(name='instructor')
-                - instructorIds = instructors.map((i) => i.userId)
-                for user in users
-                  option(value=user.id disabled=instructorIds.includes(user.id))= user.name
-            p.mt-5
-              button.btn.btn-success.btn.lg.btn-block(type='submit')
-                i.ti-plus.mr-3
-                | Add #{instructorLabel}
+    .col-sm-6.offset-sm-4
+      - instructorLabel = event.category === 'meetup' ? 'Host' : 'Instructor'
+      h1.page-heading Add #{instructorLabel}
+      p This person will be notified that they are the #{instructorLabel.toLowerCase()} of this event and will get reminders about the event and have access to the attendee list.
+      form(action=`/events/${event.id}/instructors` method='post')
+        .form-group
+          select#instructor-select.form-control.mt-3(name='instructor')
+            - instructorIds = instructors.map((i) => i.userId)
+            for user in users
+              option(value=user.id disabled=instructorIds.includes(user.id))= user.name
+        p.mt-5
+          button.btn.btn-success.btn.lg.btn-block(type='submit')
+            i.ti-plus.mr-3
+            | Add #{instructorLabel}

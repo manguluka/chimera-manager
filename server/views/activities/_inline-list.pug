@@ -1,9 +1,9 @@
 if activities.length
-  ul.list-unstyled
-    for activity in activities
-      li
-        .row
-          .col-8
+  table.table.table-responsive
+    tbody
+      for activity in activities
+        tr
+          td
             if activity.action === 'created'
               i.ti-face-smile.text-success
             if activity.action === 'updated'
@@ -24,7 +24,7 @@ if activities.length
               span.ml-3 Unknown
             = ' '
             = activity.action
-          .col-4.text-right
+          td
             a(href=activity.url title='View this activity')
               small(title=activity.createdAt)
                 = moment(activity.createdAt).fromNow()

@@ -4,7 +4,7 @@ block title
   = event.title
 
 block content
-  p
+  p.mb-5
     a(href='/events') ← Back to events
 
   .row
@@ -15,91 +15,46 @@ block content
     // Event details
     //--------------------------------------------------
     .col-lg-9
-      .card
-        .header
+      if currentUser && currentUser.staff
+        .btn-group.float-right
+          a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
+            i.ti-pencil.mr-2
+            | Edit
+          if !event.cancelled
+            a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
+              i.ti-close.mr-2
+              | Cancel
+      div
+        if !event.future
+          span.badge.badge-danger.mr-3 PAST
+        if event.cancelled
+          span.badge.badge-danger.mr-3 CANCELLED
+        if event.draft
+          span.badge.badge-warning.mr-3 DRAFT
+        span.text-muted
+          span.mr-3.text-uppercase= event.category
           if currentUser && currentUser.staff
-            .btn-group.float-right
-              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
-                i.ti-pencil.mr-3
-                | Edit
-              if !event.cancelled
-                a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
-                  i.ti-close.mr-2
-                  | Cancel
-          div
-            if !event.future
-              span.badge.badge-danger.mr-3 PAST
-            if event.cancelled
-              span.badge.badge-danger.mr-3 CANCELLED
-            if event.draft
-              span.badge.badge-warning.mr-3 DRAFT
-            span.text-muted
-              span.mr-3.text-uppercase= event.category
-              if currentUser && currentUser.staff
-                if event.visibility === 'public'
-                  i.ti-world(title='Public')
-                else
-                  i.ti-user(title='Internal (Member-Only)')
-          h1.title= event.title
-          h5.category.mt-2= event.dateRange
-
-        .content
-
-          p
-            strong Attendee Limit:
-            = ' '
-            =event.attendeeLimit
-
-          div
-            != event.descriptionHtml
-
-
-
-      //--------------------------------------------------
-      // Instructors
-      //--------------------------------------------------
-      .card
-        .header
-          if currentUser && currentUser.staff
-            .float-right
-              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
-                i.ti-plus.mr-2
-                if event.category === 'meetup'
-                  | Add Host
-                else
-                  | Add Instructor
-          h4.title.text-info
-            i.ti-book.mr-3
-            if event.category === 'meetup'
-              | Hosts
+            if event.visibility === 'public'
+              i.ti-world(title='Public')
             else
-              | Instructors
-        .content
-          if instructors && instructors.length
-            ul.list-unstyled
-              for user in instructors
-                li.mb-3
-                  .row
-                    .col-1
-                      img.rounded-circle(src=user.avatarUrl(50) width=50 height=50)
-                    .col-8.pl-5
-                      if currentUser && currentUser.staff
-                        strong
-                          a(href=user.url)= user.name
-                        br
-                        small.text-muted
-                          a(href=`mailto:${user.email}`)= user.email
-                      else
-                        strong= user.name
-                    .col-3.text-right
-                      if currentUser && currentUser.staff
-                        form(action=`/events/${event.id}/instructors/${user.id}/remove` method='post')
-                          button.btn.btn-outline-danger.btn-sm(type='submit')
-                            i.ti-close.mr-2
-                            | Remove
-          else
-            p
-              em There are no instructors for this event.
+              i.ti-user(title='Internal (Member-Only)')
+      h1.page-heading= event.title
+
+      .float-right.text-right
+        if event.meetupId
+          p.mb-5
+            a.btn.btn-outline-primary.btn-sm.float-right(href=`http://meetup.com/${config.MEETUP_URL_NAME}/${event.meetupId}` target='_blank')
+              i.fa.fa-meetup.mr-1
+              | View on Meetup
+        p
+          strong Attendee Limit:
+          br
+          =event.attendeeLimit
+
+      h5.category.my-3= event.dateRange
+
+      .mb-5
+        != event.descriptionHtml
 
 
 
@@ -158,65 +113,104 @@ block content
 
 
 
+
+  //--------------------------------------------------
+  // Instructors
+  //--------------------------------------------------
+  h3.mb-4.text-info
+    i.ti-book.mr-4
+    if event.category === 'meetup'
+      | Hosts
+    else
+      | Instructors
+  if currentUser && currentUser.staff
+    p.mb-4
+      a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
+        i.ti-plus.mr-2
+        if event.category === 'meetup' || event.category === 'event'
+          | Add Host
+        else
+          | Add Instructor
+
+  if instructors && instructors.length
+    table.table.table-responsive
+      tbody
+        for user in instructors
+          tr
+            td
+              img.rounded-circle(src=user.avatarUrl(40) width=40 height=40)
+            td
+              if currentUser && currentUser.staff
+                strong
+                  a(href=user.url)= user.name
+                br
+                small.text-muted
+                  a(href=`mailto:${user.email}`)= user.email
+              else
+                strong= user.name
+            td
+              if currentUser && currentUser.staff
+                form(action=`/events/${event.id}/instructors/${user.id}/remove` method='post')
+                  button.btn.btn-outline-danger.btn-sm(type='submit')
+                    i.ti-close.mr-2
+                    | Remove
+  else
+    p
+      em There are no instructors for this event.
+
+
   //--------------------------------------------------
   // Admin panels
   //--------------------------------------------------
   if currentUser && currentUser.staff
 
 
-
     //--------------------------------------------------
     // Attendees
     //--------------------------------------------------
-    .card
-      .header
-        .float-right
-          a.btn.btn-outline-primary.btn-sm(href=`/attendees/new?event=${event.id}`)
-            i.ti-plus.mr-2
-            | Add Attendee
-        h4.title.text-success
-          i.ti-user.mr-3
-          | Attendees
-      .content
-        ul.list-unstyled
+    .my-5
+      h3.mb-4.text-success
+        i.ti-user.mr-3
+        | Attendees
+      p.mb-4
+        a.btn.btn-outline-primary.btn-sm(href=`/attendees/new?event=${event.id}`)
+          i.ti-plus.mr-2
+          | Add Attendee
+      table.table.table-responsive
+        tbody
           for attendee in attendees
             - charge = attendee.charge
-            li.mb-3
-              .row
-                .col-1
-                  .avatar
-                    img(src=attendee.user.avatarUrl(50) width=50 height=50)
-                .col-3
-                  strong
-                    a(href=attendee.user.url)= attendee.user.name
+            tr
+              td
+                img.rounded-circle(src=attendee.user.avatarUrl(40) width=40 height=40)
+              td
+                strong
+                  a(href=attendee.user.url)= attendee.user.name
+              td
+                small.text-muted Dabbler
+              td
+                a(href=charge.url)
+                  small.text-success.text-uppercase(title='Paid via cash')
+                    include ../charges/_type-display.pug
+                if charge.memo
                   br
-                  small.text-muted Dabbler
-                .col-5
-                  a(href=charge.url)
-                    small.text-success.text-uppercase(title='Paid via cash')
-                      include ../charges/_type-display.pug
-                  if charge.memo
-                    br
-                    small.text-muted= charge.memo
+                  small.text-muted= charge.memo
 
-                .col-3.text-right
-                  .btn-group
-                    a.btn.btn-outline-primary.btn-sm(href=attendee.url)
-                      i.ti-eye.mr-2
-                      | View
-                    a.btn.btn-outline-danger.btn-sm(href=`${attendee.url}/refund`)
-                      i.ti-close.mr-2
-                      | Refund
+              td
+                .btn-group
+                  a.btn.btn-outline-primary.btn-sm(href=attendee.url)
+                    i.ti-eye.mr-2
+                    | View
+                  a.btn.btn-outline-danger.btn-sm(href=`${attendee.url}/refund`)
+                    i.ti-close.mr-2
+                    | Refund
 
 
 
     //--------------------------------------------------
     // Recent changes
     //--------------------------------------------------
-    .card
-      .header
-        h4.title.text-info
-          i.ti-time.mr-3
-          | Recent Changes
-      .content
-        include ../activities/_inline-list.pug
+    h3.mb-4.title.text-info
+      i.ti-time.mr-3
+      | Recent Changes
+    include ../activities/_inline-list.pug

@@ -24,52 +24,49 @@ block title
 
 block content
 
-  p.text-center
+  p.text-center.mb-5
     a(href=`/events/${event.id}`)
       i.ti-arrow-left.mr-2
       | Back to event
 
   .row
-    .col-md-6.offset-md-3
-      .card
-        .header.text-center
-          h1.title Attend #{event.title}
-          h5.category.mt-2= event.dateRange
-        .content.text-center
+    .col-md-6.offset-md-3.text-center
+      h1.page-heading Attend #{event.title}
+      h5.category.mt-2= event.dateRange
 
-          if !currentUser && event.price && event.memberPrice
-            p
-              | If you're a Chimera member,
-              = ' '
-              a(href=`/auth/login?redirect=${currentUrl}`) please login
-              = ' '
-              | to apply your member discount.
-          h1
+      if !currentUser && event.price && event.memberPrice
+        p
+          | If you're a Chimera member,
+          = ' '
+          a(href=`/auth/login?redirect=${currentUrl}`) please login
+          = ' '
+          | to apply your member discount.
+      h1.display-3.mt-5
+        if !event.price
+          | Free!
+        else if currentUser && event.memberPrice
+          small Member Price
+          br
+          | $
+          = event.memberPriceDollars
+        else if event.price
+          small Non-Member Price
+          br
+          | $
+          = event.priceDollars
+      if event.materialFee
+        p.mt-5.text-muted
+          strong Material Fee:
+          br
+          | Remeber to bring cash or a check for <em>$#{event.materialFeeDollars}</em> on the day of the event.
+      p.mt-5
+        form#checkout-form(action=`${event.url}/purchase` method='post')
+          // TODO: signup on meetup if a meetup
+          input#stripe-token(name='token' type='hidden')
+          input#email(name='email' type='hidden')
+          button.btn.btn-success.btn-lg.btn-block(type='submit')
             if !event.price
-              | Free!
-            else if currentUser && event.memberPrice
-              small Member Price
-              br
-              | $
-              = event.memberPriceDollars
-            else if event.price
-              small Non-Member Price
-              br
-              | $
-              = event.priceDollars
-          if event.materialFee
-            p.mt-5.text-muted
-              strong Material Fee:
-              br
-              | Remeber to bring cash or a check for <em>$#{event.materialFeeDollars}</em> on the day of the event.
-          p.mt-5
-            form#checkout-form(action=`${event.url}/purchase` method='post')
-              // TODO: signup on meetup if a meetup
-              input#stripe-token(name='token' type='hidden')
-              input#email(name='email' type='hidden')
-              button.btn.btn-success.btn-lg.btn-block(type='submit')
-                if !event.price
-                  | Attend for Free!
-                else
-                  | Pay $#{currentUser && event.memberPrice ? event.memberPriceDollars : event.priceDollars} Now
-                i.ti-arrow-right.ml-2
+              | Attend for Free!
+            else
+              | Pay $#{currentUser && event.memberPrice ? event.memberPriceDollars : event.priceDollars} Now
+            i.ti-arrow-right.ml-2

@@ -9,17 +9,17 @@ block content
     a(href='/users') ← Back to users
 
   .card
-    .header
+    .card-header
       if currentUser.staff || user.id === currentUser.id
         .float-right
           a.btn.btn-outline-primary.btn-sm(href=`${user.url}/edit`)
             i.ti-pencil.mr-2
             | Edit
-      h1.title
+      h1.page-heading
         = user.name
         if user.staff
           .badge.badge-info.ml-3 STAFF
-    .content
+    .card-block
       p
         strong
           a(href=`mailto:${user.email}`)= user.email
@@ -33,20 +33,20 @@ block content
 
     .col
       .card
-        .header
+        .card-header
           h4.title.text-info
             i.ti-calendar.mr-3
             | Events
-        .content
+        .card-block
           p Hello world
 
     .col
       .card
-        .header
+        .card-header
           h4.title.text-info
             i.ti-receipt.mr-3
             | Charges
-        .content
+        .card-block
           if charges
             for charge in charges
               .row
@@ -64,9 +64,9 @@ block content
     if activities
       .col
         .card
-          .header
+          .card-header
             h4.title.text-primary
               i.ti-menu.mr-3
               | Activities
-          .content
+          .card-block
             include ../activities/_inline-list.pug

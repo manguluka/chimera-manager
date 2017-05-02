@@ -11,6 +11,8 @@ module.exports = function templateLocalsMiddleware() {
       DEFAULT_FROM_ADDRESS: config.get('emails.defaultFromAddress'),
       ENV: config.get('env'),
       HOST: config.get('host'),
+      MEETUP_GROUP_ID: config.get('meetup.groupId'),
+      MEETUP_URL_NAME: config.get('meetup.urlName'),
       STRIPE_PUBLIC_KEY: config.get('payments.stripePublicKey'),
     }
     res.locals.currentUser = req.currentUser

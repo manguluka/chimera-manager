@@ -61,7 +61,10 @@ function markdownEditor() {
     const editor = document.createElement('div')
     textarea.parentNode.insertBefore(editor, textarea.nextSibling)
     ReactDOM.render(
-      <MarkdownEditor textarea={textarea} value={textarea.value} />,
+      <MarkdownEditor
+        textarea={textarea}
+        value={textarea.value}
+      />,
       editor
     )
   })

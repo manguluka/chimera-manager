@@ -1,0 +1,10 @@
+@import 'variables';
+
+.table {
+  thead th {
+    border-bottom-width: 1px;
+    border-top: 0 none;
+    color: $gray-darker;
+  }
+  td { border-top-width: 1px; }
+}

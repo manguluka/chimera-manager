@@ -6,8 +6,14 @@ block title
 block content
   .row
     .col-sm-6.offset-md-3
-      .card
-        .header
-          h1.title Page Not Found
-        .content
-          p Double check the URL and try again...
+      .text-center
+        h1.page-heading
+          i.fa.fa-frown-o.fa-2x.text-danger
+          br
+          | Page Not Found
+        p Please double check the URL and try again...
+        p
+          | If you think this is our fault, please email us at
+          = ' '
+          a(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)= config.DEFAULT_FROM_ADDRESS
+        p Sorry about that!

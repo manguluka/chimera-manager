@@ -1,0 +1,18 @@
+@import 'variables';
+
+body {
+  background-color: $tan;
+}
+
+.page {
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+}
+
+.navbar {
+  border-bottom: 1px solid $gray-lighter;
+
+  .navbar-brand {
+    color: $gray-darkest;
+  }
+}

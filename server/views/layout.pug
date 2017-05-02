@@ -13,105 +13,77 @@ html
   body
 
     block page
-      .wrapper
-        .sidebar(data-background-color='black' data-active-color='success')
-          .sidebar-wrapper
-            .logo
-              a.simple-text(href='/')
-                = config.APP_NAME
+      .navbar.navbar-toggleable-md
+        .container
+          a.navbar-brand(href='/')= config.APP_NAME
 
-            ul.nav.flex-column
+          .navbar-collapse
+            nav.navbar-nav.mr-auto
               if currentUser && currentUser.staff
-                li.nav-item(class=(section === 'dashboard' ? 'active' : ''))
-                  a.nav-link(href='/')
-                    i.ti-dashboard
-                    | Dashboard
-
-              li.nav-item(class=(section === 'events' ? 'active' : ''))
-                a.nav-link(href='/events')
-                  i.ti-calendar
-                  | Events
-
+                a.nav-item.nav-link(class=(section === 'dashboard' ? 'active' : '') href='/')
+                  i.ti-dashboard.mr-2
+                  | Dashboard
+              a.nav-item.nav-link(class=(section === 'events' ? 'active' : '') href='/events')
+                i.ti-calendar.mr-2
+                | Events
               if currentUser && currentUser.staff
-                li.nav-item(class=(section === 'users' ? 'active' : ''))
-                  a.nav-link(href='/users')
-                    i.ti-user
-                    | Members
-                li.nav-item(class=(section === 'charges' ? 'active' : ''))
-                  a.nav-link(href='/charges')
-                    i.ti-money
-                    | Charges
-                li.nav-item(class=(section === 'checkins' ? 'active' : ''))
-                  a.nav-link.disabled(href='#')
-                    i.ti-key
-                    | Checkins
-                li.nav-item(class=(section === 'reports' ? 'active' : ''))
-                  a.nav-link.disabled(href='#')
-                    i.ti-bar-chart
-                    | Reports
-                li.nav-item(class=(section === 'activities' ? 'active' : ''))
-                  a.nav-link(href='/activities')
-                    i.ti-menu
-                    | Activities
+                a.nav-item.nav-link(class=(section === 'users' ? 'active' : '') href='/users')
+                  i.ti-user.mr-2
+                  | People
+                a.nav-item.nav-link(class=(section === 'charges' ? 'active' : '') href='/charges')
+                  i.ti-money.mr-2
+                  | Charges
+                a.nav-item.nav-link.disabled(class=(section === 'checkins' ? 'active' : '') href='#')
+                  i.ti-key.mr-2
+                  | Checkins
+                a.nav-item.nav-link.disabled(class=(section === 'reports' ? 'active' : '') href='#')
+                  i.ti-bar-chart.mr-2
+                  | Reports
+                a.nav-item.nav-link(class=(section === 'activities' ? 'active' : '') href='/activities')
+                  i.ti-menu.mr-2
+                  | Activities
 
-            hr
-            ul.nav.flex-column
+            nav.navbar-nav
               if !currentUser
-                li.nav-item
-                  a.nav-link(href=`/auth/login?redirect=${currentUrl}`)
-                    i.ti-lock
-                    | Login
+                a.nav-item.nav-link(href=`/auth/login?redirect=${currentUrl}`)
+                  i.ti-lock.mr-2
+                  | Login
               else
-                li.nav-item
-                  a.nav-link(href=`/auth/logout?redirect=${currentUrl}`)
-                    i.ti-power-off
-                    | Logout
-        .main-panel
-          .container-fluid
-            .navbar.navbar-default
-              .navbar-head
-                if currentUser && currentUser.staff
-                  if section === 'events'
-                    .float-right
-                      a.btn.btn-success.btn-lg(href='/events/new')
-                        i.ti-plus.mr-2
-                        | Create Event
-                  if section === 'charges'
-                    .float-right
-                      a.btn.btn-success.btn-lg(href='/charges/new')
-                        i.ti-plus.mr-2
-                        | Add Charge
-                h1.navbar-brand.text-capitalize= section
-          .content.mb-5
+                a.nav-item.nav-link(href=`/auth/logout?redirect=${currentUrl}`)
+                  i.ti-power-off.mr-2
+                  | Logout
+
+      .page
+        .container
+
+          for type in ['success', 'info', 'warning', 'danger']
+            if messages && messages[type]
+              .alert.fade_in(class=`alert-${type}` role='alert').mb-3
+                if type === 'success'
+                  i.fa.fa-check.pr-1
+                if type === 'danger'
+                  i.fa.fa-times.pr-1
+                if type === 'warning'
+                  i.fa.fa-exclamation-triangle.pr-1
+                if type === 'info'
+                  i.fa.fa-info-circle.pr-1
+                = messages[type]
+                if messages.link
+                  | &nbsp;
+                  a(href=messages.link[1])= messages.link[0]
+
+          block content
+
+          footer.footer.pt-5.pb-3.my-5
             .container-fluid
-              for type in ['success', 'info', 'warning', 'danger']
-                if messages && messages[type]
-                  .alert.fade_in(class=`alert-${type}` role='alert').mb-3
-                    if type === 'success'
-                      i.fa.fa-check.pr-1
-                    if type === 'danger'
-                      i.fa.fa-times.pr-1
-                    if type === 'warning'
-                      i.fa.fa-exclamation-triangle.pr-1
-                    if type === 'info'
-                      i.fa.fa-info-circle.pr-1
-                    = messages[type]
-                    if messages.link
-                      | &nbsp;
-                      a(href=messages.link[1])= messages.link[0]
-
-              block content
-
-              footer.footer.pt-3.pb-3.mt-5
-                .container-fluid
-                  .text-center
-                    a.btn.btn-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)
-                      i.ti-email.mr-3
-                      | Contact Us
-                    small.ml-4
-                      | &copy; 2017
-                      = ' '
-                      = config.APP_NAME
+              .text-center
+                a.btn.btn-outline-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)
+                  i.ti-email.mr-3
+                  | Contact Us
+                small.ml-4
+                  | &copy; 2017
+                  = ' '
+                  = config.APP_NAME
 
     script(src='/frontend.js')
 
