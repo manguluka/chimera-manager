@@ -8,65 +8,57 @@ block content
   p
     a(href='/users') ← Back to users
 
-  .card
-    .card-header
-      if currentUser.staff || user.id === currentUser.id
-        .float-right
-          a.btn.btn-outline-primary.btn-sm(href=`${user.url}/edit`)
-            i.ti-pencil.mr-2
-            | Edit
-      h1.page-heading
-        = user.name
-        if user.staff
-          .badge.badge-info.ml-3 STAFF
-    .card-block
-      p
-        strong
-          a(href=`mailto:${user.email}`)= user.email
-      p
-        strong.mr-2 Created:
-        span.text-muted= moment(user.createdAt).fromNow()
-      if user.bio
-        p= user.bio
+  if currentUser.staff || user.id === currentUser.id
+    .float-right
+      a.btn.btn-outline-primary.btn-sm(href=`${user.url}/edit`)
+        i.ti-pencil.mr-2
+        | Edit
+  h1.page-heading
+    = user.name
+    if user.staff
+      .badge.badge-info.ml-3 STAFF
+  .float-right.ml-5.mb-5
+    img.rounded-circle.mr-3(src=user.avatarUrl(240) width=240 height=240)
+  p
+    strong
+      a(href=`mailto:${user.email}`)= user.email
+  p
+    strong.mr-2 Created:
+    span.text-muted= moment(user.createdAt).fromNow()
+  if user.bio
+    p= user.bio
 
-  .row
-
-    .col
-      .card
-        .card-header
-          h4.title.text-info
-            i.ti-calendar.mr-3
-            | Events
-        .card-block
-          p Hello world
-
-    .col
-      .card
-        .card-header
-          h4.title.text-info
-            i.ti-receipt.mr-3
-            | Charges
-        .card-block
-          if charges
-            for charge in charges
-              .row
-                .col-4
-                  | $
-                  = charge.amountDollars
-                .col-3= charge.type
-                .col-5
-                  small= moment(charge.createdAt).fromNow()
-          else
-            p
-              em No charges yet...
+  h3.mb-4.mt-5.text-info
+    i.ti-calendar.mr-3
+    | Events
+  p
+    em Coming soon: list events member has attended...
 
 
-    if activities
-      .col
-        .card
-          .card-header
-            h4.title.text-primary
-              i.ti-menu.mr-3
-              | Activities
-          .card-block
-            include ../activities/_inline-list.pug
+  h3.mb-4.mt-5.text-info
+    i.ti-receipt.mr-3
+    | Charges
+  if charges
+    table.table.table-responsive
+      tbody
+        for charge in charges
+          tr
+            td $#{charge.amountDollars}
+            td
+              include ../charges/_type-display.pug
+            td
+              small= moment(charge.createdAt).fromNow()
+            td
+              a.btn.btn-link.btn-sm(href=charge.url)
+                | View
+                i.fa.fa-arrow-right.ml-2
+  else
+    p
+      em No charges yet...
+
+
+  if activities
+    h3.mb-4.mt-5.text-primary
+      i.ti-menu.mr-3
+      | Activities
+    include ../activities/_inline-list.pug
