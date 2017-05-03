@@ -42,6 +42,7 @@ export default class MarkdownEditor extends React.Component {
     }
     return (
       <RichTextEditor
+        editorClassName="markdown-editor"
         value={this.state.value}
         onChange={this.onChange}
         toolbarConfig={toolbarConfig}

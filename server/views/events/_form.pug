@@ -17,20 +17,35 @@
 
 .row
 
-  //--------------------------------------------------
-  // Start/End times
-  //--------------------------------------------------
   .col
+
+    //--------------------------------------------------
+    // Start/End times
+    //--------------------------------------------------
     .form-group
       label(for='event-start-date') Start Time
       .row
-        .col
-          input#event-start-date.form-control(name='startDay' type='date' required value=event.startDay)
-        .col
+        .col-4
+          input#event-start-date.form-control(name='startDay' type='date' required value=event.startDay || startDay)
+        .col-3
           input#event-start-time.form-control(name='startTime' type='time' required value=event.startTime)
-        .col
-          input.form-control(name='duration' type='text' required value=event.durationShort placeholder='Duration (eg "2 hours", "1.5h")')
-          small.form-text.text-muted Examples: "4 hours 30 minutes", "4 hrs 30 mins", "4.5h"
+        .col-5
+          input.form-control(name='duration' type='text' required value=event.durationShort placeholder='Duration')
+          small.form-text.text-muted
+            | Examples:
+            br
+            | "4 hours 30 minutes", "4 hrs 30 mins", "4.5h"
+
+    //--------------------------------------------------
+    // Category
+    //--------------------------------------------------
+    .form-group
+      .row
+        .col-6
+          label(for='category') Category
+          select#category.form-control(name='category')
+            for category in categories
+              option(value=category selected=(event.category === category))= _.capitalize(category)
 
   .col
 
@@ -89,18 +104,6 @@
   //p
     //em Coming soon...
 
-//--------------------------------------------------
-// Category
-//--------------------------------------------------
-
-.row
-  .col-4
-    .form-group
-      label(for='category') Category
-      select#category.form-control(name='category')
-        for category in categories
-          option(value=category selected=(event.category === category))= _.capitalize(category)
-
 
 //--------------------------------------------------
 // Internal
@@ -119,6 +122,6 @@
 
 .form-group
   label(for='draft')
-    input#draft.mr-2(name='draft' type='checkbox' checked=event.draft)
+    input#draft.mr-2(name='draft' type='checkbox' checked=(_.isEmpty(event) ? true : event.draft))
     | Draft event?
     small.text-muted.ml-3 Draft events are only visible to staff

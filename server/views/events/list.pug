@@ -60,7 +60,7 @@ block content
                 td(style='width: 14.28%; height: 120px;' class=classes)
                   p.mb-1
                     strong
-                      a(href=`/events/new?startsAt=${moment(date).format('YYYY-MM-DD')}`)= moment(date).format('D')
+                      a(href=`/events/new?start=${moment(date).format('YYYY-MM-DD')}`)= moment(date).format('D')
                   for event in eventsForDay
                     .p-1.text-white.rounded.mb-1(class=`event-category-${event.category}`)
                       - start = moment(event.startsAt).format('h:mma')
