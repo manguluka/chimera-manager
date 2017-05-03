@@ -1,7 +1,7 @@
 @import 'variables';
 
 .current-day {
-  background-color: lighten($brand-success, 20%);
+  background-color: lighten($brand-info, 25%);
 }
 .not-current-month {
   background-color: $gray-lighter;

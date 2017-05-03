@@ -16,15 +16,7 @@ block content
         include ./_form.pug
         .mt-5
 
-          if event.draft
-            button.btn.btn-success.btn-lg.mr-3(type='submit' disabled)
-              i.ti-announcement.mr-3
-              | Publish Event
-            button.btn.btn-success.btn-lg(type='submit')
-              i.ti-save.mr-3
-              | Save Event
-          else
-            button.btn.btn-success.btn-lg(type='submit') Update Event
+          button.btn.btn-success.btn-lg(type='submit') Save Event
 
           .float-right.mt-2
             a.btn.btn-outline-danger.btn-sm(href=`/events/${event.id}/cancel`)

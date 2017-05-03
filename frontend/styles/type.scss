@@ -1,8 +1,9 @@
 @import 'variables';
 
 .page-heading {
-  border-bottom: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-lighter;
   color: $gray-darker;
+  font-weight: bold;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
 }

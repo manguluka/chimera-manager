@@ -11,7 +11,7 @@ block content
       | Back to event
 
   .row
-    .col-sm-8.offset-sm-2
+    .col-sm-6.offset-sm-3
       h1.page-heading Cancel "#{event.title}"?
       p This will:
       ul
@@ -20,10 +20,10 @@ block content
         li Refund attendees
         if event.category === 'meetup'
           li Cancel the event on Meetup.com
-      p.text-muted
+      p
         strong Note:
-        = ' '
-        | this will <em>not</em> permanently delete this event. You can always re-publish it at a later point if you want.
+        br
+        | This will <u>not</u> permanently delete this event. You can always re-publish it at a later point if you want.
       p.mt-5
         form(action=`/events/${event.id}/cancel` method='post')
           button.btn.btn-danger.btn-lg.btn-block(type='submit')
