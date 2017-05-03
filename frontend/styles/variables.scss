@@ -11,8 +11,9 @@ $green:  #7AC29A;
 $blue:   #7A9E9F;
 $teal:   #68B3C8;
 $tan:    #f4f3ef;
+$purple: #b652dd;
 $gray-lightest: $tan;
-$gray-lighter: darken($tan, 15%);
+$gray-lighter: darken($tan, 10%);
 $gray-light: darken($tan, 30%);
 $gray: darken($tan, 45%);
 $gray-dark: darken($tan, 60%);
@@ -20,6 +21,17 @@ $gray-darker: darken($tan, 75%);
 $gray-darkest: darken($tan, 90%);
 
 $text-muted: $gray;
+
+// Body
+$body-bg: $tan;
+
+// Grid containers
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1680px
+);
 
 // Fonts
 $small-font-size: 0.75rem;

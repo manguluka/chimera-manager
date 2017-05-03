@@ -7,55 +7,83 @@ block content
 
   if currentUser && currentUser.staff
     .float-right
-      a.btn.btn-success.btn-sm(href='/events/new')
+      a.btn.btn-success(href='/events/new')
         i.ti-plus.mr-2
         | Create Event
 
-  if events && events.length
-    h1.page-heading Events
-    table.table.table-hover
+  h1.page-heading Events
+
+  // Date range selection
+  nav.my-4.d-flex.justify-content-center
+    .btn-group.btn-group-sm
+      a.btn.btn-outline-primary(href=`/events?month=${year}-01` class=(monthDisplay === `${year}-01` && 'active')) Jan
+      a.btn.btn-outline-primary(href=`/events?month=${year}-02` class=(monthDisplay === `${year}-02` && 'active')) Feb
+      a.btn.btn-outline-primary(href=`/events?month=${year}-03` class=(monthDisplay === `${year}-03` && 'active')) Mar
+      a.btn.btn-outline-primary(href=`/events?month=${year}-04` class=(monthDisplay === `${year}-04` && 'active')) April
+      a.btn.btn-outline-primary(href=`/events?month=${year}-05` class=(monthDisplay === `${year}-05` && 'active')) May
+      a.btn.btn-outline-primary(href=`/events?month=${year}-06` class=(monthDisplay === `${year}-06` && 'active')) June
+      a.btn.btn-outline-primary(href=`/events?month=${year}-07` class=(monthDisplay === `${year}-07` && 'active')) July
+      a.btn.btn-outline-primary(href=`/events?month=${year}-08` class=(monthDisplay === `${year}-08` && 'active')) Aug
+      a.btn.btn-outline-primary(href=`/events?month=${year}-09` class=(monthDisplay === `${year}-09` && 'active')) Sept
+      a.btn.btn-outline-primary(href=`/events?month=${year}-10` class=(monthDisplay === `${year}-10` && 'active')) Oct
+      a.btn.btn-outline-primary(href=`/events?month=${year}-11` class=(monthDisplay === `${year}-11` && 'active')) Nov
+      a.btn.btn-outline-primary(href=`/events?month=${year}-12` class=(monthDisplay === `${year}-12` && 'active')) Dec
+    .btn-group.btn-group-sm.ml-4
+      a.btn.btn-outline-primary(href=`/events?month=${Number(year) - 1}-${month}`)
+        i.fa.fa-arrow-left
+      button.btn.btn-primary(readonly)= year
+      a.btn.btn-outline-primary(href=`/events?month=${Number(year) + 1}-${month}`)
+        i.fa.fa-arrow-right
+
+  if eventsByDay && eventsByDay.length
+    table.table
       thead
         tr
-          th Title
-          th Visibility
-          th Time
-          th Price
-          th Attendance Limit
+          th Sun
+          th Mon
+          th Tue
+          th Wed
+          th Thu
+          th Fri
+          th Sat
       tbody
-        each event in events
+        for week in eventsByDay
           tr
-            td
-              if !event.future
-                .badge.badge-danger.mr-2 PAST
-              if event.cancelled
-                .badge.badge-danger.mr-2 CANCELLED
-              if event.draft
-                .badge.badge-warning.mr-2 DRAFT
-              a(href=`/events/${event.id}`)= event.title
-            td
-              small.ml-3
-                if event.visibility === 'public'
-                  i.ti-world(title='Public')
-                else
-                  i.ti-user(title='Internal (Member-Only)')
-            td= event.dateRange
-            td
-              if event.price
-                | $
-                = event.priceDollars
-              else
-                em Free
-              if event.memberPrice || event.materialFee
-                br
-                small.text-muted
-                  if event.memberPrice
-                    | members: $#{event.memberPriceDollars}
-                  if event.memberPrice && event.materialFee
-                    = ', '
-                  if event.materialFee
-                    | materials: $#{event.materialFeeDollars}
-            td= event.attendeeLimit
-  else
-    p
-      em No events matching search
-
+            - today = moment()
+            for day in week
+              for eventsForDay, date in day
+                - isToday = today.format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
+                - classes = []
+                - currentMonth = monthDisplay === moment(date).format('YYYY-MM')
+                - if (!currentMonth) classes.push('not-current-month')
+                - if (isToday) classes.push('current-day')
+                td(style='width: 14.28%; height: 120px;' class=classes)
+                  p.mb-1
+                    strong
+                      a(href=`/events/new?startsAt=${moment(date).format('YYYY-MM-DD')}`)= moment(date).format('D')
+                  for event in eventsForDay
+                    .p-1.text-white.rounded.mb-1(class=`event-category-${event.category}`)
+                      - start = moment(event.startsAt).format('h:mma')
+                      small
+                        // Visibility
+                        small.float-right.pr-1.pt-1
+                          if event.visibility === 'public'
+                            i.ti-world(title='Public')
+                          else
+                            i.ti-user(title='Internal (Member-Only)')
+                        // Title
+                        strong
+                          a.text-white(href=event.url)= event.title
+                        // Time
+                        .mt-1
+                          em #{start} (#{event.duration})
+                        // Flags
+                        if !event.future
+                          .mt-1
+                            .badge.badge-danger.mr-2 PAST
+                        if event.cancelled
+                          .mt-1
+                            .badge.badge-danger.mr-2 CANCELLED
+                        if event.draft
+                          .mt-1
+                            .badge.badge-warning.mr-2 DRAFT

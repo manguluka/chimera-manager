@@ -11,13 +11,13 @@ const meetup = require('meetup-api')({ key: API_KEY })
 function eventToMeetup(event) {
   const parameters = {
     name: event.title,
-    description: '<strong>This is a description, look at me!</strong>',
+    description: event.descriptionHtml,
     duration: moment.duration(event.endsAt - event.startsAt).asMilliseconds(),
     group_id: GROUP_ID,
     group_urlname: URL_NAME,
     guest_limit: event.attendeeMax,
-    publish_status: 'published',
-    announce: true,
+    //publish_status: 'published',
+    //announce: true,
     time: moment(event.date).valueOf(),
   }
 
@@ -33,18 +33,21 @@ async function create(event) {
 
   logger.log('debug', '[meetup.create] Meetup request params:', parameters)
 
-  meetup.postEvent(parameters, (error, resp) => {
-    if (error) {
-      logger.log('error', '[meetup.create] Error creating event on Meetup:', {
-        error,
-        status: error.status,
-        message: error.message,
-        parameters,
-      })
-      return
-    }
+  return new Promise((resolve, reject) => {
+    meetup.postEvent(parameters, (error, resp) => {
+      if (error) {
+        logger.log('error', '[meetup.create] Error creating event on Meetup:', {
+          status: error.status,
+          message: error.message,
+          parameters,
+        })
+        reject(error)
+        return
+      }
 
-    logger.log('info', '[meetup.create] Meetup response:', resp)
+      logger.log('info', '[meetup.create] Meetup response:', resp)
+      resolve(resp)
+    })
   })
 }
 
@@ -58,18 +61,22 @@ async function update(event) {
 
   logger.log('debug', '[meetup.update] Meetup request params:', parameters)
 
-  meetup.editEvent(parameters, (error, resp) => {
-    if (error) {
-      logger.log('error', '[meetup.update] Error updating on Meetup:', {
-        error,
-        status: error.status,
-        message: error.message,
-        parameters,
-      })
-      return
-    }
+  return new Promise((resolve, reject) => {
+    meetup.editEvent(parameters, (error, resp) => {
+      if (error) {
+        logger.log('error', '[meetup.update] Error updating on Meetup:', {
+          error,
+          status: error.status,
+          message: error.message,
+          parameters,
+        })
+        reject(error)
+        return
+      }
 
-    logger.log('info', '[meetup.update] Meetup response:', resp)
+      logger.log('info', '[meetup.update] Meetup response:', resp)
+      resolve(resp)
+    })
   })
 }
 

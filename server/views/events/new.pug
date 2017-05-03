@@ -7,12 +7,9 @@ block content
   p
     a(href='/events') ← Back to events
 
-  .card
-    .header
-      h1.page-heading Create Event
-    .content
-      form(action='/events/new' method='post')
-        - event = {}
-        include ./_form.pug
-        p.mt-5
-          button.btn.btn-success.btn-lg(type='submit') Create Event
+  h1.page-heading Create Event
+  form(action='/events/new' method='post')
+    - event = {}
+    include ./_form.pug
+    p.mt-5
+      button.btn.btn-success.btn-lg(type='submit') Create Event

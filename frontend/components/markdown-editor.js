@@ -26,15 +26,14 @@ export default class MarkdownEditor extends React.Component {
         'HISTORY_BUTTONS',
       ],
       INLINE_STYLE_BUTTONS: [
-        { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
+        { label: 'Bold', style: 'BOLD' },
         { label: 'Italic', style: 'ITALIC' },
-        { label: 'Underline', style: 'UNDERLINE' },
       ],
       BLOCK_TYPE_DROPDOWN: [
         { label: 'Normal', style: 'unstyled' },
-        { label: 'Heading Large', style: 'header-one' },
-        { label: 'Heading Medium', style: 'header-two' },
-        { label: 'Heading Small', style: 'header-three' },
+        { label: 'Heading 1', style: 'header-one' },
+        { label: 'Heading 2', style: 'header-two' },
+        { label: 'Heading 3', style: 'header-three' },
       ],
       BLOCK_TYPE_BUTTONS: [
         { label: 'UL', style: 'unordered-list-item' },

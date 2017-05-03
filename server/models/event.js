@@ -1,5 +1,6 @@
 const dayTimeToDatetime = require('../../lib/day-time-to-datetime')
 const dollarsToCents = require('../../lib/dollars-to-cents')
+const juration = require('juration')
 const marked = require('marked')
 const meetup = require('../lib/meetup')
 const moment = require('moment')
@@ -36,6 +37,14 @@ class Event extends Model {
   }
   get endTime() {
     return timeString(this.endsAt)
+  }
+  get duration() {
+    const elapsed = this.endsAt - this.startsAt
+    return juration.stringify(elapsed / 1000, { format: 'long' })
+  }
+  get durationShort() {
+    const elapsed = this.endsAt - this.startsAt
+    return juration.stringify(elapsed / 1000, { format: 'micro' })
   }
   get free() {
     return Boolean(!this.price && !this.memberPrice)
@@ -135,11 +144,11 @@ class Event extends Model {
     if (!this.draft && !this.internal) {
       if (this.meetupId) {
         // Update it on Meetup.com if it exists
-        meetup.update(this)
+        await meetup.update(this)
       } else {
         // Create on Meetup.com
-        const id = meetup.create(this)
-        this.save({ meetupId: id })
+        const id = await meetup.create(this)
+        //this.save({ meetupId: id })
       }
     }
   }
@@ -215,11 +224,14 @@ class Event extends Model {
       materialFee,
       memberPrice,
 
-      endTime,
-      endDay,
       startTime,
       startDay,
+      duration,
     } = fields
+
+    const startsAt = dayTimeToDatetime(startDay, startTime)
+    const durationMillis = juration.parse(duration) * 1000
+    const endsAt = moment(startsAt).add(durationMillis)
 
     return {
       title,
@@ -236,8 +248,8 @@ class Event extends Model {
       memberPrice: dollarsToCents(memberPrice),
       materialFee: dollarsToCents(materialFee),
 
-      startsAt: dayTimeToDatetime(startDay, startTime),
-      endsAt: dayTimeToDatetime(endDay, endTime),
+      startsAt,
+      endsAt,
     }
   }
 }

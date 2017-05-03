@@ -56,6 +56,12 @@ class Activity extends Model {
 Activity.configure({
   connection,
   table: 'activities',
+  references: {
+    user: {
+      model: require('./user'),
+      key: 'userId',
+    },
+  },
   columns: [
     'id',
     'action',

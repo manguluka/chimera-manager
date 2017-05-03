@@ -1,0 +1,26 @@
+@import 'variables';
+
+.current-day {
+  background-color: lighten($brand-success, 20%);
+}
+.not-current-month {
+  background-color: $gray-lighter;
+}
+.event-category-meetup {
+  background-color: $brand-success;
+}
+.event-category-class {
+  background-color: $brand-info;
+}
+.event-category-training {
+  background-color: $purple;
+}
+.event-category-event {
+  background-color: $brand-danger;
+}
+.event-category-signoff {
+  background-color: $yellow;
+}
+.event-category-staff {
+  background-color: $brand-warning;
+}

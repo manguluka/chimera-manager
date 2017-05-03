@@ -20,6 +20,9 @@ block content
           a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
             i.ti-pencil.mr-2
             | Edit
+          a.btn.btn-outline-info.btn-sm(href=`${event.url}/duplicate`)
+            i.ti-layers-alt.mr-2
+            | Duplicate
           if !event.cancelled
             a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
               i.ti-close.mr-2

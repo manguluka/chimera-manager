@@ -4,27 +4,24 @@ block title
   | Activity Detail
 
 block content
-  .card
-    .header
-      h1.page-heading Activity
-    .content
-      p
-        if user
-          a(href=user.url)= user.name
-        else
-          span Unknown
-        = ' '
-        strong= activity.action
-        if model
-          = ' to the '
-          = model.className.toLowerCase()
-          = ' '
-          a(href=model.url)= model.toString()
-        = ' '
-        abbr(title=activity.createdAt)
-          = moment(activity.createdAt).fromNow()
-        | .
+  h1.page-heading Activity
+  p
+    if user
+      a(href=user.url)= user.name
+    else
+      span Unknown
+    = ' '
+    strong= activity.action
+    if model
+      = ' to the '
+      = model.className.toLowerCase()
+      = ' '
+      a(href=model.url)= model.toString()
+    = ' '
+    abbr(title=activity.createdAt)
+      = moment(activity.createdAt).fromNow()
+    | .
 
-      if !_.isEmpty(activity.extraInfo)
-        h4 Extra Details
-        pre= JSON.stringify(activity.extraInfo, null, 2)
+  if !_.isEmpty(activity.extraInfo)
+    h4 Extra Details
+    pre= JSON.stringify(activity.extraInfo, null, 2)

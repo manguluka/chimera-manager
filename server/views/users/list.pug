@@ -4,22 +4,60 @@ block title
   | Users
 
 block content
-  if users
     h1.page-heading People
-    table.table
-      thead
-        tr
-          th Name
-          th Email
-          th Type
-      tbody
-        for user in users
-          tr
-            td
-              img.rounded-circle.mr-3(src=user.avatarUrl(20) width=20 height=20)
-              a(href=user.url)= user.name
-            td
-              a(href=`mailto:${user.email}`)= user.email
-            td= user.staff ? 'Staff' : 'User'
-  else
-    .alert.alert-warning There are no users yet...
+    .row
+
+      .col-md-9
+        if users
+          table.table
+            thead
+              tr
+                th Name
+                th Email
+                th Plan
+                th Type
+            tbody
+              for user in users
+                tr
+                  td
+                    img.rounded-circle.mr-3(src=user.avatarUrl(20) width=20 height=20)
+                    a(href=user.url)= user.name
+                  td
+                    a(href=`mailto:${user.email}`)= user.email
+                  td Plan
+                  td= user.staff ? 'Staff' : 'User'
+        else
+          .alert.alert-warning There are no users yet...
+
+      .col-md-3.pr-4
+        form(action='/users' method='get')
+          .form-group
+            label(for='plan') Search
+            .input-group
+              .input-group-addon
+                i.ti-search
+              input#search.form-control(name='search' type='search' placeholder='Name, email...')
+          .form-group
+            label Type
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='isUser' type='checkbox' checked)
+                | User
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='isStaff' type='checkbox' checked)
+                | Staff
+          .form-group
+            label(for='plan') Plan
+            select#plan.form-control(name='plan')
+              option(value='all') All
+              option(value='dabbler-monthly') Dabbler
+              option(value='dabbler-yearly') Dabbler (Yearly)
+              option(value='hobbyist-monthly') Hobbyist
+              option(value='hobbyist-yearly') Hobbyist (Yearly)
+              option(value='professional-monthly') Professional
+              option(value='professional-yearly') Professional (Yearly)
+          p
+            button.btn.btn-success.btn-block(type='submit' disabled)
+              i.ti-search.mr-2
+              | Search

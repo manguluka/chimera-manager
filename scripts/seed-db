@@ -22,8 +22,8 @@ async function seed() {
     category: 'event',
     attendeeMax: 100,
     meetupId: 9393,
-    startsAt: new Date('2016-09-12T12:00:00Z'),
-    endsAt: new Date('2016-09-12T23:00:00Z'),
+    startsAt: new Date('2016-05-12T12:00:00Z'),
+    endsAt: new Date('2016-05-12T23:00:00Z'),
   })
 
   const welding = await Event.create({
@@ -38,10 +38,10 @@ async function seed() {
     price: 15000,
     memberPrice: 13500,
     materialFee: 2000,
-    meetupId: 1234,
-    startsAt: new Date('2017-09-23T17:00:00Z'),
-    endsAt: new Date('2017-09-23T23:00:00Z'),
+    startsAt: new Date('2017-05-15T17:00:00Z'),
+    endsAt: new Date('2017-05-15T23:00:00Z'),
   })
+  //await welding.sync() // Post on metup.com
 
   const jewelry = await Event.create({
     title: 'Jewelry Training',
@@ -55,8 +55,8 @@ async function seed() {
     price: 3599,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-09-28T17:00:00Z'),
-    endsAt: new Date('2017-09-28T19:00:00Z'),
+    startsAt: new Date('2017-05-28T17:00:00Z'),
+    endsAt: new Date('2017-05-28T19:00:00Z'),
   })
 
   const laser = await Event.create({
@@ -71,8 +71,24 @@ async function seed() {
     price: 3500,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-11-02T02:30:00Z'),
-    endsAt: new Date('2017-11-02T04:30:00Z'),
+    startsAt: new Date('2017-05-21T02:30:00Z'),
+    endsAt: new Date('2017-05-21T04:30:00Z'),
+  })
+
+  const plasma = await Event.create({
+    title: 'Plasma Cutter',
+    description: 'LASERS!',
+    //photo_url: '',
+    draft: false,
+    internal: true,
+    category: 'signoff',
+    attendeeMin: 2,
+    attendeeMax: 4,
+    price: 2000,
+    memberPrice: null,
+    materialFee: null,
+    startsAt: new Date('2017-05-21T05:00:00Z'),
+    endsAt: new Date('2017-05-21T07:00:00Z'),
   })
 
   const printing = await Event.create({
@@ -89,8 +105,8 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     price: null,
     memberPrice: null,
     materialFee: null,
-    startsAt: new Date('2017-12-08T00:00:00Z'),
-    endsAt: new Date('2017-12-08T02:00:00Z'),
+    startsAt: new Date('2017-06-08T00:00:00Z'),
+    endsAt: new Date('2017-06-08T02:00:00Z'),
   })
 
   const full = await Event.create({

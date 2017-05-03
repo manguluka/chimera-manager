@@ -72,9 +72,10 @@ html
                   | &nbsp;
                   a(href=messages.link[1])= messages.link[0]
 
-          block content
+          .mb-5
+            block content
 
-          footer.footer.pt-5.pb-3.my-5
+          footer.footer.my-5.py-5
             .container-fluid
               .text-center
                 a.btn.btn-outline-primary.btn-sm(href=`mailto:${config.DEFAULT_FROM_ADDRESS}`)

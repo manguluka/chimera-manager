@@ -3,7 +3,7 @@
 //--------------------------------------------------
 .form-group
   label(for='event-title') Title
-  input#event-title.form-control(name='title' type='text' placeholder='Title...' required value=event.title autofocus)
+  input#event-title.form-control.form-control-lg(name='title' type='text' placeholder='Title...' required value=event.title autofocus)
 
 //--------------------------------------------------
 // Description
@@ -28,13 +28,9 @@
           input#event-start-date.form-control(name='startDay' type='date' required value=event.startDay)
         .col
           input#event-start-time.form-control(name='startTime' type='time' required value=event.startTime)
-    .form-group
-      label(for='event-end-date') End Time
-      .row
         .col
-          input#event-end-date.form-control(name='endDay' type='date' required value=event.endDay)
-        .col
-          input#event-end-time.form-control(name='endTime' type='time' required value=event.endTime)
+          input.form-control(name='duration' type='text' required value=event.durationShort placeholder='Duration (eg "2 hours", "1.5h")')
+          small.form-text.text-muted Examples: "4 hours 30 minutes", "4 hrs 30 mins", "4.5h"
 
   .col
 
