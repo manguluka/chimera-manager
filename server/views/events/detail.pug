@@ -4,216 +4,221 @@ block title
   = event.title
 
 block content
-  p.mb-5
-    a(href='/events') ← Back to events
 
   .row
+    .col-xl-10.offset-xl-1
+      p.mb-5
+        a(href='/events') ← Back to events
+
+      .row
 
 
 
-    //--------------------------------------------------
-    // Event details
-    //--------------------------------------------------
-    .col-lg-9
-      if currentUser && currentUser.staff
-        .btn-group.float-right
-          a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
-            i.ti-pencil.mr-2
-            | Edit
-          a.btn.btn-outline-info.btn-sm(href=`${event.url}/duplicate`)
-            i.ti-layers-alt.mr-2
-            | Duplicate
-          if !event.cancelled
-            a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
-              i.ti-close.mr-2
-              | Cancel
-      div
-        if !event.future
-          span.badge.badge-danger.mr-3 PAST
-        if event.cancelled
-          span.badge.badge-danger.mr-3 CANCELLED
-        if event.draft
-          span.badge.badge-warning.mr-3 DRAFT
-        span.text-muted
-          span.mr-3.text-uppercase= event.category
+        //--------------------------------------------------
+        // Event details
+        //--------------------------------------------------
+        .col-lg-9
           if currentUser && currentUser.staff
-            if event.visibility === 'public'
-              i.ti-world(title='Public')
-            else
-              i.ti-user(title='Internal (Member-Only)')
-      h1.page-heading= event.title
-
-      .float-right.text-right
-        if event.meetupId
-          p.mb-5
-            a.btn.btn-outline-primary.btn-sm.float-right(href=`http://meetup.com/${config.MEETUP_URL_NAME}/${event.meetupId}` target='_blank')
-              i.fa.fa-meetup.mr-1
-              | View on Meetup
-        p
-          strong Attendee Limit:
-          br
-          =event.attendeeLimit
-
-      h5.category.my-3= event.dateRange
-
-      .mb-5
-        != event.descriptionHtml
-
-
-
-    //--------------------------------------------------
-    // Pricing sidebar
-    //--------------------------------------------------
-    .col-lg-3
-      .text-center
-        if event.price
-          if event.price && event.memberPrice
-            h1.mt-0(style=(currentUser ? 'text-decoration: line-through' : ''))
-              | $
-              = event.priceDollars
-            p
-              small.text-muted for non-members
-            h1.mt-0(style=(currentUser ? '' : 'text-decoration: line-through'))
-              | $
-              = event.memberPriceDollars
-            p
-              small.text-muted for members
-          else
-            h1.mt-0
-              | $
-              = event.priceDollars
-            p
-              small.text-muted per attendee
-        else
-          h1.mt-0 Free!
-        if event.materialFee
-          p
-            em Material fee $#{event.materialFeeDollars}*
-        if remainingSpots > 0
-          p
-            a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`${event.url}/attend`)
-              i.ti-plus.mr-2
-              span.text-capitalize Attend #{event.category}
-          p
-            small
-              em
-                if remainingSpots === Infinity
-                  | No attendee limit
+            .btn-group.float-right
+              a.btn.btn-outline-primary.btn-sm(href=`${event.url}/edit`)
+                i.ti-pencil.mr-2
+                | Edit
+              a.btn.btn-outline-info.btn-sm(href=`${event.url}/duplicate`)
+                i.ti-layers-alt.mr-2
+                | Duplicate
+              if !event.cancelled
+                a.btn.btn-outline-danger.btn-sm(href=`${event.url}/cancel`)
+                  i.ti-close.mr-2
+                  | Cancel
+          div
+            if !event.future
+              span.badge.badge-danger.mr-3 PAST
+            if event.cancelled
+              span.badge.badge-danger.mr-3 CANCELLED
+            if event.draft
+              span.badge.badge-warning.mr-3 DRAFT
+            span.text-muted
+              span.mr-3.text-uppercase= event.category
+              if currentUser && currentUser.staff
+                if event.visibility === 'public'
+                  i.ti-world(title='Public')
                 else
-                  | There are #{remainingSpots} spots left!
-        else
-          p This event is full, join the waitlist and get notified if spots become available.
-          p
-            strong COMING SOON!
-          p
-            a.btn.btn-success.btn-lg.btn-inverse.btn-block.disabled(href=`${event.url}/join-waitlist` disabled)
-              i.ti-plus.mr-2
-              span.text-capitalize Join Waitlist
+                  i.ti-user(title='Internal (Member-Only)')
+          h1.page-heading= event.title
 
-        if event.materialFee
-          p.mt-5
-            small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
+          .float-right.text-right
+            if event.meetupId
+              p.mb-5
+                a.btn.btn-outline-primary.btn-sm.float-right(href=`http://meetup.com/${config.MEETUP_URL_NAME}/${event.meetupId}` target='_blank')
+                  i.fa.fa-meetup.mr-1
+                  | View on Meetup
+            p
+              strong Attendee Limit:
+              br
+              =event.attendeeLimit
+
+          h5.category.my-3
+            = event.dateRange
+            em.ml-3.text-muted (#{event.duration})
+
+          .mb-5
+            != event.descriptionHtml
 
 
 
-
-  //--------------------------------------------------
-  // Instructors
-  //--------------------------------------------------
-  h3.mb-4.text-info
-    i.ti-book.mr-4
-    if event.category === 'meetup'
-      | Hosts
-    else
-      | Instructors
-  if currentUser && currentUser.staff
-    p.mb-4
-      a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
-        i.ti-plus.mr-2
-        if event.category === 'meetup' || event.category === 'event'
-          | Add Host
-        else
-          | Add Instructor
-
-  if instructors && instructors.length
-    table.table.table-responsive
-      tbody
-        for user in instructors
-          tr
-            td
-              img.rounded-circle(src=user.avatarUrl(40) width=40 height=40)
-            td
-              if currentUser && currentUser.staff
-                strong
-                  a(href=user.url)= user.name
-                br
-                small.text-muted
-                  a(href=`mailto:${user.email}`)= user.email
+        //--------------------------------------------------
+        // Pricing sidebar
+        //--------------------------------------------------
+        .col-lg-3
+          .text-center
+            if event.price
+              if event.price && event.memberPrice
+                h1.mt-0(style=(currentUser ? 'text-decoration: line-through' : ''))
+                  | $
+                  = event.priceDollars
+                p
+                  small.text-muted for non-members
+                h1.mt-0(style=(currentUser ? '' : 'text-decoration: line-through'))
+                  | $
+                  = event.memberPriceDollars
+                p
+                  small.text-muted for members
               else
-                strong= user.name
-            td
-              if currentUser && currentUser.staff
-                form(action=`/events/${event.id}/instructors/${user.id}/remove` method='post')
-                  button.btn.btn-outline-danger.btn-sm(type='submit')
-                    i.ti-close.mr-2
-                    | Remove
-  else
-    p
-      em There are no instructors for this event.
+                h1.mt-0
+                  | $
+                  = event.priceDollars
+                p
+                  small.text-muted per attendee
+            else
+              h1.mt-0 Free!
+            if event.materialFee
+              p
+                em Material fee $#{event.materialFeeDollars}*
+            if remainingSpots > 0
+              p
+                a.btn.btn-success.btn-lg.btn-inverse.btn-block(href=`${event.url}/attend`)
+                  i.ti-plus.mr-2
+                  span.text-capitalize Attend #{event.category}
+              p
+                small
+                  em
+                    if remainingSpots === Infinity
+                      | No attendee limit
+                    else
+                      | There are #{remainingSpots} spots left!
+            else
+              p This event is full, join the waitlist and get notified if spots become available.
+              p
+                strong COMING SOON!
+              p
+                a.btn.btn-success.btn-lg.btn-inverse.btn-block.disabled(href=`${event.url}/join-waitlist` disabled)
+                  i.ti-plus.mr-2
+                  span.text-capitalize Join Waitlist
 
-
-  //--------------------------------------------------
-  // Admin panels
-  //--------------------------------------------------
-  if currentUser && currentUser.staff
-
-
-    //--------------------------------------------------
-    // Attendees
-    //--------------------------------------------------
-    .my-5
-      h3.mb-4.text-success
-        i.ti-user.mr-3
-        | Attendees
-      p.mb-4
-        a.btn.btn-outline-primary.btn-sm(href=`/attendees/new?event=${event.id}`)
-          i.ti-plus.mr-2
-          | Add Attendee
-      table.table.table-responsive
-        tbody
-          for attendee in attendees
-            - charge = attendee.charge
-            tr
-              td
-                img.rounded-circle(src=attendee.user.avatarUrl(40) width=40 height=40)
-              td
-                strong
-                  a(href=attendee.user.url)= attendee.user.name
-              td
-                small.text-muted Dabbler
-              td
-                a(href=charge.url)
-                  small.text-success.text-uppercase(title='Paid via cash')
-                    include ../charges/_type-display.pug
-                if charge.memo
-                  br
-                  small.text-muted= charge.memo
-
-              td
-                .btn-group
-                  a.btn.btn-outline-primary.btn-sm(href=attendee.url)
-                    i.ti-eye.mr-2
-                    | View
-                  a.btn.btn-outline-danger.btn-sm(href=`${attendee.url}/refund`)
-                    i.ti-close.mr-2
-                    | Refund
+            if event.materialFee
+              p.mt-5
+                small * Material fees are due on the day of the event and are payable directly to the instructor via cash or check.
 
 
 
-    //--------------------------------------------------
-    // Recent changes
-    //--------------------------------------------------
-    h3.mb-4.title.text-info
-      i.ti-time.mr-3
-      | Recent Changes
-    include ../activities/_inline-list.pug
+
+      //--------------------------------------------------
+      // Instructors
+      //--------------------------------------------------
+      h3.mb-4.text-info
+        i.ti-book.mr-4
+        if event.category === 'meetup'
+          | Hosts
+        else
+          | Instructors
+      if currentUser && currentUser.staff
+        p.mb-4
+          a.btn.btn-outline-primary.btn-sm(href=`${event.url}/instructors/new`)
+            i.ti-plus.mr-2
+            if event.category === 'meetup' || event.category === 'event'
+              | Add Host
+            else
+              | Add Instructor
+
+      if instructors && instructors.length
+        table.table.table-responsive
+          tbody
+            for user in instructors
+              tr
+                td
+                  img.rounded-circle(src=user.avatarUrl(40) width=40 height=40)
+                td
+                  if currentUser && currentUser.staff
+                    strong
+                      a(href=user.url)= user.name
+                    br
+                    small.text-muted
+                      a(href=`mailto:${user.email}`)= user.email
+                  else
+                    strong= user.name
+                td
+                  if currentUser && currentUser.staff
+                    form(action=`/events/${event.id}/instructors/${user.id}/remove` method='post')
+                      button.btn.btn-outline-danger.btn-sm(type='submit')
+                        i.ti-close.mr-2
+                        | Remove
+      else
+        p
+          em There are no instructors for this event.
+
+
+      //--------------------------------------------------
+      // Admin panels
+      //--------------------------------------------------
+      if currentUser && currentUser.staff
+
+
+        //--------------------------------------------------
+        // Attendees
+        //--------------------------------------------------
+        .my-5
+          h3.mb-4.text-success
+            i.ti-user.mr-3
+            | Attendees
+          p.mb-4
+            a.btn.btn-outline-primary.btn-sm(href=`/attendees/new?event=${event.id}`)
+              i.ti-plus.mr-2
+              | Add Attendee
+          table.table.table-responsive
+            tbody
+              for attendee in attendees
+                - charge = attendee.charge
+                tr
+                  td
+                    img.rounded-circle(src=attendee.user.avatarUrl(40) width=40 height=40)
+                  td
+                    strong
+                      a(href=attendee.user.url)= attendee.user.name
+                  td
+                    small.text-muted Dabbler
+                  td
+                    a(href=charge.url)
+                      small.text-success.text-uppercase(title='Paid via cash')
+                        include ../charges/_type-display.pug
+                    if charge.memo
+                      br
+                      small.text-muted= charge.memo
+
+                  td
+                    .btn-group
+                      a.btn.btn-outline-primary.btn-sm(href=attendee.url)
+                        i.ti-eye.mr-2
+                        | View
+                      a.btn.btn-outline-danger.btn-sm(href=`${attendee.url}/refund`)
+                        i.ti-close.mr-2
+                        | Refund
+
+
+
+        //--------------------------------------------------
+        // Recent changes
+        //--------------------------------------------------
+        h3.mb-4.title.text-info
+          i.ti-time.mr-3
+          | Recent Changes
+        include ../activities/_inline-list.pug
