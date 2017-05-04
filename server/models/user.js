@@ -25,6 +25,11 @@ class User extends Model {
     return `/users/${this.id}`
   }
 
+  // TODO: check if they have a membership associated with their account
+  get member() {
+    return true
+  }
+
   avatarUrl(size = 20) {
     return `https://www.gravatar.com/avatar/${this.gravatarHash}?s=${size}`
   }
@@ -35,6 +40,34 @@ class User extends Model {
     const customer = await stripe.customers.retrieve(this.stripeCustomerId)
     console.log('CUSTOMER', customer)
     return customer.sources.data
+  }
+
+  async charges() {
+    return await require('./charge').findMany({
+      where: { userId: this.id },
+      order: { createdAt: 'desc' },
+    })
+  }
+
+  async activities() {
+    return await require('./activity').findMany({
+      where: { userId: { equals: this.id } },
+      order: { createdAt: 'desc' },
+    })
+  }
+
+  async signoffs() {
+    return await require('./signoff').findMany({
+      where: { userId: { equals: this.id } },
+      order: { createdAt: 'desc' },
+    })
+  }
+
+  async accessCards() {
+    return await require('./access-card').findMany({
+      where: { userId: { equals: this.id } },
+      order: { createdAt: 'desc' },
+    })
   }
 
   //------------------------------------------------
@@ -62,6 +95,7 @@ User.configure({
     // Basic details
     'name',
     'email',
+    'phone',
     'bio',
 
     // Payment info

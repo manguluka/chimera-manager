@@ -63,6 +63,7 @@ app.use('/activities', require('./routes/activities'))
 app.use('/users', require('./routes/users'))
 app.use('/charges', require('./routes/charges'))
 app.use('/attendees', require('./routes/attendees'))
+app.use('/resources', require('./routes/resources'))
 app.use('/auth', require('./routes/auth'))
 app.get('/', require('./routes/dashboard'))
 

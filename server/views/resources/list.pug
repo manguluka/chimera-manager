@@ -1,0 +1,29 @@
+extends ../layout.pug
+
+block title
+  | Resources
+
+block content
+  a.btn.btn-success.float-right(href='/resources/new')
+    i.fa.fa-plus.mr-2
+    | Add Resource
+  h1.page-heading Resources
+  table.table
+    thead
+      tr
+        th Name
+        th Description
+        th
+    tbody
+      for resource in resources
+        tr
+          td= resource.name
+          td= resource.description
+          td.text-right
+            .btn-group
+              a.btn.btn-sm.btn-outline-primary(href=`${resource.url}/edit`)
+                i.ti-pencil.mr-2
+                | Edit
+              a.btn.btn-sm.btn-outline-danger(href=`${resource.url}/remove`)
+                i.ti-close.mr-2
+                | Remove

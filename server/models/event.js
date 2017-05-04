@@ -261,6 +261,7 @@ Event.MEETUP = 'meetup'
 Event.TRAINING = 'training'
 Event.SIGNOFF = 'signoff'
 Event.STAFF = 'staff'
+Event.RESERVATION = 'reservation'
 Event.categories = [
   Event.EVENT,
   Event.CLASS,
@@ -268,6 +269,7 @@ Event.categories = [
   Event.TRAINING,
   Event.SIGNOFF,
   Event.STAFF,
+  Event.RESERVATION,
 ]
 
 Event.configure({

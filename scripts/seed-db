@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
+const AccessCard = require('../server/models/access-card')
 const Activity = require('../server/models/activity')
 const Attendee = require('../server/models/attendee')
 const chalk = require('chalk')
+const Charge = require('../server/models/charge')
 const config = require('config')
 const Event = require('../server/models/event')
 const Instructor = require('../server/models/instructor')
-const Charge = require('../server/models/charge')
+const Resource = require('../server/models/resource')
+const Signoff = require('../server/models/signoff')
 const User = require('../server/models/user')
 
 console.log(chalk.green('Seeding database...'))
@@ -125,6 +128,7 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
   const dana = await User.create({
     name: 'Dana Woodman',
     email: 'dana@chimeraarts.org',
+    phone: '7075696901',
     staff: true,
     stripeCustomerId: 'cus_ASCAicaPwBtUnb',
     bio: 'Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
@@ -224,6 +228,82 @@ Donec sed odio dui. Curabitur blandit tempus porttitor. Donec sed odio dui. Prae
     user: dana,
   })
 
+  const lasercutter = await Resource.create({
+    name: '100w Laser Cutter',
+    description: 'Can cut up to 1/2" plywood'
+  })
+  await Resource.create({
+    name: 'Jewelry Studio',
+  })
+  await Resource.create({
+    name: 'Lulzbot TAZ #1',
+  })
+  await Resource.create({
+    name: 'Juki Sewing Machine',
+  })
+  await Resource.create({
+    name: 'Pfaff Sewing Machine',
+  })
+  await Resource.create({
+    name: 'Event Space',
+    description: 'Our event space including coworking tables'
+  })
+  await Resource.create({
+    name: 'Outdoor Metalshop',
+  })
+  await Resource.create({
+    name: 'Minimax Table Saw',
+  })
+  await Resource.create({
+    name: 'Hobart TIG Welder',
+  })
+  await Resource.create({
+    name: 'Hobart MIG Welder',
+  })
+  await Resource.create({
+    name: 'Southbend Metal Lathe',
+  })
+  await Resource.create({
+    name: 'Grizzly Wood Lathe (large)',
+  })
+  await Resource.create({
+    name: 'Printrbot Metal Simple #1',
+  })
+  await Resource.create({
+    name: 'Printrbot Metal Simple #2',
+  })
+  await Resource.create({
+    name: 'CNC Router Table',
+  })
+  await Resource.create({
+    name: '16" Minimax Bandsaw',
+  })
+  await Resource.create({
+    name: 'Powermatic Drill Press',
+  })
+
+  await Signoff.create({
+    userId: kimberly.id,
+    instructorId: dana.id,
+    resourceId: lasercutter.id,
+    notes: 'She did great!',
+    date: new Date('jan 5 2017'),
+  })
+  await Signoff.create({
+    userId: dana.id,
+    instructorId: jim.id,
+    resourceId: lasercutter.id,
+    date: new Date('mar 5 2017'),
+  })
+
+  await AccessCard.create({
+    number: '00012345678',
+    userId: dana.id,
+  })
+  await AccessCard.create({
+    number: '999999999999',
+    userId: kimberly.id,
+  })
 
   console.log(chalk.green('Successfully seeded database!'))
 

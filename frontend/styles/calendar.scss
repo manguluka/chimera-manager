@@ -6,21 +6,25 @@
 .not-current-month {
   background-color: $gray-lighter;
 }
-.event-category-meetup {
-  background-color: $brand-success;
-}
-.event-category-class {
-  background-color: $brand-info;
-}
-.event-category-training {
-  background-color: $purple;
-}
-.event-category-event {
-  background-color: $brand-danger;
-}
-.event-category-signoff {
-  background-color: $yellow;
-}
-.event-category-staff {
-  background-color: $brand-warning;
+.event-category {
+  color: white;
+
+  &.event-category-meetup {
+    background-color: $green;
+  }
+  &.event-category-class {
+    background-color: $blue;
+  }
+  &.event-category-training {
+    background-color: $purple;
+  }
+  &.event-category-event {
+    background-color: $red;
+  }
+  &.event-category-signoff {
+    background-color: $yellow;
+  }
+  &.event-category-staff {
+    background-color: $teal;
+  }
 }

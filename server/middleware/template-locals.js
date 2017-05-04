@@ -16,6 +16,8 @@ module.exports = function templateLocalsMiddleware() {
       STRIPE_PUBLIC_KEY: config.get('payments.stripePublicKey'),
     }
     res.locals.currentUser = req.currentUser
+    res.locals.isStaff = req.currentUser && req.currentUser.staff
+    res.locals.isMember = req.currentUser && req.currentUser.member
     res.locals.currentUrl = req.originalUrl
     res.locals._ = _
     res.locals.moment = moment

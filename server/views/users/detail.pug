@@ -19,48 +19,145 @@ block content
         = user.name
         if user.staff
           .badge.badge-info.ml-3 STAFF
-      .float-right.ml-5.mb-5
-        img.rounded-circle.mr-3(src=user.avatarUrl(240) width=240 height=240)
-      p
-        strong
+      .float-right.ml-5
+        img.rounded-circle.mr-3(src=user.avatarUrl(200) width=200 height=200)
+      dl
+        dt Email
+        dd
           a(href=`mailto:${user.email}`)= user.email
-      p
-        strong.mr-2 Created:
-        span.text-muted= moment(user.createdAt).fromNow()
-      if user.bio
-        p= user.bio
+        dt Phone
+        dd
+          if user.phone
+            a(href=`tel:${user.phone}`)= user.phone
+          else
+            em.text-muted No phone number...
+        dt Created
+        dd= moment(user.createdAt).fromNow()
+        dt Bio
+        dd
+          if user.bio
+            = user.bio
+          else
+            em.text-muted No bio yet...
 
-      h3.mb-4.mt-5.text-info
-        i.ti-calendar.mr-3
-        | Events
-      p
-        em Coming soon: list events member has attended...
-
-
-      h3.mb-4.mt-5.text-success
-        i.ti-receipt.mr-3
-        | Charges
-      if charges
-        table.table.table-responsive
-          tbody
-            for charge in charges
+      if isStaff || currentUser === user
+        hr
+        h3.mb-4.mt-5.text-info
+          i.ti-check-box.mr-3
+          | Signoffs
+        if isStaff
+          p.my-4
+            a.btn.btn-sm.btn-outline-success(href=`/signoffs/new?user=${user.id}`)
+              i.ti-plus.mr-2
+              | Add signoff
+        if signoffs && signoffs.length
+          table.table.table-responsive.d-inline
+            thead
               tr
-                td $#{charge.amountDollars}
-                td
-                  include ../charges/_type-display.pug
-                td
-                  small= moment(charge.createdAt).fromNow()
-                td
-                  a.btn.btn-link.btn-sm(href=charge.url)
-                    | View
-                    i.fa.fa-arrow-right.ml-2
-      else
+                th Resource
+                th Instructor
+                th Date
+                th Notes
+                th
+            tbody
+              for signoff in signoffs
+                tr
+                  td
+                    a(href=signoff.resource.url)= signoff.resource.name
+                  td
+                    a(href=signoff.instructor.url)= signoff.instructor.name
+                  td(title=signoff.date)= moment(signoff.date).fromNow()
+                  td= signoff.notes
+                  td.align-middle
+                    if isStaff
+                      .btn-group
+                        a.btn.btn-sm.btn-outline-primary(href=`${signoff.url}/edit`)
+                          i.ti-pencil.mr-2
+                          | Edit
+                        a.btn.btn-sm.btn-outline-danger(href=`${signoff.url}/remove`)
+                          i.ti-close.mr-2
+                          | Remove
+        else 
+          p
+            em.text-muted No signoffs yet...
+
+        hr
+        h3.mb-4.mt-5.text-info
+          i.ti-calendar.mr-3
+          | Events
         p
-          em No charges yet...
+          em.text-muted Coming soon: list events member has attended...
+
+        hr
+        h3.mb-4.mt-5.text-info
+          i.ti-receipt.mr-3
+          | Charges
+        if isStaff
+          p.my-4
+            a.btn.btn-sm.btn-outline-success(href=`/charges/new?user=${user.id}`)
+              i.ti-plus.mr-2
+              | Add charge
+        if charges && charges.length
+          table.table.table-responsive.d-inline
+            tbody
+              for charge in charges
+                tr
+                  td
+                    a(href=charge.url)
+                      | $#{charge.amountDollars}
+                  td
+                    include ../charges/_type-display.pug
+                  td
+                    small= moment(charge.createdAt).fromNow()
+                  td.align-middle
+                    .btn-group
+                      a.btn.btn-sm.btn-outline-primary(href=`${charge.url}/edit`)
+                        i.ti-pencil.mr-2
+                        | Edit
+                      a.btn.btn-sm.btn-outline-danger(href=`${charge.url}/remove`)
+                        i.ti-close.mr-2
+                        | Remove
+        else
+          p
+            em.text-muted No charges yet...
 
 
-      if activities
-        h3.mb-4.mt-5.text-primary
+      // STAFF ONLY
+      if isStaff
+        hr
+        h3.mb-4.mt-5.text-info
+          i.ti-key.mr-3
+          | Access Cards
+        p.my-4
+          a.btn.btn-sm.btn-outline-success(href=`/access-cards/new`)
+            i.ti-plus.mr-2
+            | Add access card
+        if accessCards && accessCards.length
+          table.table.table-responsive.d-inline
+            tbody
+              for accessCard in accessCards
+                tr
+                  td.align-middle= accessCard.number
+                  td.align-middle
+                    .btn-group
+                      a.btn.btn-sm.btn-outline-primary(href=`${accessCard.url}/edit`)
+                        i.ti-pencil.mr-2
+                        | Edit
+                      a.btn.btn-sm.btn-outline-danger(href=`${accessCard.url}/remove`)
+                        i.ti-close.mr-2
+                        | Remove
+        else
+          p
+            em.text-muted No access cards yet...
+
+        hr
+        h3.mb-4.mt-5.text-info
           i.ti-menu.mr-3
           | Activities
-        include ../activities/_inline-list.pug
+        if activities && activities.length
+          - activities = activities
+          include ../activities/_inline-list.pug
+        else
+          p
+            em.text-muted No activities yet...
+

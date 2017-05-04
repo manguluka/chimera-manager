@@ -26,12 +26,13 @@ module.exports = wrap(async (req, res, next) => {
 
   if (req.currentUser) {
     if (!req.currentUser.staff) {
-      query.where.draft = false
+      query.where.draft = { equals: false }
     }
   } else {
-    query.where.draft = false
-    query.where.internal = false
+    query.where.draft = { equals: false }
+    query.where.internal = { equals: false }
   }
+  console.log(query)
 
   const events = await Event.findMany(query)
   const eventsByDay = weeks.map(week => {

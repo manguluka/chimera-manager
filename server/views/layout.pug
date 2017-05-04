@@ -13,35 +13,35 @@ html
   body
 
     block page
-      .navbar.navbar-toggleable-md
+      .navbar.navbar-toggleable-xl
         .container
-          a.navbar-brand(href='/')= config.APP_NAME
+          a.navbar-brand.text-uppercase(href='/')= config.APP_NAME
 
           .navbar-collapse
             nav.navbar-nav.mr-auto
               if currentUser && currentUser.staff
                 a.nav-item.nav-link(class=(section === 'dashboard' ? 'active' : '') href='/')
                   i.ti-dashboard.mr-2
-                  | Dashboard
+                  span.hidden-lg-down Dashboard
               a.nav-item.nav-link(class=(section === 'events' ? 'active' : '') href='/events')
                 i.ti-calendar.mr-2
-                | Events
+                span.hidden-lg-down Events
               if currentUser && currentUser.staff
                 a.nav-item.nav-link(class=(section === 'users' ? 'active' : '') href='/users')
                   i.ti-user.mr-2
-                  | People
+                  span.hidden-lg-down People
                 a.nav-item.nav-link(class=(section === 'charges' ? 'active' : '') href='/charges')
                   i.ti-money.mr-2
-                  | Charges
+                  span.hidden-lg-down Charges
+                a.nav-item.nav-link(class=(section === 'resources' ? 'active' : '') href='/resources')
+                  i.ti-hummer.mr-2
+                  span.hidden-lg-down Resources
                 a.nav-item.nav-link.disabled(class=(section === 'checkins' ? 'active' : '') href='#')
                   i.ti-key.mr-2
-                  | Checkins
-                a.nav-item.nav-link.disabled(class=(section === 'reports' ? 'active' : '') href='#')
-                  i.ti-bar-chart.mr-2
-                  | Reports
+                  span.hidden-lg-down Checkins
                 a.nav-item.nav-link(class=(section === 'activities' ? 'active' : '') href='/activities')
                   i.ti-menu.mr-2
-                  | Activities
+                  span.hidden-lg-down Activities
 
             nav.navbar-nav
               if !currentUser

@@ -1,3 +1,5 @@
+drop table signoffs;
+drop table access_cards;
 drop table instructors;
 drop table attendees;
 drop table events;
@@ -6,3 +8,4 @@ drop table activities;
 drop table charges;
 drop type charge_type;
 drop table users;
+drop table resources;

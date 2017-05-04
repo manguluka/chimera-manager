@@ -5,85 +5,142 @@ block title
 
 block content
 
-  if currentUser && currentUser.staff
+  if isStaff
     .float-right
       a.btn.btn-success(href='/events/new')
-        i.ti-plus.mr-2
+        i.fa.fa-plus.mr-2
         | Create Event
 
   h1.page-heading Events
 
-  // Date range selection
-  nav.my-4.d-flex.justify-content-center
-    .btn-group.btn-group-sm
-      a.btn.btn-outline-primary(href=`/events?month=${year}-01` class=(monthDisplay === `${year}-01` && 'active')) Jan
-      a.btn.btn-outline-primary(href=`/events?month=${year}-02` class=(monthDisplay === `${year}-02` && 'active')) Feb
-      a.btn.btn-outline-primary(href=`/events?month=${year}-03` class=(monthDisplay === `${year}-03` && 'active')) Mar
-      a.btn.btn-outline-primary(href=`/events?month=${year}-04` class=(monthDisplay === `${year}-04` && 'active')) April
-      a.btn.btn-outline-primary(href=`/events?month=${year}-05` class=(monthDisplay === `${year}-05` && 'active')) May
-      a.btn.btn-outline-primary(href=`/events?month=${year}-06` class=(monthDisplay === `${year}-06` && 'active')) June
-      a.btn.btn-outline-primary(href=`/events?month=${year}-07` class=(monthDisplay === `${year}-07` && 'active')) July
-      a.btn.btn-outline-primary(href=`/events?month=${year}-08` class=(monthDisplay === `${year}-08` && 'active')) Aug
-      a.btn.btn-outline-primary(href=`/events?month=${year}-09` class=(monthDisplay === `${year}-09` && 'active')) Sept
-      a.btn.btn-outline-primary(href=`/events?month=${year}-10` class=(monthDisplay === `${year}-10` && 'active')) Oct
-      a.btn.btn-outline-primary(href=`/events?month=${year}-11` class=(monthDisplay === `${year}-11` && 'active')) Nov
-      a.btn.btn-outline-primary(href=`/events?month=${year}-12` class=(monthDisplay === `${year}-12` && 'active')) Dec
-    .btn-group.btn-group-sm.ml-4
-      a.btn.btn-outline-primary(href=`/events?month=${Number(year) - 1}-${month}`)
-        i.fa.fa-arrow-left
-      button.btn.btn-primary(readonly)= year
-      a.btn.btn-outline-primary(href=`/events?month=${Number(year) + 1}-${month}`)
-        i.fa.fa-arrow-right
+  .row
+    .col-lg-9
+      // Date range selection
+      nav.my-4.d-flex.justify-content-center
+        .btn-group.btn-group-sm
+          a.btn.btn-outline-primary(href=`/events?month=${year}-01` class=(monthDisplay === `${year}-01` && 'active')) Jan
+          a.btn.btn-outline-primary(href=`/events?month=${year}-02` class=(monthDisplay === `${year}-02` && 'active')) Feb
+          a.btn.btn-outline-primary(href=`/events?month=${year}-03` class=(monthDisplay === `${year}-03` && 'active')) Mar
+          a.btn.btn-outline-primary(href=`/events?month=${year}-04` class=(monthDisplay === `${year}-04` && 'active')) April
+          a.btn.btn-outline-primary(href=`/events?month=${year}-05` class=(monthDisplay === `${year}-05` && 'active')) May
+          a.btn.btn-outline-primary(href=`/events?month=${year}-06` class=(monthDisplay === `${year}-06` && 'active')) June
+          a.btn.btn-outline-primary(href=`/events?month=${year}-07` class=(monthDisplay === `${year}-07` && 'active')) July
+          a.btn.btn-outline-primary(href=`/events?month=${year}-08` class=(monthDisplay === `${year}-08` && 'active')) Aug
+          a.btn.btn-outline-primary(href=`/events?month=${year}-09` class=(monthDisplay === `${year}-09` && 'active')) Sept
+          a.btn.btn-outline-primary(href=`/events?month=${year}-10` class=(monthDisplay === `${year}-10` && 'active')) Oct
+          a.btn.btn-outline-primary(href=`/events?month=${year}-11` class=(monthDisplay === `${year}-11` && 'active')) Nov
+          a.btn.btn-outline-primary(href=`/events?month=${year}-12` class=(monthDisplay === `${year}-12` && 'active')) Dec
+        .btn-group.btn-group-sm.ml-4
+          a.btn.btn-outline-primary(href=`/events?month=${Number(year) - 1}-${month}`)
+            i.fa.fa-arrow-left
+          button.btn.btn-primary(readonly)= year
+          a.btn.btn-outline-primary(href=`/events?month=${Number(year) + 1}-${month}`)
+            i.fa.fa-arrow-right
 
-  if eventsByDay && eventsByDay.length
-    table.table
-      thead
-        tr
-          th Sun
-          th Mon
-          th Tue
-          th Wed
-          th Thu
-          th Fri
-          th Sat
-      tbody
-        for week in eventsByDay
-          tr
-            - today = moment()
-            for day in week
-              for eventsForDay, date in day
-                - isToday = today.format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
-                - classes = []
-                - currentMonth = monthDisplay === moment(date).format('YYYY-MM')
-                - if (!currentMonth) classes.push('not-current-month')
-                - if (isToday) classes.push('current-day')
-                td(style='width: 14.28%; height: 120px;' class=classes)
-                  p.mb-1
-                    strong
-                      a(href=`/events/new?start=${moment(date).format('YYYY-MM-DD')}`)= moment(date).format('D')
-                  for event in eventsForDay
-                    .p-1.text-white.rounded.mb-1(class=`event-category-${event.category}`)
-                      - start = moment(event.startsAt).format('h:mma')
-                      small
-                        // Visibility
-                        small.float-right.pr-1.pt-1
-                          if event.visibility === 'public'
-                            i.ti-world(title='Public')
-                          else
-                            i.ti-user(title='Internal (Member-Only)')
-                        // Title
+      if eventsByDay && eventsByDay.length
+        table.table
+          thead
+            tr
+              th Sun
+              th Mon
+              th Tue
+              th Wed
+              th Thu
+              th Fri
+              th Sat
+          tbody
+            for week in eventsByDay
+              tr
+                - today = moment()
+                for day in week
+                  for eventsForDay, date in day
+                    - isToday = today.format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
+                    - classes = []
+                    - currentMonth = monthDisplay === moment(date).format('YYYY-MM')
+                    - if (!currentMonth) classes.push('not-current-month')
+                    - if (isToday) classes.push('current-day')
+                    td(style='width: 14.28%; height: 120px;' class=classes)
+                      p.mb-1
                         strong
-                          a.text-white(href=event.url)= event.title
-                        // Time
-                        .mt-1
-                          em #{start} (#{event.duration})
-                        // Flags
-                        if !event.future
-                          .mt-1
-                            .badge.badge-danger.mr-2 PAST
-                        if event.cancelled
-                          .mt-1
-                            .badge.badge-danger.mr-2 CANCELLED
-                        if event.draft
-                          .mt-1
-                            .badge.badge-warning.mr-2 DRAFT
+                          a(href=`/events/new?start=${moment(date).format('YYYY-MM-DD')}`)= moment(date).format('D')
+                      for event in eventsForDay
+                        .p-1.text-white.rounded.mb-1(class=`event-category event-category-${event.category}`)
+                          - start = moment(event.startsAt).format('h:mma')
+                          small
+                            // Visibility
+                            if isStaff
+                              small.float-right.pr-1.pt-1
+                                if event.visibility === 'public'
+                                  i.ti-world(title='Public')
+                                else
+                                  i.ti-user(title='Internal (Member-Only)')
+                            // Title
+                            strong
+                              a.text-white(href=event.url)= event.title
+                            // Time
+                            .mt-1
+                              em #{start} (#{event.duration})
+                            // Flags
+                            if isStaff
+                              if !event.future
+                                .mt-1
+                                  .badge.badge-danger.mr-2 PAST
+                              if event.cancelled
+                                .mt-1
+                                  .badge.badge-danger.mr-2 CANCELLED
+                              if event.draft
+                                .mt-1
+                                  .badge.badge-warning.mr-2 DRAFT
+
+    .col-lg-3
+      form(action='/events' method='post')
+        .form-group
+          label(for='search') Search
+          .input-group
+            .input-group-addon
+              i.fa.fa-search
+            input.form-control(name='search' type='text')
+        if isStaff
+          .form-group
+            label Status
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='draft' type='checkbox' checked)
+                | Draft
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='published' type='checkbox' checked)
+                | Published
+        .form-group
+          label Category
+          .form-check
+            label.form-check-label
+              input.form-check-input.mr-2(name='class' type='checkbox' checked)
+              span.p-1.rounded.event-category.event-category-class Class
+          .form-check
+            label.form-check-label
+              input.form-check-input.mr-2(name='meetup' type='checkbox' checked)
+              span.p-1.rounded.event-category.event-category-meetup Meetup
+          .form-check
+            label.form-check-label
+              input.form-check-input.mr-2(name='event' type='checkbox' checked)
+              span.p-1.rounded.event-category.event-category-event Event
+          if isMember || isStaff
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='training' type='checkbox' checked)
+                span.p-1.rounded.event-category.event-category-training Training
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='signoff' type='checkbox' checked)
+                span.p-1.rounded.event-category.event-category-signoff Signoff
+          if isStaff
+            .form-check
+              label.form-check-label
+                input.form-check-input.mr-2(name='staff' type='checkbox' checked)
+                span.p-1.rounded.event-category.event-category-staff Staff
+        p.mt-5
+          button.btn.btn-success.btn-lg.btn-block(type='submit' disabled)
+            i.fa.fa-search.mr-2
+            | Search
+

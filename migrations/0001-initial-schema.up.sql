@@ -7,7 +7,7 @@ begin
 end;
 $$ language 'plpgsql';
 
-create type event_category as enum ('event', 'class', 'meetup', 'training', 'signoff', 'staff');
+create type event_category as enum ('event', 'class', 'meetup', 'training', 'signoff', 'staff', 'reservation');
 
 create table events (
   id SERIAL primary key,
@@ -51,6 +51,7 @@ create table users (
 
   -- Basic details
   name varchar(120) not null,
+  phone varchar(120),
   email varchar(120) not null,
   bio varchar default '',
 
@@ -128,6 +129,10 @@ create table charges (
   updated_at timestamp with time zone
 );
 
+create trigger update_charges_modtime before
+  update on charges for each row
+  execute procedure  update_updated_at_column();
+
 create table attendees (
   primary key(id, user_id, event_id, charge_id),
   id SERIAL,
@@ -149,8 +154,61 @@ create trigger update_attendees_modtime before
   update on attendees for each row
   execute procedure  update_updated_at_column();
 
-create trigger update_charges_modtime before
-  update on charges for each row
+create table resources (
+  id SERIAL primary key,
+
+  -- Extra details
+  name varchar(150) not null,
+  description varchar,
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create trigger update_resources_modtime before
+  update on resources for each row
+  execute procedure  update_updated_at_column();
+
+create table signoffs (
+  primary key(id, user_id, instructor_id, resource_id),
+  id SERIAL,
+
+  -- References
+  user_id integer references users,
+  instructor_id integer references users,
+  resource_id integer references charges,
+
+  -- Extra details
+  date timestamp with time zone,
+  notes varchar,
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create trigger update_signoffs_modtime before
+  update on signoffs for each row
+  execute procedure  update_updated_at_column();
+
+create table access_cards (
+  primary key(id, user_id),
+  id SERIAL,
+
+  -- References
+  user_id integer references users,
+
+  -- Extra info
+  number varchar(100),
+
+  -- Timestamps
+  created_at timestamp with time zone not null default current_timestamp,
+  updated_at timestamp with time zone
+);
+
+create trigger update_access_cards_modtime before
+  update on access_cards for each row
   execute procedure  update_updated_at_column();
 
 -- TODO: Create indexes!
